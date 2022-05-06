@@ -1,0 +1,611 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+ <comment>
+  <![CDATA[
+    Usage:
+  
+    Recording: --generic=file,out,10,flight.out,playback_small
+    Playback:  --generic=file,in,10,flight.out,playback_small --fdm=null
+  ]]>
+ </comment>
+
+ <generic>
+
+  <output>
+   <line_separator>newline</line_separator>
+   <var_separator>,</var_separator>
+
+
+   <!-- Flight Controls -->
+   <chunk>
+    <name>aileron</name>
+    <type>float</type>
+    <format>%f</format>
+    <node>/controls/flight/aileron[0]</node>
+   </chunk>
+
+ 
+   <chunk>
+    <name>elevator</name>
+    <type>float</type>
+    <format>%f</format>
+    <node>/controls/flight/elevator</node>
+   </chunk>
+ 
+ 
+   <chunk>
+    <name>rudder</name>
+    <type>float</type>
+    <format>%f</format>
+    <node>/controls/flight/rudder</node>
+   </chunk>
+ 
+ 
+   <chunk>
+    <name>flaps</name>
+    <type>float</type>
+    <format>%f</format>
+    <node>/controls/flight/flaps</node>
+   </chunk>
+ 
+   <chunk>
+    <name>slats</name>
+    <type>float</type>
+    <format>%f</format>
+    <node>/controls/flight/slats</node>
+   </chunk>
+ 
+   <chunk>
+    <name>speedbrake</name>
+    <type>float</type>
+    <format>%f</format>
+    <node>/controls/flight/speedbrake</node>
+   </chunk>
+ 
+   <!-- Engines -->
+   <chunk>
+    <name>throttle</name>
+    <type>float</type>
+    <format>%f</format>
+    <node>/controls/engines/engine[0]/throttle</node>
+   </chunk>
+   <chunk>
+    <name>throttle</name>
+    <type>float</type>
+    <format>%f</format>
+    <node>/controls/engines/engine[1]/throttle</node>
+   </chunk>
+
+
+ 
+   <!-- Gear -->
+
+   <!-- Hydraulics -->
+   <chunk>
+    <name>engine-pump</name>
+    <type>float</type>
+    <node>/controls/hydraulic/system[0]/engine-pump</node>
+   </chunk>
+   <chunk>
+    <name>engine-pump</name>
+    <type>float</type>
+    <node>/controls/hydraulic/system[1]/engine-pump</node>
+   </chunk>
+
+   <chunk>
+    <name>electric-pump</name>
+    <type>float</type>
+    <node>/controls/hydraulic/system[0]/electric-pump</node>
+   </chunk>
+   <chunk>
+    <name>electric-pump</name>
+    <type>float</type>
+    <node>/controls/hydraulic/system[1]/electric-pump</node>
+   </chunk>
+
+   <!-- Electric -->
+
+   <chunk>
+    <name>external-power</name>
+    <type>float</type>
+    <node>/controls/electric/external-power</node>
+   </chunk>
+
+   <chunk>
+    <name>APU-generator</name>
+    <type>float</type>
+    <node>/controls/electric/APU-generator</node>
+   </chunk>
+
+   <!-- Autoflight -->
+
+   <!-- Position -->
+   <chunk>
+    <name>latitude-deg</name>
+    <type>double</type>
+    <format>%.10lf</format>
+    <node>/position/latitude-deg</node>
+   </chunk>
+
+   <chunk>
+    <name>longitude-deg</name>
+    <type>double</type>
+    <format>%.10lf</format>
+    <node>/position/longitude-deg</node>
+   </chunk>
+
+   <chunk>
+    <name>altitude-ft</name>
+    <type>float</type>
+    <format>%f</format>
+    <node>/position/altitude-ft</node>
+   </chunk>
+
+   <!-- Orientation -->
+   <chunk>
+    <name>roll-deg</name>
+    <type>float</type>
+    <format>%f</format>
+    <node>/orientation/roll-deg</node>
+   </chunk>
+
+   <chunk>
+    <name>pitch-deg</name>
+    <type>float</type>
+    <format>%f</format>
+    <node>/orientation/pitch-deg</node>
+   </chunk>
+
+   <chunk>
+    <name>heading-deg</name>
+    <type>float</type>
+    <format>%f</format>
+    <node>/orientation/heading-deg</node>
+   </chunk>
+
+   <chunk>
+    <name>side-slip-deg</name>
+    <type>float</type>
+    <format>%f</format>
+    <node>/orientation/side-slip-deg</node>
+   </chunk>
+
+   <!-- Velocities -->
+   <chunk>
+     <name>airspeed-kt</name>
+     <type>float</type>
+     <format>%f</format>
+     <node>/velocities/airspeed-kt</node>
+   </chunk>
+
+   <chunk>
+     <name>glideslope</name>
+     <type>float</type>
+     <format>%f</format>
+     <node>/velocities/glideslope</node>
+   </chunk>
+
+
+   <chunk>
+     <name>vertical-speed-fps</name>
+     <type>float</type>
+     <format>%f</format>
+     <node>/velocities/vertical-speed-fps</node>
+   </chunk>
+
+   <!-- Accelerations -->
+   <!-- Surface Positions -->
+	<!-- instruments -->
+	<chunk>
+    <name>airspeed-indicator_indicated-speed-kt</name>
+	<type>float</type>
+	<format>%f</format>
+    <node>/instrumentation/airspeed-indicator/indicated-speed-kt</node>
+	</chunk>
+	<chunk>
+    <name>altimeter_indicated-altitude-ft</name>
+	<type>float</type>
+	<format>%f</format>
+    <node>/instrumentation/altimeter/indicated-altitude-ft</node>
+	</chunk>
+	<chunk>
+    <name>altimeter_pressure-alt-ft</name>
+	<type>float</type>
+	<format>%f</format>
+    <node>/instrumentation/altimeter/pressure-alt-ft</node>
+	</chunk>
+	<chunk>
+    <name>attitude-indicator_indicated-pitch-deg</name>
+	<type>float</type>
+	<format>%f</format>
+    <node>/instrumentation/attitude-indicator/indicated-pitch-deg</node>
+	</chunk>
+	<chunk>
+    <name>attitude-indicator_indicated-roll-deg</name>
+	<type>float</type>
+	<format>%f</format>
+    <node>/instrumentation/attitude-indicator/indicated-roll-deg</node>
+	</chunk>
+	<chunk>
+    <name>attitude-indicator_internal-pitch-deg</name>
+	<type>float</type>
+	<format>%f</format>
+    <node>/instrumentation/attitude-indicator/internal-pitch-deg</node>
+	</chunk>
+	<chunk>
+    <name>attitude-indicator_internal-roll-deg</name>
+	<type>float</type>
+	<format>%f</format>
+    <node>/instrumentation/attitude-indicator/internal-roll-deg</node>
+	</chunk>
+	<chunk>
+    <name>encoder_indicated-altitude-ft</name>
+	<type>float</type>
+	<format>%f</format>
+    <node>/instrumentation/encoder/indicated-altitude-ft</node>
+	</chunk>
+	<chunk>
+    <name>encoder_pressure-alt-ft</name>
+	<type>float</type>
+	<format>%f</format>
+    <node>/instrumentation/encoder/pressure-alt-ft</node>
+	</chunk>
+	<chunk>
+    <name>gps_indicated-altitude-ft</name>
+	<type>float</type>
+	<format>%f</format>
+    <node>/instrumentation/gps/indicated-altitude-ft</node>
+	</chunk>
+	<chunk>
+    <name>gps_indicated-ground-speed-kt</name>
+	<type>float</type>
+	<format>%f</format>
+    <node>/instrumentation/gps/indicated-ground-speed-kt</node>
+	</chunk>
+	<chunk>
+    <name>gps_indicated-vertical-speed</name>
+	<type>float</type>
+	<format>%f</format>
+    <node>/instrumentation/gps/indicated-vertical-speed</node>
+	</chunk>
+	<chunk>
+    <name>indicated-heading-deg</name>
+	<type>float</type>
+	<format>%f</format>
+    <node>/instrumentation/heading-indicator/indicated-heading-deg</node>
+	</chunk>
+	<chunk>
+    <name>magnetic-compass_indicated-heading-deg</name>
+	<type>float</type>
+	<format>%f</format>
+    <node>/instrumentation/magnetic-compass/indicated-heading-deg</node>
+	</chunk>
+	<chunk>
+    <name>slip-skid-ball_indicated-slip-skid</name>
+	<type>float</type>
+	<format>%f</format>
+    <node>/instrumentation/slip-skid-ball/indicated-slip-skid</node>
+	</chunk>
+	<chunk>
+    <name>turn-indicator_indicated-turn-rate</name>
+	<type>float</type>
+	<format>%f</format>
+    <node>/instrumentation/turn-indicator/indicated-turn-rate</node>
+	</chunk>
+	<chunk>
+    <name>vertical-speed-indicator_indicated-speed-fpm</name>
+	<type>float</type>
+	<format>%f</format>
+    <node>/instrumentation/vertical-speed-indicator/indicated-speed-fpm</node>
+	</chunk>
+
+	<chunk>
+    <name>engine_rpm</name>
+	<type>float</type>
+	<format>%f</format>
+    <node>/engines/engine/rpm</node>
+	</chunk>
+	
+
+  </output>
+  
+ <input>
+   <line_separator>newline</line_separator>
+   <var_separator>,</var_separator>
+ 
+    <!-- Flight Controls -->
+   <chunk>
+    <name>aileron</name>
+    <type>float</type>
+    <format>%f</format>
+    <node>/controls/flight/aileron[0]</node>
+   </chunk>
+
+ 
+   <chunk>
+    <name>elevator</name>
+    <type>float</type>
+    <format>%f</format>
+    <node>/controls/flight/elevator</node>
+   </chunk>
+ 
+ 
+   <chunk>
+    <name>rudder</name>
+    <type>float</type>
+    <format>%f</format>
+    <node>/controls/flight/rudder</node>
+   </chunk>
+ 
+ 
+   <chunk>
+    <name>flaps</name>
+    <type>float</type>
+    <format>%f</format>
+    <node>/controls/flight/flaps</node>
+   </chunk>
+ 
+   <chunk>
+    <name>slats</name>
+    <type>float</type>
+    <format>%f</format>
+    <node>/controls/flight/slats</node>
+   </chunk>
+ 
+   <chunk>
+    <name>speedbrake</name>
+    <type>float</type>
+    <format>%f</format>
+    <node>/controls/flight/speedbrake</node>
+   </chunk>
+ 
+   <!-- Engines -->
+   <chunk>
+    <name>throttle</name>
+    <type>float</type>
+    <format>%f</format>
+    <node>/controls/engines/engine[0]/throttle</node>
+   </chunk>
+   <chunk>
+    <name>throttle</name>
+    <type>float</type>
+    <format>%f</format>
+    <node>/controls/engines/engine[1]/throttle</node>
+   </chunk>
+
+
+ 
+   <!-- Gear -->
+
+   <!-- Hydraulics -->
+   <chunk>
+    <name>engine-pump</name>
+    <type>float</type>
+    <node>/controls/hydraulic/system[0]/engine-pump</node>
+   </chunk>
+   <chunk>
+    <name>engine-pump</name>
+    <type>float</type>
+    <node>/controls/hydraulic/system[1]/engine-pump</node>
+   </chunk>
+
+   <chunk>
+    <name>electric-pump</name>
+    <type>float</type>
+    <node>/controls/hydraulic/system[0]/electric-pump</node>
+   </chunk>
+   <chunk>
+    <name>electric-pump</name>
+    <type>float</type>
+    <node>/controls/hydraulic/system[1]/electric-pump</node>
+   </chunk>
+
+   <!-- Electric -->
+
+   <chunk>
+    <name>external-power</name>
+    <type>float</type>
+    <node>/controls/electric/external-power</node>
+   </chunk>
+
+   <chunk>
+    <name>APU-generator</name>
+    <type>float</type>
+    <node>/controls/electric/APU-generator</node>
+   </chunk>
+
+   <!-- Autoflight -->
+
+   <!-- Position -->
+   <chunk>
+    <name>latitude-deg</name>
+    <type>double</type>
+    <format>%.10lf</format>
+    <node>/position/latitude-deg</node>
+   </chunk>
+
+   <chunk>
+    <name>longitude-deg</name>
+    <type>double</type>
+    <format>%.10lf</format>
+    <node>/position/longitude-deg</node>
+   </chunk>
+
+   <chunk>
+    <name>altitude-ft</name>
+    <type>float</type>
+    <format>%f</format>
+    <node>/position/altitude-ft</node>
+   </chunk>
+
+   <!-- Orientation -->
+   <chunk>
+    <name>roll-deg</name>
+    <type>float</type>
+    <format>%f</format>
+    <node>/orientation/roll-deg</node>
+   </chunk>
+
+   <chunk>
+    <name>pitch-deg</name>
+    <type>float</type>
+    <format>%f</format>
+    <node>/orientation/pitch-deg</node>
+   </chunk>
+
+   <chunk>
+    <name>heading-deg</name>
+    <type>float</type>
+    <format>%f</format>
+    <node>/orientation/heading-deg</node>
+   </chunk>
+
+   <chunk>
+    <name>side-slip-deg</name>
+    <type>float</type>
+    <format>%f</format>
+    <node>/orientation/side-slip-deg</node>
+   </chunk>
+
+   <!-- Velocities -->
+   <chunk>
+     <name>airspeed-kt</name>
+     <type>float</type>
+     <format>%f</format>
+     <node>/velocities/airspeed-kt</node>
+   </chunk>
+
+   <chunk>
+     <name>glideslope</name>
+     <type>float</type>
+     <format>%f</format>
+     <node>/velocities/glideslope</node>
+   </chunk>
+
+
+   <chunk>
+     <name>vertical-speed-fps</name>
+     <type>float</type>
+     <format>%f</format>
+     <node>/velocities/vertical-speed-fps</node>
+   </chunk>
+
+   <!-- Accelerations -->
+   <!-- Surface Positions -->
+	<!-- instruments -->
+	<chunk>
+    <name>airspeed-indicator_indicated-speed-kt</name>
+	<type>float</type>
+	<format>%f</format>
+    <node>/instrumentation/airspeed-indicator/indicated-speed-kt</node>
+	</chunk>
+	<chunk>
+    <name>altimeter_indicated-altitude-ft</name>
+	<type>float</type>
+	<format>%f</format>
+    <node>/instrumentation/altimeter/indicated-altitude-ft</node>
+	</chunk>
+	<chunk>
+    <name>altimeter_pressure-alt-ft</name>
+	<type>float</type>
+	<format>%f</format>
+    <node>/instrumentation/altimeter/pressure-alt-ft</node>
+	</chunk>
+	<chunk>
+    <name>attitude-indicator_indicated-pitch-deg</name>
+	<type>float</type>
+	<format>%f</format>
+    <node>/instrumentation/attitude-indicator/indicated-pitch-deg</node>
+	</chunk>
+	<chunk>
+    <name>attitude-indicator_indicated-roll-deg</name>
+	<type>float</type>
+	<format>%f</format>
+    <node>/instrumentation/attitude-indicator/indicated-roll-deg</node>
+	</chunk>
+	<chunk>
+    <name>attitude-indicator_internal-pitch-deg</name>
+	<type>float</type>
+	<format>%f</format>
+    <node>/instrumentation/attitude-indicator/internal-pitch-deg</node>
+	</chunk>
+	<chunk>
+    <name>attitude-indicator_internal-roll-deg</name>
+	<type>float</type>
+	<format>%f</format>
+    <node>/instrumentation/attitude-indicator/internal-roll-deg</node>
+	</chunk>
+	<chunk>
+    <name>encoder_indicated-altitude-ft</name>
+	<type>float</type>
+	<format>%f</format>
+    <node>/instrumentation/encoder/indicated-altitude-ft</node>
+	</chunk>
+	<chunk>
+    <name>encoder_pressure-alt-ft</name>
+	<type>float</type>
+	<format>%f</format>
+    <node>/instrumentation/encoder/pressure-alt-ft</node>
+	</chunk>
+	<chunk>
+    <name>gps_indicated-altitude-ft</name>
+	<type>float</type>
+	<format>%f</format>
+    <node>/instrumentation/gps/indicated-altitude-ft</node>
+	</chunk>
+	<chunk>
+    <name>gps_indicated-ground-speed-kt</name>
+	<type>float</type>
+	<format>%f</format>
+    <node>/instrumentation/gps/indicated-ground-speed-kt</node>
+	</chunk>
+	<chunk>
+    <name>gps_indicated-vertical-speed</name>
+	<type>float</type>
+	<format>%f</format>
+    <node>/instrumentation/gps/indicated-vertical-speed</node>
+	</chunk>
+	<chunk>
+    <name>indicated-heading-deg</name>
+	<type>float</type>
+	<format>%f</format>
+    <node>/instrumentation/heading-indicator/indicated-heading-deg</node>
+	</chunk>
+	<chunk>
+    <name>magnetic-compass_indicated-heading-deg</name>
+	<type>float</type>
+	<format>%f</format>
+    <node>/instrumentation/magnetic-compass/indicated-heading-deg</node>
+	</chunk>
+	<chunk>
+    <name>slip-skid-ball_indicated-slip-skid</name>
+	<type>float</type>
+	<format>%f</format>
+    <node>/instrumentation/slip-skid-ball/indicated-slip-skid</node>
+	</chunk>
+	<chunk>
+    <name>turn-indicator_indicated-turn-rate</name>
+	<type>float</type>
+	<format>%f</format>
+    <node>/instrumentation/turn-indicator/indicated-turn-rate</node>
+	</chunk>
+	<chunk>
+    <name>vertical-speed-indicator_indicated-speed-fpm</name>
+	<type>float</type>
+	<format>%f</format>
+    <node>/instrumentation/vertical-speed-indicator/indicated-speed-fpm</node>
+	</chunk>
+
+	<chunk>
+    <name>engine_rpm</name>
+	<type>float</type>
+	<format>%f</format>
+    <node>/engines/engine/rpm</node>
+	</chunk>
+
+</input>
+  
+ </generic>
+
+</PropertyList>
