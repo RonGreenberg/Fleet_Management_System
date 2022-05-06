@@ -5,4 +5,5 @@
 - [Sheer Shveka](https://github.com/SheerShveka)
 - [Paz Haimovich](https://github.com/pazhaimovich)
 - [Yonatan Birman](https://github.com/yonatan1710)
+- [Guy Levy](https://github.com/guylevy2307)
 - [Itamar Azmoni](https://github.com/Itamar-Azmoni)
