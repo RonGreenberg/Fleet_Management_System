@@ -18,6 +18,6 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         l = f.read(1024)
         while (l):
             s.send(l)
-            time.sleep(0.1)
+            time.sleep(0.1) # sleeping for 100 milliseconds, thus sending 10 lines per second
             l = f.read(1024)
 s.close()
