@@ -7,3 +7,5 @@
 - [Yonatan Birman](https://github.com/yonatan1710)
 - [Guy Levy](https://github.com/guylevy2307)
 - [Itamar Azmoni](https://github.com/Itamar-Azmoni)
+## Architecture
+![agent](https://user-images.githubusercontent.com/89278943/167742799-a7796a01-0da3-41c0-8332-df29416d637f.png)
