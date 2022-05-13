@@ -1,3 +1,5 @@
 package model;
-// Aviv & Yonatan
-//int a = 5;
+
+public class Model {
+  
+}
