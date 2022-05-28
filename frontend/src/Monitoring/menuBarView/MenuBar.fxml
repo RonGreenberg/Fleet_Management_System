@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="10.0" prefWidth="1220.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.menuBarView.MenuBarController">
+
+  <MenuBar>
+        <menus>
+          <Menu mnemonicParsing="false" text="Flight Settings">
+            <items>
+              <MenuItem fx:id="jsonSettings" mnemonicParsing="false" onAction="#xmlFileChooser" text="choose .json file" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Flight Csv">
+            <items>
+              <MenuItem fx:id="csvFile" mnemonicParsing="false" onAction="#csvFileChooser" text="choose .csv file" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Flight Algorithm">
+            <items>
+              <MenuItem fx:id="algoChoose" mnemonicParsing="false" onAction="#algoFileChooser" text="choose .class file" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+
+</AnchorPane>

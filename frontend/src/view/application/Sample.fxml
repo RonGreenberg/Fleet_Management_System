@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import view.joystickView.Joystick?>
+<?import view.dashboardView.Dashboard?>
+<?import view.graphView.Graph?>
+<?import view.menuBarView.MenuBar?>
+<?import view.featureListView.FeatureList?>
+<?import view.timeLineView.TimeLine?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane prefHeight="651.0" prefWidth="1273.0" style="-fx-border-color: black; -fx-border-width: 3;"
+            xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="view.application.GUIController">
+    <!-- TODO Add Nodes -->
+    <right>
+        <FlowPane prefHeight="506.0" prefWidth="399.0" BorderPane.alignment="CENTER">
+
+            <Joystick fx:id="joystick"></Joystick>
+            <FlowPane.margin>
+                <Insets left="120.0" top="20.0"/>
+            </FlowPane.margin>
+            <Dashboard fx:id="dashboard"></Dashboard>
+        </FlowPane>
+    </right>
+    <center>
+        <Graph fx:id="graph"></Graph>
+    </center>
+    <top>
+        <MenuBar fx:id="menuBar"></MenuBar>
+    </top>
+    <left>
+        <FeatureList fx:id="featureList"></FeatureList>
+    </left>
+    <bottom>
+        <TimeLine fx:id="timeLine"></TimeLine>
+    </bottom>
+</BorderPane>
+
