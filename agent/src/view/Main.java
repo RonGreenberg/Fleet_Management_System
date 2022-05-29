@@ -1,5 +1,5 @@
 package view;
-
+//check
 import model.Model;
 
 import java.util.Scanner;
@@ -17,7 +17,7 @@ public class Main {
                     "3 - rudders\n" +
                     "4 - throttles");
             int chose = Integer.parseInt(input.nextLine());
-            System.out.println("enter value to set");
+            System.out.println("Enter value to set");
             double val = Double.parseDouble(input.nextLine());
             if(chose == 1)
                 m.setAileron(val);
