@@ -7,7 +7,9 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args)
     {
-        Model m = new Model("C:\\Users\\Aviv\\IdeaProjects\\Fleet_Management_System\\agent\\src\\model\\props.txt");
+    	String birman = "C:\\Users\\yonatan\\Fleet_Management_System\\agent\\src\\model\\props.txt";
+    	String aviv = "C:\\Users\\Aviv\\IdeaProjects\\Fleet_Management_System\\agent\\src\\model\\props.txt";
+        Model m = new Model(birman);
         Scanner input = new Scanner(System.in);
         while(true)
         {
