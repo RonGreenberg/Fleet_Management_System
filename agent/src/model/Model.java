@@ -5,9 +5,10 @@ public class Model {
     {
         //Send instrictions to FlightGear
     }
-    public static string getData(String[] which)
+    public static String getData(String[] which)
     {
         //get data about specific flight
+        return null;
     }
     /*
     public static void main(String[] args) {
