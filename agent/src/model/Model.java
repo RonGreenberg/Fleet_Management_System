@@ -7,6 +7,7 @@ public class Model {
     }
     public static String getData(String[] which)
     {
+    	System.out.println("hi");
         //get data about specific flight
         return null;
     }
