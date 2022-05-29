@@ -12,10 +12,10 @@ public class Main {
         while(true)
         {
             System.out.println("Hello please enter what to change");
-            System.out.println("1 - aileron\n" +
-                    "2 - elevator\n" +
-                    "3 - rudder\n" +
-                    "4 - throttle");
+            System.out.println("1 - ailerons\n" +
+                    "2 - elevators\n" +
+                    "3 - rudders\n" +
+                    "4 - throttles");
             int chose = Integer.parseInt(input.nextLine());
             System.out.println("enter value to set");
             double val = Double.parseDouble(input.nextLine());
