@@ -12,7 +12,7 @@ public class Main {
         while(true)
         {
             System.out.println("Hello please enter what to change");
-            System.out.println("1 - ailerons\n" +
+            System.out.println("1 - aileron\n" +
                     "2 - elevators\n" +
                     "3 - rudders\n" +
                     "4 - throttles");
