@@ -2,14 +2,13 @@ package view;
 //check
 import model.Model;
 
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args)
     {
-    	String birman = "C:\\Users\\yonatan\\Fleet_Management_System\\agent\\src\\model\\props.txt";
-    	String aviv = "C:\\Users\\Aviv\\IdeaProjects\\Fleet_Management_System\\agent\\src\\model\\props.txt";
-        Model m = new Model(birman);
+        Model m = new Model(Paths.get("agent\\src\\model\\props.txt").toAbsolutePath().toString());
         Scanner input = new Scanner(System.in);
         while(true)
         {

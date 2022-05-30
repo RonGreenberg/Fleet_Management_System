@@ -11,6 +11,7 @@ public class Model extends Observable {
     HashMap<String, String> props;
     Socket fg;
     PrintWriter outToFg;
+    InputStream inFromFg;
     public Model(String propertiesFileName) {
         props = new HashMap<>();
         try {
@@ -32,6 +33,7 @@ public class Model extends Observable {
             int port = Integer.parseInt(props.get("port"));
             fg = new Socket(props.get("ip"),port);
             outToFg = new PrintWriter(fg.getOutputStream());
+            inFromFg = fg.getInputStream();
             //connected to flighGear :)
 
 
