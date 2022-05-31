@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args)
     {
-        Model m = new Model(Paths.get("agent\\src\\model\\props.txt").toAbsolutePath().toString());
+        Model m = new Model("props.txt");
         Scanner input = new Scanner(System.in);
         while(true)
         {
