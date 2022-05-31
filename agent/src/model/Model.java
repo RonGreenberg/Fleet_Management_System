@@ -35,7 +35,7 @@ public class Model extends Observable {
             outToFg = new PrintWriter(fg.getOutputStream());
             inFromFg = fg.getInputStream();
             //connected to flighGear :)
-
+            
 
 
 
