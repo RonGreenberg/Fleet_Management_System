@@ -53,6 +53,8 @@ public class ExpressionEvaluator {
         Queue<String> q = new LinkedList<>();
         Stack<String> s = new Stack<>();
         
+        exp = exp.replaceAll("\\s+", ""); // removing all whitespaces
+        
         /* Replacing all negative numbers with 0- (checking for two situations:
          * a negative number in the beginning, for which the expression starts with
          * a negative sign, or a negative number within the expression, which must be
@@ -78,12 +80,18 @@ public class ExpressionEvaluator {
                 switch (token) {
                     case "*":
                     case "/":
+                        // popping operators with greater than or equal precedence (can only be equal in this case)
+                        while (!s.empty() && s.peek().matches("^[*/]$")) {
+                            q.add(s.pop());
+                        }
+                        s.push(token);
+                        break;
                     case "(":
                         s.push(token);
                         break;
                     case "+":
                     case "-":
-                        // only for these two operators, there could be an operator with greater precedence at the top of the stack
+                        // popping operators with greater than or equal precedence (can only be greater in this case)
                         while (!s.empty() && !s.peek().equals("(")) { // popping only operators
                             q.add(s.pop());
                         }
@@ -106,6 +114,15 @@ public class ExpressionEvaluator {
         }
         
         return q;
+    }
+    
+    public static Double tryEvaluate(String exp) {
+        try {
+            double res = evaluate(exp);
+            return res;
+        } catch (Exception e) {
+            return null;
+        }
     }
     
     private static boolean isDouble(String s) {
