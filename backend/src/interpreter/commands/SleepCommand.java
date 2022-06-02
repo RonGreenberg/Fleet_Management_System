@@ -10,13 +10,13 @@ public class SleepCommand implements Command {
         String arg = String.join("", args);
         Double res = ExpressionEvaluator.tryEvaluate(Interpreter.replaceVarsWithValue(arg));
         if (res == null) {
-            throw new Exception("syntax error");   
+            throw new Exception("unknown expression");   
         }
         
         try {
-            System.out.println("start sleep");
+            //System.out.println("start sleep");
             Thread.sleep(res.longValue());
-            System.out.println("finish sleep");
+            //System.out.println("finish sleep");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

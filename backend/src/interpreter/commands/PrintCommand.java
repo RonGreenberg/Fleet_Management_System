@@ -15,7 +15,7 @@ public class PrintCommand implements Command {
             if (res != null) {
                 System.out.println(res);   
             } else {
-                throw new Exception("syntax error");
+                throw new Exception("unknown expression");
             }
         }
     }

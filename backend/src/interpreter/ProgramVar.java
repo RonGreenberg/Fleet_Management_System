@@ -14,7 +14,23 @@ public class ProgramVar {
         this.simDir = simDir;
     }
     
+    public void setValue(double value) {
+        this.value = value;
+    }
+    
     public double getValue() {
         return value;
+    }
+    
+    public void setSimDir(String simDir) {
+        this.simDir = simDir;
+    }
+    
+    public String getSimDir() {
+        return simDir;
+    }
+    
+    public boolean isBoundToSim() {
+        return !simDir.isEmpty();
     }
 }

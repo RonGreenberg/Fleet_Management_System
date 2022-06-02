@@ -3,8 +3,6 @@ package interpreter;
 import java.util.HashMap;
 
 import interpreter.commands.Command;
-import interpreter.commands.IfCommand;
-import interpreter.commands.LoopCommand;
 
 public class CommandFactory {
     
@@ -16,9 +14,20 @@ public class CommandFactory {
     
     public CommandFactory() {
         map = new HashMap<>();
-        // these commands have to be recreated each time because they contain data members
-        map.put("while", ()->new LoopCommand());
-        map.put("if", ()->new IfCommand());
+    }
+    
+    public void insertCommand(String key, Class<? extends Command> c) {
+        map.put(key, new Creator() {
+            @Override
+            public Command create() {
+                try {
+                    return c.newInstance();
+                } catch (InstantiationException | IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        });
     }
     
     public Command getNewCommand(String key) {

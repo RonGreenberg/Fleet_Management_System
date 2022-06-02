@@ -4,7 +4,7 @@ public class OpenDataServerCommand implements Command {
 
     @Override
     public void execute(String[] args) {
-        // TODO Auto-generated method stub
+        // send args to protocol
     }
 
 }

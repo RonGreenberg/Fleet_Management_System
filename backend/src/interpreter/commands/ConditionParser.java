@@ -1,6 +1,6 @@
 package interpreter.commands;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import interpreter.Interpreter;
@@ -12,7 +12,8 @@ public class ConditionParser implements Command {
     protected Map<Command, String[]> commandsWithArgs;
     
     public ConditionParser() {
-        commandsWithArgs = new HashMap<Command, String[]>();
+        // we must make sure that the commands run in the same order as when they were inserted to the map
+        commandsWithArgs = new LinkedHashMap<Command, String[]>();
     }
     
     public void addCommand(Command c, String[] args) {
