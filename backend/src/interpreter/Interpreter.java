@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import interpreter.commands.AssignCommand;
-import interpreter.commands.BindCommand;
 import interpreter.commands.Command;
 import interpreter.commands.ConditionParser;
 import interpreter.commands.ConnectCommand;
@@ -21,6 +20,7 @@ import interpreter.commands.LoopCommand;
 import interpreter.commands.OpenDataServerCommand;
 import interpreter.commands.PrintCommand;
 import interpreter.commands.SleepCommand;
+import server.AgentServer;
 
 /* ASSUMPTIONS:
  * 1. Curly brackets for if conditions and while loops can be opened in the
@@ -39,17 +39,20 @@ import interpreter.commands.SleepCommand;
  * 6. Bind statements must occur on a line with an assignment operator,
  *    whether it declares a new variable or changes the value of an existing
  *    one.
+ * 7. Refer to script.txt as the standard for how a script should look.
  */
 public class Interpreter {
     
     private static CommandFactory cmdsFac;
-    public static Map<String, ProgramVar> programSymTable;
-    public static Map<String, ProgramVar> simVarsSymTable;
+    public static Map<String, ProgramVar> programSymTable; // symbol table that maps program variable names to values
+    public static Map<String, ProgramVar> simVarsSymTable; // symbol table that maps simulator variable names to values
     private int currentIndex; // global index of the current line in the program
-    private static String simVarsFileName = "resources/flightgear_vars.txt";
+    private static String simVarsFileName = "resources/flightgear_vars.txt"; // file from which to load simulator var names
+    public static int clientID; // ID of the client (agent) the interpreter currently communicates with
+    private int status = 0; // ready
     static Object o = new Object(); // object for synchronized lock
     
-    // should run only once, when the class is loaded
+    // static initialization block. similar to constructor but runs only once - when the class is loaded
     static {
         /* We use a command factory because we must generate a new command
          * reference every time we need a command. In the while and if commands,
@@ -66,7 +69,6 @@ public class Interpreter {
         cmdsFac.insertCommand("openDataServer", OpenDataServerCommand.class);
         cmdsFac.insertCommand("connect", ConnectCommand.class);
         cmdsFac.insertCommand("var", DefineVarCommand.class);
-        //cmdsFac.insertCommand("bind", BindCommand.class);
         cmdsFac.insertCommand("while", LoopCommand.class);
         cmdsFac.insertCommand("if", IfCommand.class);
         cmdsFac.insertCommand("print", PrintCommand.class);
@@ -81,9 +83,6 @@ public class Interpreter {
                 simVarsSymTable.put(line, new ProgramVar(0.0, line));
             }
             reader.close();
-//            for (Map.Entry<String, ProgramVar> entry : simVarsSymTable.entrySet()) {
-//                System.out.println(entry.getKey() + ", " + entry.getValue().getValue());
-//            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -91,24 +90,41 @@ public class Interpreter {
         }
     }
     
+    /* This function splits each line by whitespaces. It also removes
+     * leading/trailing whitespaces and filters empty lines.
+     */
     private List<String[]> lexer(List<String> lines) {
         return lines.stream().map(s->s.trim()).filter(s->!s.isEmpty())
                 .map(s->s.split("\\s+")).collect(Collectors.toList());
     }
     
+    /* This function is used by several commands in their execute() method
+     * in order to replace variable names contained in expressions used
+     * in the script (e.g. - roll / 70), before we send the expression to be
+     * evaluated by shunting yard. It simply iterates over the program symbol
+     * table and replaces each occurrence of a variable in the expression,
+     * by its respective value.
+     */
     public static String replaceVarsWithValue(String arg) {
         // get updated value if bound to simulator variable
         String newArg = arg;
         for (Map.Entry<String, ProgramVar> entry : programSymTable.entrySet()) {
-            String var = entry.getKey();
-            ProgramVar val = entry.getValue();
-            if (arg.contains(var)) {
-                newArg = newArg.replace(var, String.valueOf(val.getValue()));
+            String varName = entry.getKey();
+            ProgramVar var = entry.getValue();
+            if (arg.contains(varName)) {
+                // if the variable is bound, we also get its updated value from the simulator, just when we need it
+                if (var.isBoundToSim()) {
+                    String simDir = var.getSimDir();
+                    String res = AgentServer.send(Interpreter.clientID, "get " + simDir);
+                    var.setValue(Double.parseDouble(res));
+                }
+                newArg = newArg.replace(varName, String.valueOf(var.getValue()));
             }
         }
         return newArg;
     }
     
+    // This 
     private String[] getArgsFromLine(String[] line) {
         return Arrays.asList(line).subList(1, line.length).toArray(new String[0]);
     }
@@ -173,11 +189,13 @@ public class Interpreter {
         }
     }
     
-    public void interpret(List<String> lines) {
+    public void interpret(List<String> lines, int clientID) {
+        status = 1;
         new Thread(()->{
             synchronized(o) {
                 programSymTable = new HashMap<>(); // the symbol table should be re-initialized for every new interpret call
                 currentIndex = 0;
+                Interpreter.clientID = clientID;
                 // initialize separate thread for getting flight data
                 try {
                     parser(lexer(lines));
@@ -185,10 +203,15 @@ public class Interpreter {
                     System.out.println("Exception thrown at line " + currentIndex);
                     e.printStackTrace();
                 }
+                status = 0;
                 // stop getFlightData thread
                 //System.out.println(Interpreter.simVarsSymTable.get("/controls/flight/speedbrake").getValue());
             }
         }).start();
+    }
+    
+    public int getStatus() {
+        return status;
     }
     
 }
