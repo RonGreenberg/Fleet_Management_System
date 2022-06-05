@@ -129,7 +129,7 @@ public class Interpreter {
         return Arrays.asList(line).subList(1, line.length).toArray(new String[0]);
     }
     
-    private void handleConditions(List<String[]> lines, Command conditionCmd, String[] cmdArgs) throws Exception {
+    private void handleConditions(List<String[]> lines, ConditionParser conditionCmd, String[] cmdArgs) throws Exception {
         String[] line = lines.get(currentIndex);
         // handling appropriate line skips to pass the opening curly bracket
         if (String.join("", line).endsWith("{")) {
@@ -156,7 +156,7 @@ public class Interpreter {
                    throw new Exception("Illegal command");   
                 }
             } else if (c instanceof ConditionParser) {
-                handleConditions(lines, c, args); // nested condition
+                handleConditions(lines, (ConditionParser)c, args); // nested condition
             }
             
             ((ConditionParser) conditionCmd).addCommand(c, args);
@@ -181,7 +181,7 @@ public class Interpreter {
                    throw new Exception("Illegal command");   
                 }
             } else if (c instanceof ConditionParser) { // "while" or "if"
-                handleConditions(lines, c, args);
+                handleConditions(lines, (ConditionParser)c, args);
             }
             
             c.execute(args);
