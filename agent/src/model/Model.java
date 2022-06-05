@@ -17,6 +17,7 @@ public class Model extends Observable {
     public Model(String propertiesFileName) {
         flightName = "F1";
         openSetServer("127.0.0.1", 5402);
+        openFlightCsvFile();
     }
     //============================================//
     private void openSetServer(String ip, int port)
