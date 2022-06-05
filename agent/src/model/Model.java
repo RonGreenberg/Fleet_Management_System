@@ -2,32 +2,41 @@ package model;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Observable;
 
 //communication with FlightGear
 public class Model extends Observable {
-
+	final String ip = "127.0.0.1";
+	final int port = 5402;
+	
+	Thread setThread, getThread;
     HashMap<String, Integer> var2Val; //Updates 10 times in a second
     HashMap<String, String> props;
     String flightName;
-    Socket fg;
+    Socket fgSet, fgGet;
     PrintWriter outToFg;
     public Model(String propertiesFileName) {
         flightName = "F1";
-        openSetServer("127.0.0.1", 5402);
         openFlightCsvFile();
+        openSetServer();
+        updateFlightCsv();
+        setThread.start();
+        getThread.start();
     }
     //============================================//
-    private void openSetServer(String ip, int port)
+    private void openSetServer()
     {
-        try {
-            fg = new Socket(ip,port);
-            outToFg = new PrintWriter(fg.getOutputStream(), true);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    	setThread = new Thread(()->{
+	        try {
+	            fgSet = new Socket(ip,port);
+	            outToFg = new PrintWriter(fgSet.getOutputStream(), true);
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+		});
     }
     //============================================//
     private void openFlightCsvFile()
@@ -45,8 +54,26 @@ public class Model extends Observable {
         outToFg.println(cmd);
     }
     //============================================//
-    private void updateFlightCsv(Socket s)
+    private void updateFlightCsv()
     {
+    	//open thread that open a server that get information from flight gear 10 times per second
+		getThread = new Thread(()->{
+			try {
+				Socket fgGet=new Socket(ip, port);
+				BufferedReader inFromfg=new BufferedReader(new InputStreamReader(fgGet.getInputStream()));
+				PrintWriter csv=new PrintWriter(new FileWriter(flightName + ".csv"),true);//csv will get closed at the end of the program by the gc dont worry about it
+				String line;
+				while(true) {
+					line = inFromfg.readLine();
+					csv.println(line);
+					Thread.sleep(100);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		});
 
     }
     //============================================//
@@ -56,7 +83,7 @@ public class Model extends Observable {
         try {
             File flight = new File(flightName);
             flight.delete();
-            fg.close();
+            fgSet.close();
             outToFg.close();
         } catch (IOException e) {
             e.printStackTrace();
