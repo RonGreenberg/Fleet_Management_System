@@ -9,6 +9,8 @@ public class Test {
         System.out.println(ExpressionEvaluator.evaluate("7.5*(4.3+(6-12.3))/(0-3.0)"));
         System.out.println(ExpressionEvaluator.evaluate("5+2/(3-8)*5*2"));
         System.out.println(ExpressionEvaluator.evaluate("-1+3*(1-8)-(-3)"));
+        System.out.println(ExpressionEvaluator.evaluate("2/2*500"));
+        System.out.println(ExpressionEvaluator.evaluate("1"));
     }
 
 }

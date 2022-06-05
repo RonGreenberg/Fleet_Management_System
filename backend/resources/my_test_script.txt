@@ -1,0 +1,17 @@
+var x = bind "/controls/flight/speedbrake"
+x = 1
+while 20*x <= 50*3
+{
+    print x
+    while x < 3
+    {
+ 
+        print x
+        sleep 1000
+        x =x+ 1
+    }
+    print x
+    x= x +1
+}
+print x
+print "done"
