@@ -57,19 +57,19 @@ public class Model extends Observable {
     private void updateFlightCsv()
     {
     	//open thread that open a server that get information from flight gear 10 times per second
-		getThread = new Thread(()->{
-			try {
-				Socket fgGet=new Socket(ip, fgport);
-				BufferedReader inFromfg=new BufferedReader(new InputStreamReader(fgGet.getInputStream()));
-				String line;
-				while(true) {
-					line = inFromfg.readLine();
-					csv.println(line);
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		});
+//		getThread = new Thread(()->{
+//			try {
+//				Socket fgGet=new Socket(ip, fgport);
+//				BufferedReader inFromfg=new BufferedReader(new InputStreamReader(fgGet.getInputStream()));
+//				String line;
+//				while(true) {
+//					line = inFromfg.readLine();
+//					csv.println(line);
+//				}
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		});
 
     }
     //============================================//
