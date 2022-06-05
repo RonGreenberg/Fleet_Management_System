@@ -21,17 +21,6 @@ public class Controller implements Observer
 	public void update(Observable o, Object arg) {
 		if(o == view) {
 			Input input = view.getUserCommand();
-			if(input.choice == 1)
-                model.setAileron(input.val);
-            else if(input.choice == 2)
-                model.setElevator(input.val);
-            else if(input.choice == 3)
-                model.setRudder(input.val);
-            else if(input.choice == 4)
-                model.setThrottle(input.val);
-            else {
-            	System.out.println("value is not valid");
-            	}
 		}
 		if(o == model) {
 			//getting data from flightGear
