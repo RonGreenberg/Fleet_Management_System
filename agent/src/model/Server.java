@@ -22,7 +22,7 @@ public class Server {
 	}
 	
 	
-	private void startServer(int port, ClientHandler ch) {
+	private void startServer() {
 		try {
 			ServerSocket server=new ServerSocket(port);
 			server.setSoTimeout(1000);
@@ -42,7 +42,7 @@ public class Server {
 	// runs the server in its own thread
 	public void start() {
 		stop = false;
-		new Thread(()->startServer(port,ch)).start();
+		new Thread(()->startServer()).start();
 	}
 	
 	public void stop() {
