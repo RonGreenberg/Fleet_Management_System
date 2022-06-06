@@ -21,8 +21,8 @@ public class Model extends Observable {
     Server server;
     public Model(String propertiesFileName) {
         openSetServer();
-        server = new Server();
-		server.start(myport, new FGClientHandler("F1"));
+        server = new Server(myport, new FGClientHandler("F1"));
+		server.start();
     }
     //============================================//
     private void openSetServer()
