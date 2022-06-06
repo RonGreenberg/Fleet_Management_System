@@ -13,8 +13,12 @@ public class Server {
 	}
 	
 	volatile boolean stop;
-	public Server() {
+	int port;
+	ClientHandler ch;
+	public Server(int port, ClientHandler ch) {
 		stop=false;
+		this.port = port;
+		this.ch = ch;
 	}
 	
 	
@@ -36,7 +40,7 @@ public class Server {
 	}
 	
 	// runs the server in its own thread
-	public void start(int port, ClientHandler ch) {
+	public void start() {
 		stop = false;
 		new Thread(()->startServer(port,ch)).start();
 	}
