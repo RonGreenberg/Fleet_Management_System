@@ -31,9 +31,6 @@ public class Server {
 				try{
 					Socket aClient=server.accept(); // blocking call
 					ch.handleClient(aClient.getInputStream());
-					//ch.close();
-					//aClient.getInputStream().close();
-					//aClient.getOutputStream().close();
 					aClient.close();
 				}catch(SocketTimeoutException e) {}
 			}
