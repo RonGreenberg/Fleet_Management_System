@@ -16,8 +16,8 @@ public class FGClientHandler implements ClientHandler{
 	PrintWriter csv;
     String flightName;
 
-	public FGClientHandler() {
-	    flightName = "F1";
+	public FGClientHandler(String flightName) {
+	    this.flightName = flightName;
         openFlightCsvFile();
 	}
 	
@@ -42,6 +42,7 @@ public class FGClientHandler implements ClientHandler{
 			String line;
 			while((line=inFromfg.readLine()) != null)
 				csv.println(line);
+			csv.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -49,10 +50,5 @@ public class FGClientHandler implements ClientHandler{
 	
     //============================================//
 
-	@Override
-	protected void finalize() throws Throwable {
-		super.finalize();
-		csv.close();
-	}
 	
 }

@@ -22,7 +22,7 @@ public class Model extends Observable {
     public Model(String propertiesFileName) {
         openSetServer();
         server = new Server();
-		server.start(myport, new FGClientHandler());
+		server.start(myport, new FGClientHandler("F1"));
     }
     //============================================//
     private void openSetServer()

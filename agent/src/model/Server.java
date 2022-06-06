@@ -7,12 +7,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 
-public class Server {
-	static private Integer clientLimit;
-	
-	//treat a client that is already connected
-	public interface ClientHandler{//using CLI
-		// define...
+public class Server {	
+	public interface ClientHandler{
 		void handleClient(InputStream inFromClient);
 	}
 	
@@ -23,7 +19,6 @@ public class Server {
 	
 	
 	private void startServer(int port, ClientHandler ch) {
-		// implement here the server...
 		try {
 			ServerSocket server=new ServerSocket(port);
 			server.setSoTimeout(1000);
