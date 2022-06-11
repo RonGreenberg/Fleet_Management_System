@@ -24,6 +24,8 @@ CREATE TABLE IF NOT EXISTS `fleet_management_system`.`airplanes` (
   `planeID` VARCHAR(7) NOT NULL,
   `model` VARCHAR(45) NOT NULL,
   `dateAdded` DATE NOT NULL,
+  `lastHeading` FLOAT NULL DEFAULT NULL,
+  `lastAltitude` FLOAT NULL DEFAULT NULL,
   PRIMARY KEY (`planeID`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
