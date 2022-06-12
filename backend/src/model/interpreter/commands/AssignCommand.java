@@ -44,6 +44,9 @@ public class AssignCommand implements Command {
                 var.setValue(res);
                 if (var.isBoundToSim()) {
                     String response = AgentServer.send(Interpreter.clientID, "set " + var.getSimDir() + " " + res);
+                    if (response == null) {
+                        throw new Exception("Client disconnected during interpreter");
+                    }
                     if (!response.equals("ok")) {
                         throw new Exception("could not set bound variable " + split[0]);
                     }

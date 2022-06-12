@@ -10,6 +10,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import controller.AgentServer;
+import controller.FrontendHandler;
+import controller.FrontendServer;
 import model.interpreter.Interpreter;
 
 public class Main {
@@ -35,6 +37,10 @@ public class Main {
         List<Integer> clients = set.stream().collect(Collectors.toList());
         int clientID = clients.get(0);
         System.out.println("Client connected. ID: " + clientID);
+        
+//        FrontendServer feServer = new FrontendServer(2000, new FrontendHandler());
+//        feServer.start();
+//        System.out.println("Waiting for frontend...");
         
         Interpreter i = new Interpreter();
         try {

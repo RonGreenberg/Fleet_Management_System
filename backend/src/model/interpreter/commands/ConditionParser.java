@@ -20,7 +20,7 @@ public class ConditionParser implements Command {
         commandsWithArgs.put(c, args);
     }
     
-    public void updateCondition(String[] args) {
+    public void updateCondition(String[] args) throws Exception {
         String operand1 = args[0];
         String operator = args[1];
         String operand2 = args[2];

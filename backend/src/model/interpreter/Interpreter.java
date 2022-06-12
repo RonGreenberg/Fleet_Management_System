@@ -105,7 +105,7 @@ public class Interpreter {
      * table and replaces each occurrence of a variable in the expression,
      * by its respective value.
      */
-    public static String replaceVarsWithValue(String arg) {
+    public static String replaceVarsWithValue(String arg) throws Exception {
         // get updated value if bound to simulator variable
         String newArg = arg;
         for (Map.Entry<String, ProgramVar> entry : programSymTable.entrySet()) {
@@ -116,6 +116,9 @@ public class Interpreter {
                 if (var.isBoundToSim()) {
                     String simDir = var.getSimDir();
                     String res = AgentServer.send(Interpreter.clientID, "get " + simDir);
+                    if (res == null) {
+                        throw new Exception("Client disconnected during interpreter");
+                    }
                     var.setValue(Double.parseDouble(res));
                 }
                 newArg = newArg.replace(varName, String.valueOf(var.getValue()));

@@ -43,7 +43,14 @@ public class AgentServer {
         }
     }
     
-    public static String send(int clientID, String message) {
+    /* Should be synchronized because it might be called simultaneously
+     * from two threads, for example: the monitoring thread and the interpreter
+     * thread. In case the same client sends a response to one thread and
+     * almost immediately after sends a response to the other thread, the
+     * first thread might receive that response and treat it as an additional
+     * line for its own response.
+     */
+    public synchronized static String send(int clientID, String message) {
         Socket client = connectedClients.get(clientID);
         try {
             PrintWriter out = new PrintWriter(client.getOutputStream(), true);
@@ -62,14 +69,18 @@ public class AgentServer {
             }
             return response;
         } catch (IOException e) {
-            e.printStackTrace();
-            connectedClients.remove(clientID); // removing client from map if connection was lost
+            //e.printStackTrace();
+            //connectedClients.remove(clientID); // removing client from map if connection was lost
             return null;
         }
     }
     
     public Set<Integer> getConnectedClients() {
         return connectedClients.keySet();
+    }
+    
+    public void removeClient(int clientID) {
+        connectedClients.remove(clientID);
     }
     
     public void disconnect(int clientID) {
