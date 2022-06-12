@@ -1,8 +1,8 @@
-package interpreter;
+package model.interpreter;
 
 import java.util.HashMap;
 
-import interpreter.commands.Command;
+import model.interpreter.commands.Command;
 
 public class CommandFactory {
     

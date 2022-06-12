@@ -1,4 +1,4 @@
-package interpreter;
+package model.interpreter;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -10,17 +10,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import interpreter.commands.AssignCommand;
-import interpreter.commands.Command;
-import interpreter.commands.ConditionParser;
-import interpreter.commands.ConnectCommand;
-import interpreter.commands.DefineVarCommand;
-import interpreter.commands.IfCommand;
-import interpreter.commands.LoopCommand;
-import interpreter.commands.OpenDataServerCommand;
-import interpreter.commands.PrintCommand;
-import interpreter.commands.SleepCommand;
-import server.AgentServer;
+import controller.AgentServer;
+import model.interpreter.commands.AssignCommand;
+import model.interpreter.commands.Command;
+import model.interpreter.commands.ConditionParser;
+import model.interpreter.commands.ConnectCommand;
+import model.interpreter.commands.DefineVarCommand;
+import model.interpreter.commands.IfCommand;
+import model.interpreter.commands.LoopCommand;
+import model.interpreter.commands.OpenDataServerCommand;
+import model.interpreter.commands.PrintCommand;
+import model.interpreter.commands.SleepCommand;
 
 /* ASSUMPTIONS:
  * 1. Curly brackets for if conditions and while loops can be opened in the

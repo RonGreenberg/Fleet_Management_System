@@ -1,7 +1,7 @@
-package interpreter.commands;
+package model.interpreter.commands;
 
-import interpreter.Interpreter;
-import server.AgentServer;
+import controller.AgentServer;
+import model.interpreter.Interpreter;
 
 public class OpenDataServerCommand implements Command {
 

@@ -1,4 +1,4 @@
-package interpreter;
+package model.interpreter;
 
 public class ProgramVar {
     private double value;

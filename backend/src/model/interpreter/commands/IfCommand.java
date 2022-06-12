@@ -1,4 +1,4 @@
-package interpreter.commands;
+package model.interpreter.commands;
 
 import java.util.Map;
 

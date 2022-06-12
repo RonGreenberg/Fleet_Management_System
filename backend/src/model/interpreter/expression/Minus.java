@@ -1,4 +1,4 @@
-package interpreter.expression;
+package model.interpreter.expression;
 
 public class Minus extends BinaryExpression {
 	

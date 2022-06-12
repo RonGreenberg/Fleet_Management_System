@@ -1,11 +1,11 @@
-package interpreter.commands;
+package model.interpreter.commands;
 
 import java.util.Arrays;
 
-import interpreter.Interpreter;
-import interpreter.ProgramVar;
-import interpreter.expression.ExpressionEvaluator;
-import server.AgentServer;
+import controller.AgentServer;
+import model.interpreter.Interpreter;
+import model.interpreter.ProgramVar;
+import model.interpreter.expression.ExpressionEvaluator;
 
 public class AssignCommand implements Command {
 

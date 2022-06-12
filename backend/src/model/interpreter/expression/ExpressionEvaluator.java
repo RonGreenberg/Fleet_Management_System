@@ -1,4 +1,4 @@
-package interpreter.expression;
+package model.interpreter.expression;
 
 import java.util.LinkedList;
 import java.util.Queue;

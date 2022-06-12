@@ -9,8 +9,8 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import interpreter.Interpreter;
-import server.AgentServer;
+import controller.AgentServer;
+import model.interpreter.Interpreter;
 
 public class Main {
 

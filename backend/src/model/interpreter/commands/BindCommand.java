@@ -1,7 +1,7 @@
-package interpreter.commands;
+package model.interpreter.commands;
 
-import interpreter.Interpreter;
-import interpreter.ProgramVar;
+import model.interpreter.Interpreter;
+import model.interpreter.ProgramVar;
 
 public class BindCommand implements Command {
 

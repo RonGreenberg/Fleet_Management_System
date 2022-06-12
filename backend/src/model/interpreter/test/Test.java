@@ -1,4 +1,4 @@
-package interpreter.test;
+package model.interpreter.test;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -6,7 +6,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import interpreter.Interpreter;
+import model.interpreter.Interpreter;
 
 public class Test {
 

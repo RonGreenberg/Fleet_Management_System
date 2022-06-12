@@ -1,7 +1,7 @@
-package interpreter.commands;
+package model.interpreter.commands;
 
-import interpreter.Interpreter;
-import interpreter.expression.ExpressionEvaluator;
+import model.interpreter.Interpreter;
+import model.interpreter.expression.ExpressionEvaluator;
 
 public class SleepCommand implements Command {
     
