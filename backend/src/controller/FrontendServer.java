@@ -22,6 +22,7 @@ public class FrontendServer {
     }
     
     public void startServer() {
+        Controller.addTask("Frontend Server");
         try {
             ServerSocket server = new ServerSocket(port);
             server.setSoTimeout(1000);
@@ -30,11 +31,13 @@ public class FrontendServer {
                     Socket client = server.accept();
                     System.out.println("Frontend connected!");
                     fh.handle(client.getInputStream(), client.getOutputStream());
+                    System.out.println("Frontend disconnected");
                     fh.close();
                     client.close();   
                 } catch (SocketTimeoutException e) {}
             }
             server.close();
+            Controller.removeTask("Frontend Server");
         } catch (IOException e) {
             e.printStackTrace();
         }

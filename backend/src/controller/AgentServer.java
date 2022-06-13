@@ -28,6 +28,7 @@ public class AgentServer {
     }
     
     private void startServer() {
+        Controller.addTask("Agent Server");
         try {
             ServerSocket server = new ServerSocket(port);
             server.setSoTimeout(1000);
@@ -38,6 +39,7 @@ public class AgentServer {
                 } catch (SocketTimeoutException e) {}
             }
             server.close();
+            Controller.removeTask("Agent Server");
         } catch (IOException e) {
             e.printStackTrace();
         }

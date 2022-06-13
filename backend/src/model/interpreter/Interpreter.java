@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import controller.AgentServer;
+import controller.Controller;
 import model.interpreter.commands.AssignCommand;
 import model.interpreter.commands.Command;
 import model.interpreter.commands.ConditionParser;
@@ -196,6 +197,7 @@ public class Interpreter {
         status = 1;
         new Thread(()->{
             synchronized(o) {
+                Controller.addTask("Interpreter");
                 programSymTable = new HashMap<>(); // the symbol table should be re-initialized for every new interpret call
                 currentIndex = 0;
                 Interpreter.clientID = clientID;
@@ -207,6 +209,7 @@ public class Interpreter {
                     e.printStackTrace();
                 }
                 status = 0;
+                Controller.removeTask("Interpreter");
                 // stop getFlightData thread
                 //System.out.println(Interpreter.simVarsSymTable.get("/controls/flight/speedbrake").getValue());
             }
