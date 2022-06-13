@@ -39,12 +39,6 @@ CREATE TABLE IF NOT EXISTS `fleet_management_system`.`flights` (
   `flightID` INT NOT NULL AUTO_INCREMENT,
   `planeID` VARCHAR(7) NOT NULL,
   `csvFileName` VARCHAR(20) NOT NULL,
-  `startTime` DATETIME NOT NULL,
-  `endTime` DATETIME NOT NULL,
-  `from` VARCHAR(25) NOT NULL,
-  `to` VARCHAR(25) NOT NULL,
-  `maxAltitude` FLOAT NOT NULL,
-  `maxSpeed` FLOAT NOT NULL,
   PRIMARY KEY (`flightID`),
   INDEX `planeID_idx` (`planeID` ASC) VISIBLE,
   CONSTRAINT `planeID`
