@@ -13,8 +13,8 @@ public class Model extends Observable {
 	final static int fgport = 5402;
 	final static int myport = 5400;
 
-    HashMap<String, Integer> var2Val; //Updates 10 times in a second
-    String flightName; //RECIVE FROM FG
+    public static HashMap<String, Integer> var2Val; //Updates 10 times in a second
+    String flightName; // RECIVE FROM FG
     Socket fgSet; // SOCKET USED BY OUTTOFG
     PrintWriter outToFg;
     Server server; // OUTPUT SERVER

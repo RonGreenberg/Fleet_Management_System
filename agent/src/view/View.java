@@ -17,6 +17,8 @@ public class View extends Observable{
 	        {
 	            System.out.println("Please enter desired command to debug");
 	            cmd = input.nextLine();
+				if(cmd.contains("get")){//expect result
+				}
 	            setChanged();
 	            notifyObservers();
 	        }
