@@ -24,12 +24,12 @@ public class Model extends Observable {
     PrintWriter outToFg;
     Server server; // OUTPUT SERVER
     public Model(String propertiesFileName) {
-        openSetServer();
+    	connectToFg();
         server = new Server(myport, new FGClientHandler("F1"));
 		server.start();
     }
     //============================================//
-    private void openSetServer()
+    private void connectToFg()
     {
         try {
             fgSet = new Socket(ip,fgport);
@@ -39,14 +39,13 @@ public class Model extends Observable {
         }
     }
     //============================================//
-    public void setVal(String cmd)
+    public int setVar(String cmd)
     {
         outToFg.println(cmd);
+		setChanged();
+		notifyObservers();
+		return 0;
     }
-    //============================================//
-    public void connectToFg() {
-    	
-	}
     //============================================//
     public float getParam() {
     	
