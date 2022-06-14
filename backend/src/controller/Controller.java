@@ -1,19 +1,24 @@
 package controller;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+
+import view.View;
 
 public class Controller {
     
     private Map<String, Integer> activePlanes;
     private AgentServer agentServer;
     private FrontendServer frontendServer;
+    private static Map<String, String> activeTasks;
     
     public Controller() {
         activePlanes = new HashMap<>();
         agentServer = new AgentServer(1000);
         frontendServer = new FrontendServer(2000, new FrontendHandler(this));
+        activeTasks = new LinkedHashMap<>(); // so that we print threads in the order they were opened
     }
     
     public void start() {
@@ -26,6 +31,7 @@ public class Controller {
         System.out.println("Waiting for frontend...");
         
         Thread monitoringThread = new Thread(()->{
+            addTask("Monitoring Thread for Agents");
             while (true) {
                 Set<Integer> clients = agentServer.getConnectedClients();
                 for (int clientID : clients) {
@@ -69,5 +75,21 @@ public class Controller {
     
     public int getClientIDForPlane(String planeID) {
         return activePlanes.get(planeID);
+    }
+    
+    public static void addTask(String description) {
+        if (View.isActive) { // so that we don't maintain the active tasks if there's no view
+            activeTasks.put(description, Thread.currentThread().getName());   
+        }
+    }
+    
+    public static void removeTask(String description) {
+        if (View.isActive) { // so that we don't maintain the active tasks if there's no view
+            activeTasks.remove(description);   
+        }
+    }
+    
+    public Map<String, String> getActiveTasks() {
+        return activeTasks;
     }
 }
