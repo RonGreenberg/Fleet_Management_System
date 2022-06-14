@@ -35,13 +35,41 @@ public class Model extends Observable {
         }
     }
     //============================================//
-
     public void setVal(String cmd)
     {
         outToFg.println(cmd);
     }
     //============================================//
-
+    public void connectToFg() {
+		
+	}
+    //============================================//
+    public float getParam() {
+    	
+		return 0;
+		
+	}
+    //============================================//
+    public String getCurrentCsvLine() {
+    	
+		return null;
+	}
+    //============================================//
+    public boolean getStatus() {
+		return false;
+    	
+	}
+    //============================================//
+    public int getFlightDataStart() {
+    	
+		return 0;
+	}
+    //============================================//
+    public String getFlightDataNextLine() {
+    	
+		return null;
+	}
+    //============================================//
     @Override
     protected void finalize()
     {
