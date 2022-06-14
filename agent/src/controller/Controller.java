@@ -22,7 +22,6 @@ public class Controller implements Observer
 			String input = view.getUserCommand();
 		}
 		if(o == model) {
-			//getting data from flightGear
 			view.displayData();
 		}
 	}

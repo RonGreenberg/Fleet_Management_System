@@ -24,7 +24,7 @@ public class FGClientHandler implements ClientHandler{
     //============================================//
 
 	private void openFlightCsvFile() {
-        File flight = new File(flightName + ".csv");
+        File flight = new File("agent\\src\\flightsFiles\\" + flightName + ".csv");
         try {
             flight.createNewFile();
             csv=new PrintWriter(new FileWriter(flight),true);
