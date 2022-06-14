@@ -45,32 +45,41 @@ public class Model extends Observable {
     }
     //============================================//
     public void connectToFg() {
-		
+    	
 	}
     //============================================//
     public float getParam() {
     	
+		setChanged();
+		notifyObservers();
 		return 0;
-		
 	}
     //============================================//
     public String getCurrentCsvLine() {
     	
+		setChanged();
+		notifyObservers();
 		return null;
 	}
     //============================================//
     public boolean getStatus() {
-		return false;
     	
+		setChanged();
+		notifyObservers();
+		return false;
 	}
     //============================================//
     public int getFlightDataStart() {
     	
+		setChanged();
+		notifyObservers();
 		return 0;
 	}
     //============================================//
     public String getFlightDataNextLine() {
     	
+		setChanged();
+		notifyObservers();
 		return null;
 	}
     //============================================//
