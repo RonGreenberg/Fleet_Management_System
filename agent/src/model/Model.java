@@ -4,8 +4,7 @@ import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Observable;
+import java.util.*;
 
 //communication with FlightGear
 public class Model extends Observable {
@@ -13,12 +12,34 @@ public class Model extends Observable {
 	final static int fgport = 5402;
 	final static int myport = 5400;
 
-    public static HashMap<String, Integer> var2Val; //Updates 10 times in a second
+    public static Map<String, Double> var2Val; //Updates 10 times in a second
     String flightName; // RECIVE FROM FG
     Socket fgSet; // SOCKET USED BY OUTTOFG
     PrintWriter outToFg;
-    Server server; // OUTPUT SERVER
+    Server server; // INPUT SERVER
     public Model(String propertiesFileName) {
+        try{
+            var2Val.get("check");
+        }
+        catch (Exception e) //VAR2VAL CONS
+        {
+            var2Val = new LinkedHashMap<>();
+            var2Val = Collections.synchronizedMap(var2Val);
+            var2Val.put("check",0.0);
+            try {
+                BufferedReader in = new BufferedReader(new FileReader(Paths.get("agent\\src\\model\\fg_vars.txt").toAbsolutePath().toString()));
+                String line;
+                while ((line=in.readLine()) != null) {
+                    var2Val.put(line, 0.0);
+                }
+                in.close();
+            } catch (FileNotFoundException ex) {
+                e.printStackTrace();
+            } catch (IOException ex) {
+                e.printStackTrace();
+            }
+        }
+
         openSetServer();
         server = new Server(myport, new FGClientHandler("F1"));
 		server.start();
