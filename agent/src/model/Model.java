@@ -6,6 +6,7 @@ import java.net.UnknownHostException;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Observable;
+import java.util.concurrent.atomic.AtomicReference;
 
 //communication with FlightGear
 public class Model extends Observable {
@@ -13,7 +14,8 @@ public class Model extends Observable {
 	final static int fgport = 5402;
 	final static int myport = 5400;
 
-    public static HashMap<String, Integer> var2Val; //Updates 10 times in a second
+    public static HashMap<String, Integer> var2Val = new HashMap<>(); //Updates 10 times in a second
+    public static AtomicReference<String> CurrentCsvLine; //Updates 10 times in a second
     String flightName; // RECIVE FROM FG
     Socket fgSet; // SOCKET USED BY OUTTOFG
     PrintWriter outToFg;
