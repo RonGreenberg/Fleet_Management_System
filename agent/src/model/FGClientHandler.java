@@ -40,8 +40,10 @@ public class FGClientHandler implements ClientHandler{
 		BufferedReader inFromfg=new BufferedReader(new InputStreamReader(inFromClient));
 		try {
 			String line;
-			while((line=inFromfg.readLine()) != null)
+			while((line=inFromfg.readLine()) != null) {
 				csv.println(line);
+				//ALSO UPDATE VAR2VAL
+			}
 			csv.close();
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -14,11 +14,10 @@ public class Model extends Observable {
 	final static int myport = 5400;
 
     HashMap<String, Integer> var2Val; //Updates 10 times in a second
-    HashMap<String, String> props;
-    String flightName;
-    Socket fgSet;
+    String flightName; //RECIVE FROM FG
+    Socket fgSet; // SOCKET USED BY OUTTOFG
     PrintWriter outToFg;
-    Server server;
+    Server server; // OUTPUT SERVER
     public Model(String propertiesFileName) {
         openSetServer();
         server = new Server(myport, new FGClientHandler("F1"));

@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Main {
 	public static void main(String[] args) {
-		View v = new View();//in the future v will be bound to the frontend
+		View v = new View();
 		Model m = new Model("agent\\props.txt");
 		Controller c = new Controller(v,m);
 		v.addObserver(c);

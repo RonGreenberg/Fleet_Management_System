@@ -5,7 +5,6 @@ import java.util.Observer;
 
 import model.Model;
 import view.View;
-import view.View.Input;
 
 public class Controller implements Observer
 {
@@ -20,7 +19,7 @@ public class Controller implements Observer
 	@Override
 	public void update(Observable o, Object arg) {
 		if(o == view) {
-			Input input = view.getUserCommand();
+			String input = view.getUserCommand();
 		}
 		if(o == model) {
 			//getting data from flightGear
