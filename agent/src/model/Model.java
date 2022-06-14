@@ -4,7 +4,10 @@ import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Observable;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -14,7 +17,7 @@ public class Model extends Observable {
 	final static int fgport = 5402;
 	final static int myport = 5400;
 
-    public static HashMap<String, Integer> var2Val = new HashMap<>(); //Updates 10 times in a second
+    public static Map<String, Integer> var2Val = Collections.synchronizedMap(new LinkedHashMap<>()); //Updates 10 times in a second
     public static AtomicReference<String> CurrentCsvLine; //Updates 10 times in a second
     String flightName; // RECIVE FROM FG
     Socket fgSet; // SOCKET USED BY OUTTOFG
