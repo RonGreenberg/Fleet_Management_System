@@ -24,23 +24,25 @@ public class Model extends Observable {
     PrintWriter outToFg;
     BufferedReader responseFromFg;
     Server server; // csv10times
-    public Model(String propertiesFileName) {
-    	connectToFg();
-        server = new Server(myport, new FGClientHandler(flightName)); // open csv file updates server in other thread
+    public Model() {
+        server = new Server(myport, new FGClientHandler("output")); // open csv file updates server in other thread
 		server.start();
+        connectToFg();
     }
     //============================================//
     private void connectToFg() // connects command server and set flight name
     {
-        try {
-            fgSet = new Socket(ip,fgport);
-            outToFg = new PrintWriter(fgSet.getOutputStream(), true);
-            responseFromFg = new BufferedReader(new InputStreamReader(fgSet.getInputStream()));
-            outToFg.println("get /sim/user/callsign");
-            // have to add "--prop:/sim/user/callsign=<Something>" in fg additional settings
-            flightName = responseFromFg.readLine().split("'")[1]; //gets Flight Name
-        } catch (IOException e) {
-            e.printStackTrace();
+        while (true) {
+            try {
+                fgSet = new Socket(ip, fgport);
+                outToFg = new PrintWriter(fgSet.getOutputStream(), true);
+                responseFromFg = new BufferedReader(new InputStreamReader(fgSet.getInputStream()));
+                outToFg.println("get /sim/user/callsign");
+                // have to add "--prop:/sim/user/callsign=<Something>" in fg additional settings
+                flightName = responseFromFg.readLine().split("'")[1]; //gets Flight Name
+            } catch (IOException e) {
+                //e.printStackTrace();
+            }
         }
     }
     //============================================//
