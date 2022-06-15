@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -24,7 +25,7 @@ public class FGClientHandler implements ClientHandler{
     //============================================//
 
 	private void openFlightCsvFile() {
-        File flight = new File(flightName + ".csv");
+        File flight = new File("agent\\src\\flightsFiles\\" + flightName + ".csv");
         try {
             flight.createNewFile();
             csv=new PrintWriter(new FileWriter(flight),true);
@@ -37,12 +38,11 @@ public class FGClientHandler implements ClientHandler{
     
 	@Override
 	public void handleClient(InputStream inFromClient) {
-		BufferedReader inFromfg=new BufferedReader(new InputStreamReader(inFromClient));
+		BufferedReader inFromFg = new BufferedReader(new InputStreamReader(inFromClient));
 		try {
 			String line;
-			while((line=inFromfg.readLine()) != null) {
+			while((line=inFromFg.readLine()) != null) {
 				csv.println(line);
-				//ALSO UPDATE VAR2VAL
 			}
 			csv.close();
 		} catch (IOException e) {
