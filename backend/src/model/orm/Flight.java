@@ -32,4 +32,9 @@ public class Flight {
     public String getPlaneID() {
         return planeID;
     }
+    
+    @Override
+    public String toString() {
+        return String.join(",", String.valueOf(flightID), planeID, csvFileName);
+    }
 }
