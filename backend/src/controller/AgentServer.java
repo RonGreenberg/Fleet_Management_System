@@ -54,6 +54,11 @@ public class AgentServer {
      */
     public synchronized static String send(int clientID, String message) {
         Socket client = connectedClients.get(clientID);
+        if (client == null) {
+            System.out.println("Client unreachable");
+            return null;
+        }
+        
         try {
             PrintWriter out = new PrintWriter(client.getOutputStream(), true);
             out.println(message);

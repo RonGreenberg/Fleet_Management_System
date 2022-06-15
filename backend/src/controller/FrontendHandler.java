@@ -10,18 +10,17 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
+import model.Model;
 import model.interpreter.Interpreter;
 
 public class FrontendHandler {
     
     BufferedReader in;
     PrintWriter out;
-    Controller c;
-    Interpreter interpreter; // using only one interpreter at a time
+    Model m;
     
-    public FrontendHandler(Controller c) {
-        this.c = c;
-        interpreter = new Interpreter();
+    public FrontendHandler(Model m) {
+        this.m = m;
     }
     
     public void handle(InputStream inFromFE, OutputStream outToFE) {
@@ -34,39 +33,31 @@ public class FrontendHandler {
                 String[] split = line.split(" ");
                 
                 switch (split[0]) {
-                case "interpret":
-                    out.println(interpret(split[1], split[2]));
+                case "set": // format: set [var_name] [value] [callsign]
+                    out.println(m.setVar(split[1], split[2], split[3]));
                     break;
-                case "getPlaneIDs":
-                    out.println(getPlaneIDs(split[1]));
+                case "get": // format: get [var_name] [callsign]
+                    out.println(m.getVar(split[1], split[2]));
+                    break;
+                case "interpret": // format: interpret [script_filename] [callsign]
+                    out.println(m.interpret(split[1], split[2]));
+                    break;
+                case "getPlaneIDs": // either: getPlaneIDs active or getPlaneIDs all
+                    out.println(m.getPlaneIDs(split[1]));
+                    break;
+                case "getPlaneData": // format: getPlaneData [callsign]
+                    out.println(m.getPlaneData(split[1]));
+                    break;
+                case "getFlightIDs": // format: getFlightIDs [callsign]
+                    out.println(m.getFlightIDs(split[1]));
+                    break;
+                case "getFlightDetails": // format: getFlightDetails [flightID]
+                    out.println(m.getFlightDetails(Integer.parseInt(split[1])));
                     break;
                 }
                 out.println(String.valueOf(Character.MIN_VALUE));
             }
         } catch (Exception e) {}
-    }
-    
-    // this function exits immediately
-    public String interpret(String filename, String planeID) {
-        if (interpreter.getStatus() == 1) {
-            return "busy";
-        }
-        
-        try {
-            List<String> lines = Files.readAllLines(Paths.get(filename));
-            interpreter.interpret(lines, c.getClientIDForPlane(planeID)); // interprets in a background thread
-        } catch (IOException e) {
-            e.printStackTrace();
-        }   
-
-        return "ok";
-    }
-    
-    public String getPlaneIDs(String activeOrAll) {
-        if (activeOrAll.equals("active")) {
-            return String.join(",", c.getActivePlaneIDs());
-        }
-        return null; // we will change this to handle all planes using the DB 
     }
     
     public void close() {
