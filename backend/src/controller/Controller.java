@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+import model.Model;
 import view.View;
 
 public class Controller {
@@ -13,11 +14,13 @@ public class Controller {
     private AgentServer agentServer;
     private FrontendServer frontendServer;
     private static Map<String, String> activeTasks;
+    private Model model;
     
     public Controller() {
+        model = new Model(this);
         activePlanes = new HashMap<>();
         agentServer = new AgentServer(1000);
-        frontendServer = new FrontendServer(2000, new FrontendHandler(this));
+        frontendServer = new FrontendServer(2000, new FrontendHandler(model));
         activeTasks = new LinkedHashMap<>(); // so that we print threads in the order they were opened
     }
     
@@ -49,8 +52,25 @@ public class Controller {
                         activePlanes.put(planeID, clientID);
                         System.out.println("Added new planeID: " + planeID);
                     }
+                    
                     String status = details.split(",")[1];
-                    // check if status is finished, perform necessary operations when flight is finished
+                    if (status.equals("finished")) {
+                        String[] planeDetails = model.getDetailsForMap(planeID);
+                        float lastHeading = Float.parseFloat(planeDetails[1]);
+                        float lastAltitude = Float.parseFloat(planeDetails[2]);
+                        //QueriesUtil.updatePlaneDetails(planeDetails[0], lastHeading, lastAltitude); // airspeed is not stored in DB
+                        
+                        String fileName = model.getAndSaveFlightFile(planeID);
+                        //Flight flight = new Flight();
+                        //flight.setPlaneID(planeID);
+                        //flight.setCsvFileName(fileName);
+                        //QueriesUtil.saveFlight(flight);
+                        System.out.println("Saved flight in database!");
+                        
+                        agentServer.disconnect(clientID);
+                        activePlanes.remove(planeID);
+                        System.out.println("Disconnected plane: " + planeID);
+                    }
                 }
                 
                 try {
@@ -71,6 +91,10 @@ public class Controller {
     
     public Set<String> getActivePlaneIDs() {
         return activePlanes.keySet();
+    }
+    
+    public boolean isPlaneActive(String planeID) {
+        return activePlanes.containsKey(planeID);
     }
     
     public int getClientIDForPlane(String planeID) {
