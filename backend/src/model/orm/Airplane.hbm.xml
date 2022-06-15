@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="model">
+    <class name="model.orm.Airplane" table="airplanes">
+        <id name="planeID" type="java.lang.Integer" column="planeID">
+            <generator class="increment"/>
+        </id>
+        <property name="model" type="java.lang.String" column="model" length="100" />
+        <property name="dateAdded" type="java.util.Date" column="dateAdded" />
+        <property name="lastHeading" type="java.lang.Float" column="lastHeading" length="100" />
+        <property name="lastAltitude" type="java.lang.Float" column="lastAltitude" />
+
+    </class>
+</hibernate-mapping>

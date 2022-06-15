@@ -1,4 +1,4 @@
-package orm;
+package model.orm;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -21,6 +21,7 @@ public class HibernateUtil {
     }
 
     public SessionFactory getSessionFactory() {
+        sessionFactory = buildSesionFactory();
         return sessionFactory;
     }
 }

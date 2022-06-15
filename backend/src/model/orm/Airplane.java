@@ -1,4 +1,4 @@
-package orm;
+package model.orm;
 
 import java.util.Date;
 import java.util.Set;
@@ -11,9 +11,7 @@ public class Airplane {
     private float lastAltitude;
     private Set<Flight> flights;
 
-
-    Airplane()
-    {
+    public Airplane() {
 
     }
 

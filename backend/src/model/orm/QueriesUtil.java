@@ -1,9 +1,7 @@
-package orm;
-import org.hibernate.query.Query;
+package model.orm;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 
 import java.util.List;
 

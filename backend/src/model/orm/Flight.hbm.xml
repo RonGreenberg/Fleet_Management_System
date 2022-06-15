@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="model">
+    <class name="model.orm.Flight" table="flights">
+        <id name="flightID" type="java.lang.Integer" column="flightID">
+            <generator class="increment"/>
+        </id>
+        <property name="planeID" type="java.lang.String" column="planeID" length="100" />
+        <property name="csvFileName" type="java.lang.String" column="csvFileName" length="100" />
+
+
+    </class>
+</hibernate-mapping>

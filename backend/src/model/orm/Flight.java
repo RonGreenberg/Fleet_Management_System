@@ -1,13 +1,12 @@
-package orm;
+package model.orm;
 
 public class Flight {
     private int flightID;
     private String planeID;
     private String csvFileName;
 
+    public Flight() {
 
-    Flight()
-    {
     }
 
     public void setFlightID(int flightID) {
