@@ -13,8 +13,8 @@
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="show_sql">true</property>
 
-        <mapping resource="model/orm/Flight.hbm.xml"/>
-        <mapping resource="model/orm/Airplane.hbm.xml"/>
+        <mapping resource="model/orm/Flight.hbm.xml" />
+        <mapping resource="model/orm/Airplane.hbm.xml" />
 
     </session-factory>
 </hibernate-configuration>

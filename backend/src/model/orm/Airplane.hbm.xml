@@ -2,14 +2,15 @@
 <!DOCTYPE hibernate-mapping PUBLIC
         "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<hibernate-mapping package="model">
+<hibernate-mapping>
     <class name="model.orm.Airplane" table="airplanes">
-        <id name="planeID" type="java.lang.Integer" column="planeID">
-            <generator class="increment"/>
+        <id name="planeID" type="java.lang.String" column="planeID" length="7">
+            <generator class="assigned"/>
         </id>
-        <property name="model" type="java.lang.String" column="model" length="100" />
-        <property name="dateAdded" type="java.util.Date" column="dateAdded" />
-        <property name="lastHeading" type="java.lang.Float" column="lastHeading" length="100" />
+        <property name="model" type="java.lang.String" column="model" />
+        <property name="dateAdded" type="java.sql.Date" column="dateAdded" />
+        <property name="lastPosition" type="java.lang.String" column="lastPosition" />
+        <property name="lastHeading" type="java.lang.Float" column="lastHeading" />
         <property name="lastAltitude" type="java.lang.Float" column="lastAltitude" />
 
     </class>

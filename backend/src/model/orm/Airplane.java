@@ -1,15 +1,15 @@
 package model.orm;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.Set;
 
 public class Airplane {
     private String planeID;
     private String model;
-    private java.util.Date dateAdded;
-    private float lastHeading;
-    private float lastAltitude;
-    private Set<Flight> flights;
+    private Date dateAdded;
+    private String lastPosition;
+    private Float lastHeading; // so that it can hold null values
+    private Float lastAltitude; // so that it can hold null values
 
     public Airplane() {
 
@@ -27,11 +27,15 @@ public class Airplane {
         return dateAdded;
     }
 
-    public float getLastHeading() {
+    public String getLastPosition() {
+        return lastPosition;
+    }
+
+    public Float getLastHeading() {
         return lastHeading;
     }
 
-    public float getLastAltitude() {
+    public Float getLastAltitude() {
         return lastAltitude;
     }
 
@@ -47,19 +51,21 @@ public class Airplane {
         this.dateAdded = dateAdded;
     }
 
-    public void setLastHeading(float lastHeading) {
+    public void setLastPosition(String lastPosition) {
+        this.lastPosition = lastPosition;
+    }
+
+    public void setLastHeading(Float lastHeading) {
         this.lastHeading = lastHeading;
     }
 
-    public void setLastAltitude(float lastAltitude) {
+    public void setLastAltitude(Float lastAltitude) {
         this.lastAltitude = lastAltitude;
     }
 
-    public void setFlights(Set<Flight> flights) {
-        this.flights = flights;
-    }
-
-    public Set<Flight> getFlights() {
-        return flights;
+    @Override
+    public String toString() {
+        // note that we're using toString() method of java.sql.Date and not java.util.date, which uses the yyyy-mm-dd format.
+        return String.join(",", planeID, model, dateAdded.toString(), lastPosition, String.valueOf(lastHeading), String.valueOf(lastAltitude));
     }
 }
