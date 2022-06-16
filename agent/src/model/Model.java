@@ -68,11 +68,11 @@ public class Model extends Observable {
 		return null;
 	}
     //============================================//
-    public boolean getStatus() {
+    public String getStatus() {
     	
 		setChanged();
 		notifyObservers();
-		return false;
+		return null;
 	}
     //============================================//
     public int getFlightDataStart() {
