@@ -19,7 +19,7 @@ public class Controller implements Observer
 	BufferedReader inFromBE;
     PrintWriter outToBE;
     Socket socket;
-    String backendIP = "localhost";
+    String backendIP = "79.179.43.111";
     int backendPort = 1000;
     
     public Controller() {
