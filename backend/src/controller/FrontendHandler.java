@@ -6,12 +6,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
 
 import model.Model;
-import model.interpreter.Interpreter;
 
 public class FrontendHandler {
     
@@ -55,7 +51,7 @@ public class FrontendHandler {
                     out.println(m.getFlightDetails(Integer.parseInt(split[1])));
                     break;
                 }
-                out.println(String.valueOf(Character.MIN_VALUE));
+                out.println(Character.MIN_VALUE); // sending the \0 character to indicate end of response
             }
         } catch (Exception e) {}
     }

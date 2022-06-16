@@ -6,7 +6,7 @@ import org.hibernate.query.Query;
 import java.util.List;
 
 public class QueriesUtil {
-    
+
     @SuppressWarnings("unchecked")
     public static List<String> getAllPlaneIDs()
     {

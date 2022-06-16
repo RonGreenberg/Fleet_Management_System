@@ -13,6 +13,9 @@ import java.util.List;
 import controller.AgentServer;
 import controller.Controller;
 import model.interpreter.Interpreter;
+import model.orm.Airplane;
+import model.orm.Flight;
+import model.orm.QueriesUtil;
 
 public class Model {
 
@@ -64,8 +67,7 @@ public class Model {
             return String.join(",", c.getActivePlaneIDs());
         }
         
-        //return String.join(",", QueriesUtil.getAllPlaneIDs());
-        return null; 
+        return String.join(",", QueriesUtil.getAllPlaneIDs()); // returning all planes otherwise
     }
     
     public String[] getDetailsForMap(String planeID) {
@@ -80,25 +82,31 @@ public class Model {
     }
     
     public String getPlaneData(String planeID) {
-        //Airplane plane = QueriesUtil.getPlaneData(planeID);
+        Airplane plane = QueriesUtil.getPlaneData(planeID);
         if (c.isPlaneActive(planeID)) {
-            //return String.join(",", planeID, plane.getModel(), plane.getDateAdded(), getDetailsForMap(planeID));
-            return null;
+            // getting up-to-date details for the live map, and returning them along with the constant ones
+            return planeID + "," + plane.getModel() + "," + plane.getDateAdded().toString() + "," + String.join(",", getDetailsForMap(planeID));
         } else {
-            // use Airplane's toString() method that will return only values separated by commas, and separates latitude and logitude using semi-colon
-            // append 0 at the end to indicate airspeed of 0
-            return null;
+            return plane.toString() + ",0.0"; // appending 0 at the end to indicate airspeed of 0
         }
     }
     
     public String getFlightIDs(String planeID) {
-        // fetch from DB, return as comma-separated values
-        return null;
+        List<Integer> flightIDs = QueriesUtil.getFlightIDs(planeID);
+        StringBuilder sb = new StringBuilder();
+        for (int flightID : flightIDs) {
+            sb.append(flightID + ",");
+        }
+        if (sb.length() > 0) {
+            sb.deleteCharAt(sb.length() - 1); // removing the last unnecessary "," (only if it was actually added - we might have never entered the loop if the list is empty)   
+        }
+        
+        return sb.toString();
     }
     
     public String getFlightDetails(int flightID) {
-        // fetch from DB, return as comma-separated values
-        return null;
+        Flight f = QueriesUtil.getFlightDetails(flightID);
+        return f.toString();
     }
     
     public String getAndSaveFlightFile(String planeID) {
@@ -115,7 +123,7 @@ public class Model {
             do {
                 response = AgentServer.send(clientID, "getFlightDataNextLine");
                 if (response != null) {
-                    writer.println(response);
+                    writer.println(response); // there will be an extra blank line at the end of the file, which the frontend should handle
                 }
             } while (response != null);
             writer.close();
@@ -124,6 +132,6 @@ public class Model {
             e.printStackTrace();
         }
         
-        return fileName;
+        return f.getAbsolutePath();
     }
 }

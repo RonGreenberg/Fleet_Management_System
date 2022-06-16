@@ -6,6 +6,9 @@ import java.util.Map;
 import java.util.Set;
 
 import model.Model;
+import model.orm.Flight;
+import model.orm.HibernateUtil;
+import model.orm.QueriesUtil;
 import view.View;
 
 public class Controller {
@@ -15,12 +18,14 @@ public class Controller {
     private FrontendServer frontendServer;
     private static Map<String, String> activeTasks;
     private Model model;
+    private int agentServerPort = 1000;
+    private int frontendServerPort = 2000;
     
     public Controller() {
         model = new Model(this);
         activePlanes = new HashMap<>();
-        agentServer = new AgentServer(1000);
-        frontendServer = new FrontendServer(2000, new FrontendHandler(model));
+        agentServer = new AgentServer(agentServerPort);
+        frontendServer = new FrontendServer(frontendServerPort, new FrontendHandler(model));
         activeTasks = new LinkedHashMap<>(); // so that we print threads in the order they were opened
     }
     
@@ -32,6 +37,8 @@ public class Controller {
         // runs the frontend server in a background thread
         frontendServer.start();
         System.out.println("Waiting for frontend...");
+        
+        HibernateUtil util = new HibernateUtil(); // just to open the session factory when the application starts
         
         Thread monitoringThread = new Thread(()->{
             addTask("Monitoring Thread for Agents");
@@ -58,13 +65,13 @@ public class Controller {
                         String[] planeDetails = model.getDetailsForMap(planeID);
                         float lastHeading = Float.parseFloat(planeDetails[1]);
                         float lastAltitude = Float.parseFloat(planeDetails[2]);
-                        //QueriesUtil.updatePlaneDetails(planeDetails[0], lastHeading, lastAltitude); // airspeed is not stored in DB
+                        QueriesUtil.updatePlaneDetails(planeID, planeDetails[0], lastHeading, lastAltitude); // airspeed is not stored in DB
                         
                         String fileName = model.getAndSaveFlightFile(planeID);
-                        //Flight flight = new Flight();
-                        //flight.setPlaneID(planeID);
-                        //flight.setCsvFileName(fileName);
-                        //QueriesUtil.saveFlight(flight);
+                        Flight flight = new Flight();
+                        flight.setPlaneID(planeID);
+                        flight.setCsvFileName(fileName);
+                        QueriesUtil.saveFlight(flight);
                         System.out.println("Saved flight in database!");
                         
                         agentServer.disconnect(clientID);
