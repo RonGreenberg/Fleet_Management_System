@@ -51,7 +51,7 @@ public class Controller {
                         System.out.println("Client closed connection abruptly");
                         agentServer.removeClient(clientID);
                         activePlanes.values().remove(clientID); // uses iteration under the hood
-                        continue;
+                        break; // breaking out of the loop, because if this was the last client, there could be all sorts of problems with the loop now...
                     }
                     
                     String planeID = details.split(",")[0];
