@@ -40,6 +40,7 @@ public class Model extends Observable {
                 fgSet = new Socket(ip, fgport);
                 outToFg = new PrintWriter(fgSet.getOutputStream(), true);
                 // have to add "--prop:/sim/user/callsign=<Something>" in fg additional settings
+                outToFg.println("data");
                 callsign = getParam("get /sim/user/callsign");//gets Flight Name
                 return;
             } catch (IOException e) {
@@ -65,7 +66,7 @@ public class Model extends Observable {
         try {
         	outToFg.println(getCmd);
 			responseFromFg = new BufferedReader(new InputStreamReader(fgSet.getInputStream()));
-			str = responseFromFg.readLine().split("'")[1];
+			str = responseFromFg.readLine().trim();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
