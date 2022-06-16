@@ -17,9 +17,10 @@ public class Model extends Observable {
 	final static int fgport = 5402;
 	final static int myport = 5400;
 
-    public static Map<String, Integer> var2Val = Collections.synchronizedMap(new LinkedHashMap<>()); //Updates 10 times in a second
-    public static AtomicReference<String> CurrentCsvLine; //Updates 10 times in a second
-    String flightName; // RECIVE FROM FG
+    public static String status = "flying"; // should be updated to "finished" in FGClientHandler when the flight is finished
+    BufferedReader fileReader = null; // add it to your model, for reading the csv file when the backend asks for it
+    public static AtomicReference<String> currentLine; //Updates 10 times in a second
+    String fileName; // RECIVE FROM FG
     Socket fgSet; // SOCKET USED BY OUTTOFG
     PrintWriter outToFg;
     BufferedReader responseFromFg;
@@ -36,57 +37,82 @@ public class Model extends Observable {
             try {
                 fgSet = new Socket(ip, fgport);
                 outToFg = new PrintWriter(fgSet.getOutputStream(), true);
-                responseFromFg = new BufferedReader(new InputStreamReader(fgSet.getInputStream()));
-                outToFg.println("get /sim/user/callsign");
                 // have to add "--prop:/sim/user/callsign=<Something>" in fg additional settings
-                flightName = responseFromFg.readLine().split("'")[1]; //gets Flight Name
+                fileName = getParam("get /sim/user/callsign").split("'")[1]; //gets Flight Name
             } catch (IOException e) {
                 //e.printStackTrace();
             }
         }
     }
     //============================================//
-    public int setVar(String cmd)
+    public String setVar(String cmd)
     {
         outToFg.println(cmd);
 		setChanged();
 		notifyObservers();
-		return 0;
+		return "ok";
     }
     //============================================//
-    public float getParam() {
-    	
+    public String getParam(String getCmd) {
+        // send get cmd to FG
+        // wrap a new BufferedReader on the same FG socket and read the returned value
+        // return the value
+		String str = null;
+
+        try {
+        	outToFg.println(getCmd);
+			responseFromFg = new BufferedReader(new InputStreamReader(fgSet.getInputStream()));
+			str = responseFromFg.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		setChanged();
 		notifyObservers();
-		return 0;
+		return str;
 	}
     //============================================//
-    public String getCurrentCsvLine() {
-    	
+    public String getFlightParamsLine() {
 		setChanged();
 		notifyObservers();
-		return null;
+		return currentLine.get();
 	}
     //============================================//
     public String getStatus() {
-    	
-		setChanged();
-		notifyObservers();
-		return null;
+        // return format: [callsign],[status]
+		//setChanged(); not necessary
+		//notifyObservers(); not necessary
+		return getParam("get /sim/user/callsign") + "," + status;
 	}
     //============================================//
-    public int getFlightDataStart() {
-    	
+    public String getFlightDataStart() {
+    	try {
+            fileReader = new BufferedReader(new FileReader(fileName));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 		setChanged();
 		notifyObservers();
-		return 0;
+		return "ok";
 	}
     //============================================//
     public String getFlightDataNextLine() {
-    	
+    	String line = null;
+        try {
+            line = fileReader.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        if (line == null) {
+            try {
+                fileReader.close(); // closing the reader if end of file has been reached
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 		setChanged();
 		notifyObservers();
-		return null;
+		return line;
 	}
     //============================================//
     @Override

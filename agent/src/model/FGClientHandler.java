@@ -43,7 +43,9 @@ public class FGClientHandler implements ClientHandler{
 			String line;
 			while((line=inFromFg.readLine()) != null) {
 				csv.println(line);
+				Model.currentLine.compareAndSet(Model.currentLine.get(), line);
 			}
+			 Model.status = "finished";
 			csv.close();
 		} catch (IOException e) {
 			e.printStackTrace();
