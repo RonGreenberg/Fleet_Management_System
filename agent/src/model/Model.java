@@ -20,22 +20,23 @@ public class Model extends Observable {
 	String callsign;
     public static String status = "flying"; // should be updated to "finished" in FGClientHandler when the flight is finished
     BufferedReader fileReader = null; // add it to your model, for reading the csv file when the backend asks for it
-    public static AtomicReference<String> currentLine; //Updates 10 times in a second
-    String fileName; // RECIVE FROM FG
+    public static AtomicReference<String> currentLine = new AtomicReference<>(""); //Updates 10 times in a second
+    public static String fileName; // RECIVE FROM FG
     Socket fgSet; // SOCKET USED BY OUTTOFG
     PrintWriter outToFg;
     BufferedReader responseFromFg;
     Server server; // csv10times
     public Model() {
+    	server = new Server(myport, new FGClientHandler()); // open csv file updates server in other thread
+    	server.start();
     	connectToFg();
-    	fileName = "agent\\src\\flightsFiles\\" + callsign + ".csv";
-        server = new Server(myport, new FGClientHandler(fileName)); // open csv file updates server in other thread
-		server.start();
+    	fileName = "flightsFiles/" + callsign + ".csv";
     }
     //============================================//
     private void connectToFg() // connects command server and set flight name
     {
         while (true) {
+        	System.out.println("trying to connect to fg");
             try {
                 fgSet = new Socket(ip, fgport);
                 outToFg = new PrintWriter(fgSet.getOutputStream(), true);
@@ -47,6 +48,11 @@ public class Model extends Observable {
             } catch (IOException e) {
                 //e.printStackTrace();
             }
+            try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
         }
     }
     //============================================//

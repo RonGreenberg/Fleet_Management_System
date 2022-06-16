@@ -15,30 +15,24 @@ import model.Server.ClientHandler;
 
 public class FGClientHandler implements ClientHandler{
 	PrintWriter csv;
-    String fileName;
+    //String fileName;
 
-	public FGClientHandler(String fileName) {
-	    this.fileName = fileName;
-        openFlightCsvFile();
-	}
-	
-    //============================================//
 
-	private void openFlightCsvFile() {
-        File flight = new File(fileName);
-        try {
-            csv=new PrintWriter(new FileWriter(flight),true);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    
     //============================================//
     
 	@Override
 	public void handleClient(InputStream inFromClient) {
 		BufferedReader inFromFg = new BufferedReader(new InputStreamReader(inFromClient));
+		while(Model.fileName == null) {
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		File flight = new File(Model.fileName);
 		try {
+			csv=new PrintWriter(new FileWriter(flight),true);
 			String line;
 			while((line=inFromFg.readLine()) != null) {
 				csv.println(line);
