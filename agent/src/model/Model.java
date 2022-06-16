@@ -44,6 +44,8 @@ public class Model extends Observable {
     			responseFromFg = new BufferedReader(new InputStreamReader(fgSet.getInputStream()));
                 outToFg.println("data");
                 callsign = getParam("get /sim/user/callsign");//gets Flight Name
+                System.out.println("Connected to FG!");
+                System.out.println("Callsign: " + callsign);
                 return;
             } catch (IOException e) {
                 //e.printStackTrace();
@@ -78,6 +80,7 @@ public class Model extends Observable {
 		}
 		setChanged();
 		notifyObservers();
+		System.out.println("Returning: " + str);
 		return str;
 	}
     //============================================//

@@ -39,6 +39,7 @@ public class Controller implements Observer
         String line;
         try {
             while (!(line = inFromBE.readLine()).equals("disconnect")) { // Backend disconnects the agent when the flight is finished
+                System.out.println("Received: " + line);
                 switch (line) {
                 case "set": // format: set [var_name] [value] (can be sent directly to FG)
                     outToBE.println(model.setVar(line));
