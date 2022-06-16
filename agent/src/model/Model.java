@@ -17,6 +17,7 @@ public class Model extends Observable {
 	final static int fgport = 5402;
 	final static int myport = 5400;
 
+	String callsign;
     public static String status = "flying"; // should be updated to "finished" in FGClientHandler when the flight is finished
     BufferedReader fileReader = null; // add it to your model, for reading the csv file when the backend asks for it
     public static AtomicReference<String> currentLine; //Updates 10 times in a second
@@ -26,9 +27,10 @@ public class Model extends Observable {
     BufferedReader responseFromFg;
     Server server; // csv10times
     public Model() {
-        server = new Server(myport, new FGClientHandler("output")); // open csv file updates server in other thread
+    	connectToFg();
+    	fileName = "agent\\src\\flightsFiles\\" + callsign + ".csv";
+        server = new Server(myport, new FGClientHandler(fileName)); // open csv file updates server in other thread
 		server.start();
-        connectToFg();
     }
     //============================================//
     private void connectToFg() // connects command server and set flight name
@@ -38,7 +40,7 @@ public class Model extends Observable {
                 fgSet = new Socket(ip, fgport);
                 outToFg = new PrintWriter(fgSet.getOutputStream(), true);
                 // have to add "--prop:/sim/user/callsign=<Something>" in fg additional settings
-                fileName = getParam("get /sim/user/callsign").split("'")[1]; //gets Flight Name
+                callsign = getParam("get /sim/user/callsign").split("'")[1]; //gets Flight Name
             } catch (IOException e) {
                 //e.printStackTrace();
             }
@@ -81,7 +83,7 @@ public class Model extends Observable {
         // return format: [callsign],[status]
 		//setChanged(); not necessary
 		//notifyObservers(); not necessary
-		return getParam("get /sim/user/callsign") + "," + status;
+		return callsign + "," + status;
 	}
     //============================================//
     public String getFlightDataStart() {

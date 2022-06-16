@@ -15,19 +15,18 @@ import model.Server.ClientHandler;
 
 public class FGClientHandler implements ClientHandler{
 	PrintWriter csv;
-    String flightName;
+    String fileName;
 
-	public FGClientHandler(String flightName) {
-	    this.flightName = flightName;
+	public FGClientHandler(String fileName) {
+	    this.fileName = fileName;
         openFlightCsvFile();
 	}
 	
     //============================================//
 
 	private void openFlightCsvFile() {
-        File flight = new File("agent\\src\\flightsFiles\\" + flightName + ".csv");
+        File flight = new File(fileName);
         try {
-            flight.createNewFile();
             csv=new PrintWriter(new FileWriter(flight),true);
         } catch (IOException e) {
             e.printStackTrace();
