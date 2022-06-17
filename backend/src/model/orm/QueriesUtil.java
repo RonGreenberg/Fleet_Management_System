@@ -60,7 +60,7 @@ public class QueriesUtil {
     }
 
     @SuppressWarnings("unchecked")
-    public static int updatePlaneDetails(String planeID, String lastPosition, float lastHeading, float lastAltitude)
+    public static int updatePlaneDetails(String planeID, String lastPosition, Double lastHeading, Double lastAltitude)
     {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Query<Airplane> query = session.createQuery("UPDATE Airplane set lastPosition = :last_position, lastHeading = :last_heading, lastAltitude = :last_altitude WHERE id = :plane_id");

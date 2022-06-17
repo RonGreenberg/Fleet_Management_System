@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -51,6 +52,7 @@ public class Interpreter {
     private static String simVarsFileName = "resources/flightgear_vars.txt"; // file from which to load simulator var names
     public static int clientID; // ID of the client (agent) the interpreter currently communicates with
     private int status = 0; // ready
+    public static boolean stop = false;
     static Object o = new Object(); // object for synchronized lock
     
     // static initialization block. similar to constructor but runs only once - when the class is loaded
@@ -122,7 +124,8 @@ public class Interpreter {
                     }
                     var.setValue(Double.parseDouble(res));
                 }
-                newArg = newArg.replace(varName, String.valueOf(var.getValue()));
+                BigDecimal bd = new BigDecimal(String.valueOf(var.getValue())); // in order to handle scientific notation values
+                newArg = newArg.replace(varName, bd.toPlainString());
             }
         }
         return newArg;
@@ -205,8 +208,10 @@ public class Interpreter {
                 try {
                     parser(lexer(lines));
                 } catch (Exception e) {
-                    System.out.println("Exception thrown at line " + currentIndex);
-                    e.printStackTrace();
+                    if (!Interpreter.stop) {
+                        System.out.println("Exception thrown at line " + currentIndex);
+                        e.printStackTrace();   
+                    }
                 }
                 status = 0;
                 Controller.removeTask("Interpreter");

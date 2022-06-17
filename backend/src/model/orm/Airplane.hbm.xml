@@ -10,8 +10,8 @@
         <property name="model" type="java.lang.String" column="model" />
         <property name="dateAdded" type="java.sql.Date" column="dateAdded" />
         <property name="lastPosition" type="java.lang.String" column="lastPosition" />
-        <property name="lastHeading" type="java.lang.Float" column="lastHeading" />
-        <property name="lastAltitude" type="java.lang.Float" column="lastAltitude" />
+        <property name="lastHeading" type="java.lang.Double" column="lastHeading" />
+        <property name="lastAltitude" type="java.lang.Double" column="lastAltitude" />
 
     </class>
 </hibernate-mapping>

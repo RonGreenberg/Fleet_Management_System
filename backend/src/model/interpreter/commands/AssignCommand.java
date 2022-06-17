@@ -16,6 +16,10 @@ public class AssignCommand implements Command {
      */
     @Override
     public void execute(String[] args) throws Exception {
+        if (Interpreter.stop) {
+            throw new Exception("Interpreter killed");
+        }
+        
         String arg = String.join("", args);
         String[] split = arg.split("=");
         
@@ -37,6 +41,7 @@ public class AssignCommand implements Command {
         
         // simple assignment
         Double res = ExpressionEvaluator.tryEvaluate(Interpreter.replaceVarsWithValue(split[1]));
+        System.out.println(res);
         if (res != null) {
             ProgramVar var = Interpreter.programSymTable.get(split[0]);
             // changing the value only if there's an actual change (because it might require requesting from the agent...)

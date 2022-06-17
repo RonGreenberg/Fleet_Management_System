@@ -62,6 +62,10 @@ public class Model {
         return "ok";
     }
     
+    public void stopInterpreter() {
+        Interpreter.stop = true;
+    }
+    
     public String getPlaneIDs(String activeOrAll) {
         if (activeOrAll.equals("active")) {
             return String.join(",", c.getActivePlaneIDs());
@@ -118,7 +122,7 @@ public class Model {
         int clientID = c.getClientIDForPlane(planeID);
         AgentServer.send(clientID, "getFlightDataStart");
         try {
-            PrintWriter writer = new PrintWriter(new FileWriter(f));
+            PrintWriter writer = new PrintWriter(new FileWriter(f), true);
             String response;
             do {
                 response = AgentServer.send(clientID, "getFlightDataNextLine");

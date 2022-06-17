@@ -75,7 +75,7 @@ public class AgentServer {
                 response = response.trim(); // remove unnecessary line separator at the end   
             }
             return response;
-        } catch (IOException e) {
+        } catch (Exception e) {
             //e.printStackTrace();
             //connectedClients.remove(clientID); // removing client from map if connection was lost
             return null;

@@ -62,9 +62,11 @@ public class Controller {
                     
                     String status = details.split(",")[1];
                     if (status.equals("finished")) {
+                        model.stopInterpreter(); // killing the interpreter in case it is still running
+                        
                         String[] planeDetails = model.getDetailsForMap(planeID);
-                        float lastHeading = Float.parseFloat(planeDetails[1]);
-                        float lastAltitude = Float.parseFloat(planeDetails[2]);
+                        Double lastHeading = Double.parseDouble(planeDetails[1]);
+                        Double lastAltitude = Double.parseDouble(planeDetails[2]);
                         QueriesUtil.updatePlaneDetails(planeID, planeDetails[0], lastHeading, lastAltitude); // airspeed is not stored in DB
                         
                         String fileName = model.getAndSaveFlightFile(planeID);

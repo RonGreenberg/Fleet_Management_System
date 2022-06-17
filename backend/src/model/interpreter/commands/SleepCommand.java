@@ -7,6 +7,10 @@ public class SleepCommand implements Command {
     
     @Override
     public void execute(String[] args) throws Exception {
+        if (Interpreter.stop) {
+            throw new Exception("Interpreter killed");
+        }
+        
         String arg = String.join("", args);
         Double res = ExpressionEvaluator.tryEvaluate(Interpreter.replaceVarsWithValue(arg));
         if (res == null) {

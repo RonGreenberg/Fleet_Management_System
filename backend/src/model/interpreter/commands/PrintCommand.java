@@ -7,6 +7,10 @@ public class PrintCommand implements Command {
 
     @Override
     public void execute(String[] args) throws Exception {
+        if (Interpreter.stop) {
+            throw new Exception("Interpreter killed");
+        }
+        
         String arg = String.join("", args);
         if (arg.startsWith("\"") && arg.endsWith("\"")) {
             System.out.println(arg.substring(1, arg.length() - 1));

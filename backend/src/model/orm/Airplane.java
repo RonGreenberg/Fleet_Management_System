@@ -7,8 +7,8 @@ public class Airplane {
     private String model;
     private Date dateAdded;
     private String lastPosition;
-    private Float lastHeading; // so that it can hold null values
-    private Float lastAltitude; // so that it can hold null values
+    private Double lastHeading; // so that it can hold null values
+    private Double lastAltitude; // so that it can hold null values
 
     public Airplane() {
 
@@ -30,11 +30,11 @@ public class Airplane {
         return lastPosition;
     }
 
-    public Float getLastHeading() {
+    public Double getLastHeading() {
         return lastHeading;
     }
 
-    public Float getLastAltitude() {
+    public Double getLastAltitude() {
         return lastAltitude;
     }
 
@@ -54,11 +54,11 @@ public class Airplane {
         this.lastPosition = lastPosition;
     }
 
-    public void setLastHeading(Float lastHeading) {
+    public void setLastHeading(Double lastHeading) {
         this.lastHeading = lastHeading;
     }
 
-    public void setLastAltitude(Float lastAltitude) {
+    public void setLastAltitude(Double lastAltitude) {
         this.lastAltitude = lastAltitude;
     }
 

@@ -13,6 +13,10 @@ public class DefineVarCommand implements Command {
      */
     @Override
     public void execute(String[] args) throws Exception {
+        if (Interpreter.stop) {
+            throw new Exception("Interpreter killed");
+        }
+        
         String arg = String.join("", args);
         String[] split = arg.split("="); // split[0] should contain variable name, split[1] contains value or bind
         
