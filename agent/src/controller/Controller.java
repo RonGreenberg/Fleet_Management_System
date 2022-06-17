@@ -19,7 +19,7 @@ public class Controller implements Observer
 	BufferedReader inFromBE;
     PrintWriter outToBE;
     Socket socket;
-    String backendIP = "79.179.43.111";
+    String backendIP = "10.0.0.111";
     int backendPort = 1000;
     
     public Controller() {
@@ -39,7 +39,11 @@ public class Controller implements Observer
         String line;
         try {
             while (!(line = inFromBE.readLine()).equals("disconnect")) { // Backend disconnects the agent when the flight is finished
-                System.out.println("Received: " + line);
+                if (!line.equals("getFlightDataNextLine")) {
+                    System.out.println("Received: " + line);   
+                } else {
+                    System.out.print(".");
+                }
                 String cmd = line.split(" ")[0];
                 switch (cmd) {
                 case "set": // format: set [var_name] [value] (can be sent directly to FG)

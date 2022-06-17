@@ -39,12 +39,12 @@ public class Model extends Observable {
         	System.out.println("trying to connect to fg");
             try {
                 fgSet = new Socket(ip, fgport);
+                System.out.println("Connected to FG!");
                 outToFg = new PrintWriter(fgSet.getOutputStream(), true);
                 // have to add "--prop:/sim/user/callsign=<Something>" in fg additional settings
     			responseFromFg = new BufferedReader(new InputStreamReader(fgSet.getInputStream()));
                 outToFg.println("data");
                 callsign = getParam("get /sim/user/callsign");//gets Flight Name
-                System.out.println("Connected to FG!");
                 System.out.println("Callsign: " + callsign);
                 return;
             } catch (IOException e) {

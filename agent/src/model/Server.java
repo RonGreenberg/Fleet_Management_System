@@ -12,11 +12,9 @@ public class Server {
 		void handleClient(InputStream inFromClient);
 	}
 	
-	volatile boolean stop;
 	int port;
 	ClientHandler ch;
 	public Server(int port, ClientHandler ch) {
-		stop=false;
 		this.port = port;
 		this.ch = ch;
 	}
@@ -26,14 +24,16 @@ public class Server {
 		try {
 			ServerSocket server=new ServerSocket(port);
 			server.setSoTimeout(1000);
-			while(!stop){
+			while (true){
 				try{
 					Socket aClient=server.accept(); // blocking call
+					System.out.println("FlightGear connected to agent!");
 					ch.handleClient(aClient.getInputStream());
 					aClient.close();
+					server.close();
+					return;
 				}catch(SocketTimeoutException e) {}
 			}
-			server.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -41,11 +41,6 @@ public class Server {
 	
 	// runs the server in its own thread
 	public void start() {
-		stop = false;
 		new Thread(()->startServer()).start();
-	}
-	
-	public void stop() {
-		stop=true;
 	}
 }
