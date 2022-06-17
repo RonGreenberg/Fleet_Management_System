@@ -74,7 +74,9 @@ public class Model extends Observable {
 
         try {
         	outToFg.println(getCmd);
+        	System.out.println("getCmd is: " + getCmd);
 			str = responseFromFg.readLine().trim();
+			System.out.println("str is: " + str);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -40,7 +40,8 @@ public class Controller implements Observer
         try {
             while (!(line = inFromBE.readLine()).equals("disconnect")) { // Backend disconnects the agent when the flight is finished
                 System.out.println("Received: " + line);
-                switch (line) {
+                String cmd = line.split(" ")[0];
+                switch (cmd) {
                 case "set": // format: set [var_name] [value] (can be sent directly to FG)
                     outToBE.println(model.setVar(line));
                     break;
@@ -64,11 +65,11 @@ public class Controller implements Observer
                     break;
                 }
                 outToBE.println(Character.MIN_VALUE); // sending the \0 character to indicate end of response
-            }
+            }			
+            Runtime.getRuntime().exec("taskkill /F /IM fgfs.exe");            
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
         try {
             inFromBE.close();
             outToBE.close();
@@ -76,7 +77,7 @@ public class Controller implements Observer
             e.printStackTrace();
         }
     }
-
+    
 	@Override
 	public void update(Observable o, Object arg) {
 //		if(o == view) {

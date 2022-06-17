@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Scanner;
 
 import model.Server.ClientHandler;
 
@@ -22,6 +23,19 @@ public class FGClientHandler implements ClientHandler{
     
 	@Override
 	public void handleClient(InputStream inFromClient) {
+		new Thread(()->{
+			Scanner s = new Scanner(System.in);
+			String input;
+			do {
+				input = s.next();
+			}while(!input.equals("stop"));
+			s.close();
+			try {
+				inFromClient.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}).start();
 		BufferedReader inFromFg = new BufferedReader(new InputStreamReader(inFromClient));
 		while(Model.fileName == null) {
 			try {
@@ -38,10 +52,10 @@ public class FGClientHandler implements ClientHandler{
 				csv.println(line);
 				Model.currentLine.compareAndSet(Model.currentLine.get(), line);
 			}
-			 Model.status = "finished";
+		} catch (IOException e) {System.out.println("finished");}
+		finally {			
+			Model.status = "finished";
 			csv.close();
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
 	
