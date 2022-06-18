@@ -64,8 +64,6 @@ public class ExpressionEvaluator {
         
         exp = exp.replaceAll("--", "+"); // replacing all occurrences of minus-minus with a plus
         
-        System.out.println(exp);
-        
         /* Reading each individual character can be problematic when it comes to numbers
          * that may consist of more than one digit or even have a decimal point.
          * So we can use a regular expression to split the given expression into

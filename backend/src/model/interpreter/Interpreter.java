@@ -213,6 +213,12 @@ public class Interpreter {
                         e.printStackTrace();   
                     }
                 }
+                
+                // resetting the values of the simulator vars map, for the next interpreter run
+                for (Map.Entry<String, ProgramVar> entry : simVarsSymTable.entrySet()) {
+                    entry.getValue().setValue(0.0);
+                }
+                
                 status = 0;
                 Controller.removeTask("Interpreter");
                 // stop getFlightData thread

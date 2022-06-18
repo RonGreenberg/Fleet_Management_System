@@ -52,6 +52,7 @@ public class Model {
         }
         
         try {
+            Interpreter.stop = false; // in case someone killed the interpreter earlier, we want to be able to start it again...
             List<String> lines = Files.readAllLines(Paths.get(filename));
             interpreter.interpret(lines, c.getClientIDForPlane(planeID)); // interprets in a background thread
         } catch (IOException e) {
@@ -79,7 +80,7 @@ public class Model {
         String latitude = AgentServer.send(clientID, "get /position/latitude-deg");
         String longitude = AgentServer.send(clientID, "get /position/longitude-deg");
         String position = latitude + ";" + longitude;
-        String heading = AgentServer.send(clientID, "get /instrumentation/heading-indicator/offset-deg");
+        String heading = AgentServer.send(clientID, "get /instrumentation/heading-indicator/indicated-heading-deg");
         String altitudeFt = AgentServer.send(clientID, "get /instrumentation/altimeter/indicated-altitude-ft"); // frontend should convert to kft
         String airspeed = AgentServer.send(clientID, "get /instrumentation/airspeed-indicator/indicated-speed-kt");
         return new String[] { position, heading, altitudeFt, airspeed };
