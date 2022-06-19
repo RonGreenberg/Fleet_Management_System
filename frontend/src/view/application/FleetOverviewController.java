@@ -19,7 +19,7 @@ public class FleetOverviewController {
 	private MapView mapView;
 	
 	
-private Map<String, Marker> markers = new HashMap<>();
+	private Map<String, Marker> markers = new HashMap<>();
 	
 	public FleetOverviewController() {
 		Marker markerCenter = new Marker(getClass().getResource("/ActivePlane.png")).setVisible(true);
