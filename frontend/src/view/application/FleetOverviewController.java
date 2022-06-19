@@ -7,10 +7,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.sothawo.mapjfx.Coordinate;
+import com.sothawo.mapjfx.MapLabel;
 import com.sothawo.mapjfx.MapType;
 import com.sothawo.mapjfx.MapView;
 import com.sothawo.mapjfx.Marker;
 import com.sothawo.mapjfx.Marker.Provided;
+import com.sothawo.mapjfx.event.MarkerEvent;
 import com.sothawo.mapjfx.offline.OfflineCache;
 
 import javafx.animation.Timeline;
@@ -24,13 +26,15 @@ public class FleetOverviewController {
 	private MapView mapView;
 	
 	private Map<String, Marker> markers = new HashMap<>();
+	private MapLabel popup;
 	
 	public FleetOverviewController() {
-		String[] planeIDs = BackendMethods.getPlaneIDs("all");
-		for(String planeID : planeIDs)
-		{
-			markers.put(planeID, Marker.createProvided(Provided.RED));
-		}
+		//String[] planeIDs = BackendMethods.getPlaneIDs("all");
+//		for(String planeID : planeIDs)
+//		{
+//			markers.put(planeID, Marker.createProvided(Provided.RED));
+//		}
+		popup = new MapLabel("text<br>text", 40, 20).setCssClass("blue-label");
 	}
 	
 	@FXML
@@ -52,10 +56,12 @@ public class FleetOverviewController {
         
         mapView.initializedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
-                updateMap();
-            	Timeline timeLine = new Timeline(new KeyFrame(Duration.seconds(60), e -> updateMap()));
-            	timeLine.setCycleCount(Timeline.INDEFINITE);
-            	timeLine.play();
+            	popup.setPosition(mapView.getCenter()).setVisible(true);
+            	mapView.addLabel(popup);
+//                updateMap();
+//            	Timeline timeLine = new Timeline(new KeyFrame(Duration.seconds(60), e -> updateMap()));
+//            	timeLine.setCycleCount(Timeline.INDEFINITE);
+//            	timeLine.play();
             }
         });
         
@@ -67,15 +73,12 @@ public class FleetOverviewController {
 //        	markersCreatedOnClick.put(marker.getId(), marker);
 //        });
 //        
-//        mapView.addEventHandler(MarkerEvent.MARKER_CLICKED, event -> {
-//        	event.consume();
-//        	Marker marker = markersCreatedOnClick.remove(event.getMarker().getId());
-//        	if (null != marker) {
-//        		mapView.removeMarker(marker);
-//        	}
-//        });
+        mapView.addEventHandler(MarkerEvent.MARKER_CLICKED, event -> {
+        	event.consume();
+        	popup.setVisible(!popup.getVisible());
+        });
         
-		//mapView.setCustomMapviewCssURL(getClass().getResource("custom_mapview.css"));
+		mapView.setCustomMapviewCssURL(getClass().getResource("/custom_mapview.css"));
 		mapView.initialize();
 	}
 	
