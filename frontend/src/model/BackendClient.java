@@ -19,7 +19,9 @@ public class BackendClient {
             out = new PrintWriter(socket.getOutputStream(), true);
             System.out.println("Connected to backend!");
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+        	System.out.println("Could not connect to backend");
+        	
         }
     }
     

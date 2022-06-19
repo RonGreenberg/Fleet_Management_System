@@ -1,5 +1,6 @@
 package view.application;
 import model.AppModel;
+import model.BackendClient;
 import viewModel.AppViewModel;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -12,6 +13,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
+        	BackendClient client = new BackendClient();
             //FXMLLoader fxml = new FXMLLoader();
             AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("Main.fxml"));
 //            AppModel m = new AppModel();

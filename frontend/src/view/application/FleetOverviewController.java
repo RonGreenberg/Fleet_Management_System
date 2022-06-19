@@ -12,7 +12,11 @@ import com.sothawo.mapjfx.MapView;
 import com.sothawo.mapjfx.Marker;
 import com.sothawo.mapjfx.offline.OfflineCache;
 
+import javafx.animation.Timeline;
+import javafx.animation.KeyFrame;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.util.Duration;
 import model.BackendMethods;
 
 public class FleetOverviewController {
@@ -21,6 +25,7 @@ public class FleetOverviewController {
 	
 	
 	private Map<String, Marker> markers = new HashMap<>();
+	//Marker newMarker = new Marker(getClass().getResource("/InactivePlane.png")).setVisible(true);
 	
 	public FleetOverviewController() {
 		String[] planeIDs = BackendMethods.getPlaneIDs("All");
@@ -49,18 +54,14 @@ public class FleetOverviewController {
         
         mapView.initializedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
-            	addMarkers();
-            	while(true)
-            	{
-	            	update();
-	            	try {
-	        			Thread.sleep(60000);
-	        		
-	        		} catch (InterruptedException e) {
-	        			// TODO Auto-generated catch block
-	        			e.printStackTrace();
-	        		}
-            	}
+            	//addMarkers();
+//                newMarker.setPosition(new Coordinate(30.772717,34.65305));
+//                mapView.addMarker(newMarker);
+//                System.out.println("added marker");
+                updateMap();
+            	Timeline timeLine = new Timeline(new KeyFrame(Duration.seconds(60), e -> updateMap()));
+            	timeLine.setCycleCount(Timeline.INDEFINITE);
+            	timeLine.play();
             }
         });
         
@@ -84,23 +85,25 @@ public class FleetOverviewController {
 		mapView.initialize();
 	}
 	
-	public void update()
-	{
-		for(Map.Entry<String, Marker> entry : markers.entrySet())
-		{
+	public void updateMap() {
+		for(Map.Entry<String, Marker> entry : markers.entrySet()) {
 			String[] planeData = BackendMethods.getPlaneData(entry.getKey());
 			String[] xyStr = planeData[3].split(";");
+			System.out.println(xyStr[0] + "," + xyStr[1]);
 			Coordinate xy = new Coordinate(Double.parseDouble(xyStr[0]), Double.parseDouble(xyStr[1]));
-			entry.getValue().setPosition(xy);
+			double heading = Double.parseDouble(planeData[4]);
 			
-			entry.getValue().setRotation(Integer.parseInt(planeData[4]));
-			
+			Marker marker = entry.getValue();
+			marker.setPosition(xy).setRotation((int)heading);
+			mapView.removeMarker(marker);
+			mapView.addMarker(marker);
 		}
 	}
-	
-	public void addMarkers() {
-		for (Map.Entry<String, Marker> entry : markers.entrySet()) {
-			mapView.addMarker(entry.getValue());
-		}
-	}
+//	
+//	public void addMarkers() {
+//		for (Map.Entry<String, Marker> entry : markers.entrySet()) {
+//			mapView.addMarker(entry.getValue().setPosition(mapView.getCenter()));
+//			System.out.println("Added marker");
+//		}
+//	}
 }
