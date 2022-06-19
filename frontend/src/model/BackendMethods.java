@@ -23,4 +23,9 @@ public class BackendMethods {
     public static String getFlightDetails(int flightID) {
         return BackendClient.send("getFlightDetails " + flightID);    
     }
+    
+    public static boolean isPlaneActive(String planeID)
+    {
+    	return Boolean.parseBoolean(BackendClient.send("isPlaneActive " + planeID));
+    }
 }

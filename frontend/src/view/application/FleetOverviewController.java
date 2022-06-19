@@ -31,7 +31,7 @@ public class FleetOverviewController {
 		String[] planeIDs = BackendMethods.getPlaneIDs("All");
 		for(String planeID : planeIDs)
 		{
-			markers.put(planeID, new Marker(getClass().getResource("/InactivePlane.png")).setVisible(true));
+			markers.put(planeID, null);
 		}
 	}
 	
@@ -93,9 +93,15 @@ public class FleetOverviewController {
 			Coordinate xy = new Coordinate(Double.parseDouble(xyStr[0]), Double.parseDouble(xyStr[1]));
 			double heading = Double.parseDouble(planeData[4]);
 			
-			Marker marker = entry.getValue();
+			Marker marker;
+			mapView.removeMarker(entry.getValue());
+			if(BackendMethods.isPlaneActive(entry.getKey())){
+				marker = new Marker(getClass().getResource("/ActivePlane.png")).setVisible(true);
+			}else{
+				marker = new Marker(getClass().getResource("/InactivePlane.png")).setVisible(true);
+			}
+			markers.put(entry.getKey(), marker);
 			marker.setPosition(xy).setRotation((int)heading);
-			mapView.removeMarker(marker);
 			mapView.addMarker(marker);
 		}
 	}
