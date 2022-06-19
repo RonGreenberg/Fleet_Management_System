@@ -12,6 +12,7 @@ import com.sothawo.mapjfx.MapType;
 import com.sothawo.mapjfx.MapView;
 import com.sothawo.mapjfx.Marker;
 import com.sothawo.mapjfx.Marker.Provided;
+import com.sothawo.mapjfx.event.MapViewEvent;
 import com.sothawo.mapjfx.event.MarkerEvent;
 import com.sothawo.mapjfx.offline.OfflineCache;
 
@@ -20,8 +21,10 @@ import javafx.animation.KeyFrame;
 import javafx.fxml.FXML;
 import javafx.util.Duration;
 import model.BackendMethods;
+import model.PlaneData;
 
 public class FleetOverviewController {
+    
 	@FXML
 	private MapView mapView;
 	
@@ -29,12 +32,12 @@ public class FleetOverviewController {
 	private MapLabel popup;
 	
 	public FleetOverviewController() {
-		//String[] planeIDs = BackendMethods.getPlaneIDs("all");
-//		for(String planeID : planeIDs)
-//		{
-//			markers.put(planeID, Marker.createProvided(Provided.RED));
-//		}
-		popup = new MapLabel("text<br>text", 40, 20).setCssClass("blue-label");
+		String[] planeIDs = BackendMethods.getPlaneIDs("all");
+		for(String planeID : planeIDs)
+		{
+			markers.put(planeID, Marker.createProvided(Provided.RED));
+		}
+		popup = new MapLabel("text", 40, 20).setCssClass("blue-label");
 	}
 	
 	@FXML
@@ -56,26 +59,28 @@ public class FleetOverviewController {
         
         mapView.initializedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
-            	popup.setPosition(mapView.getCenter()).setVisible(true);
+            	popup.setPosition(mapView.getCenter()).setVisible(false);
             	mapView.addLabel(popup);
-//                updateMap();
-//            	Timeline timeLine = new Timeline(new KeyFrame(Duration.seconds(60), e -> updateMap()));
-//            	timeLine.setCycleCount(Timeline.INDEFINITE);
-//            	timeLine.play();
+                updateMap();
+            	Timeline timeLine = new Timeline(new KeyFrame(Duration.seconds(60), e -> updateMap()));
+            	timeLine.setCycleCount(Timeline.INDEFINITE);
+            	timeLine.play();
             }
         });
         
-//        mapView.addEventHandler(MapViewEvent.MAP_CLICKED, event -> {
-//        	final Marker marker = Marker.createProvided(Marker.Provided.RED)
-//        	.setPosition(event.getCoordinate())
-//        	.setVisible(true);
-//        	mapView.addMarker(marker);
-//        	markersCreatedOnClick.put(marker.getId(), marker);
-//        });
-//        
+        // hide the popup when clicking anywhere on the map
+        mapView.addEventHandler(MapViewEvent.MAP_CLICKED, event -> {
+        	popup.setVisible(false);
+        });
+       
         mapView.addEventHandler(MarkerEvent.MARKER_CLICKED, event -> {
-        	event.consume();
-        	popup.setVisible(!popup.getVisible());
+            // if popup is visible and we clicked the same plane, then hide the popup
+            if (popup.getVisible() && popup.getPosition().equals(event.getMarker().getPosition())) {
+                popup.setVisible(false);
+            } else { // we need to set a new position anyway
+                popup.setPosition(event.getMarker().getPosition());
+                popup.setVisible(true); // won't have an effect if the popup is already visible
+            }
         });
         
 		mapView.setCustomMapviewCssURL(getClass().getResource("/custom_mapview.css"));
@@ -84,10 +89,10 @@ public class FleetOverviewController {
 	
 	public void updateMap() {
 		for(Map.Entry<String, Marker> entry : markers.entrySet()) {
-			String[] planeData = BackendMethods.getPlaneData(entry.getKey());
-			String[] xyStr = planeData[3].split(";");
+			Map<PlaneData, String> data = BackendMethods.getPlaneData(entry.getKey());
+			String[] xyStr = data.get(PlaneData.POSITION).split(";");
 			Coordinate xy = new Coordinate(Double.parseDouble(xyStr[0]), Double.parseDouble(xyStr[1]));
-			double heading = Double.parseDouble(planeData[4]);
+			double heading = Double.parseDouble(data.get(PlaneData.HEADING));
 			
 			Marker marker;
 			mapView.removeMarker(entry.getValue());

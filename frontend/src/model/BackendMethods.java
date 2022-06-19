@@ -1,5 +1,8 @@
 package model;
 
+import java.util.EnumMap;
+import java.util.Map;
+
 public class BackendMethods {
     
     public static String interpret(String filename, String planeID) {
@@ -16,8 +19,14 @@ public class BackendMethods {
         return res;
     }
     
-    public static String[] getPlaneData(String planeID) {
-    	return BackendClient.send("getPlaneData " + planeID).split(",");
+    public static Map<PlaneData, String> getPlaneData(String planeID) {
+    	String[] fields = BackendClient.send("getPlaneData " + planeID).split(",");
+    	
+    	Map<PlaneData, String> map = new EnumMap<>(PlaneData.class);
+    	for (int i = 0; i < fields.length; i++) {
+    	    map.put(PlaneData.values()[i], fields[i]);
+    	}
+    	return map;
     }
     
     public static String getFlightDetails(int flightID) {
