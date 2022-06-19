@@ -75,6 +75,10 @@ public class Model {
         return String.join(",", QueriesUtil.getAllPlaneIDs()); // returning all planes otherwise
     }
     
+    public String isPlaneActive(String planeID) {
+        return c.isPlaneActive(planeID) ? "true" : "false";
+    }
+    
     public String[] getDetailsForMap(String planeID) {
         int clientID = c.getClientIDForPlane(planeID);
         String latitude = AgentServer.send(clientID, "get /position/latitude-deg");

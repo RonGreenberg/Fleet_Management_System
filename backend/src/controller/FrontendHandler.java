@@ -41,6 +41,9 @@ public class FrontendHandler {
                 case "getPlaneIDs": // either: getPlaneIDs active or getPlaneIDs all
                     out.println(m.getPlaneIDs(split[1]));
                     break;
+                case "isPlaneActive": // format: isPlaneActive [callsign]
+                    out.println(m.isPlaneActive(split[1]));
+                    break;
                 case "getPlaneData": // format: getPlaneData [callsign]
                     out.println(m.getPlaneData(split[1]));
                     break;
