@@ -13,6 +13,7 @@ import com.sothawo.mapjfx.Marker;
 import com.sothawo.mapjfx.offline.OfflineCache;
 
 import javafx.fxml.FXML;
+import model.BackendMethods;
 
 public class FleetOverviewController {
 	@FXML
@@ -22,9 +23,11 @@ public class FleetOverviewController {
 	private Map<String, Marker> markers = new HashMap<>();
 	
 	public FleetOverviewController() {
-		Marker markerCenter = new Marker(getClass().getResource("/ActivePlane.png")).setVisible(true);
-		markerCenter.setRotation(68);
-		markers.put(markerCenter.getId(), markerCenter);
+		String[] planeIDs = BackendMethods.getPlaneIDs("All");
+		for(String planeID : planeIDs)
+		{
+			markers.put(planeID, new Marker(getClass().getResource("/InactivePlane.png")).setVisible(true));
+		}
 	}
 	
 	@FXML
@@ -46,7 +49,18 @@ public class FleetOverviewController {
         
         mapView.initializedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
-                addMarkers();
+            	addMarkers();
+            	while(true)
+            	{
+	            	update();
+	            	try {
+	        			Thread.sleep(60000);
+	        		
+	        		} catch (InterruptedException e) {
+	        			// TODO Auto-generated catch block
+	        			e.printStackTrace();
+	        		}
+            	}
             }
         });
         
@@ -70,9 +84,22 @@ public class FleetOverviewController {
 		mapView.initialize();
 	}
 	
+	public void update()
+	{
+		for(Map.Entry<String, Marker> entry : markers.entrySet())
+		{
+			String[] planeData = BackendMethods.getPlaneData(entry.getKey());
+			String[] xyStr = planeData[3].split(";");
+			Coordinate xy = new Coordinate(Double.parseDouble(xyStr[0]), Double.parseDouble(xyStr[1]));
+			entry.getValue().setPosition(xy);
+			
+			entry.getValue().setRotation(Integer.parseInt(planeData[4]));
+			
+		}
+	}
+	
 	public void addMarkers() {
 		for (Map.Entry<String, Marker> entry : markers.entrySet()) {
-			entry.getValue().setPosition(mapView.getCenter());
 			mapView.addMarker(entry.getValue());
 		}
 	}
