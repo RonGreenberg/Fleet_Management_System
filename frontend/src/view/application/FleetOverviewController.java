@@ -89,10 +89,7 @@ public class FleetOverviewController {
 	
 	public void updateMap() {
 		for(Map.Entry<String, Marker> entry : markers.entrySet()) {
-			Map<PlaneData, String> data = BackendMethods.getPlaneData(entry.getKey());
-			String[] xyStr = data.get(PlaneData.POSITION).split(";");
-			Coordinate xy = new Coordinate(Double.parseDouble(xyStr[0]), Double.parseDouble(xyStr[1]));
-			double heading = Double.parseDouble(data.get(PlaneData.HEADING));
+			PlaneData data = BackendMethods.getPlaneData(entry.getKey());
 			
 			Marker marker;
 			mapView.removeMarker(entry.getValue());
@@ -102,7 +99,7 @@ public class FleetOverviewController {
 				marker = new Marker(getClass().getResource("/InactivePlane.png")).setVisible(true);
 			}
 			markers.put(entry.getKey(), marker);
-			marker.setPosition(xy).setRotation((int)heading);
+			marker.setPosition(new Coordinate(data.getLatitude(), data.getLongitude())).setRotation((int)data.getHeading());
 			mapView.addMarker(marker);
 		}
 	}

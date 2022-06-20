@@ -1,5 +1,6 @@
 package model;
 
+import java.sql.Date;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -19,22 +20,18 @@ public class BackendMethods {
         return res;
     }
     
-    public static Map<PlaneData, String> getPlaneData(String planeID) {
+    public static PlaneData getPlaneData(String planeID) {
     	String[] fields = BackendClient.send("getPlaneData " + planeID).split(",");
-    	
-    	Map<PlaneData, String> map = new EnumMap<>(PlaneData.class);
-    	for (int i = 0; i < fields.length; i++) {
-    	    map.put(PlaneData.values()[i], fields[i]);
-    	}
-    	return map;
+    	String[] coords = fields[3].split(";");
+    	return new PlaneData(fields[0], fields[1], Date.valueOf(fields[2]), Double.parseDouble(coords[0]), Double.parseDouble(coords[1]),
+    	        Double.parseDouble(fields[4]), Double.parseDouble(fields[5]), Double.parseDouble(fields[6]));
     }
     
     public static String[] getFlightDetails(int flightID) {
         return BackendClient.send("getFlightDetails " + flightID).split(",");
     }
     
-    public static boolean isPlaneActive(String planeID)
-    {
+    public static boolean isPlaneActive(String planeID) {
     	return Boolean.parseBoolean(BackendClient.send("isPlaneActive " + planeID));
     }
 }
