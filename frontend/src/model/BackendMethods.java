@@ -29,8 +29,8 @@ public class BackendMethods {
     	return map;
     }
     
-    public static String getFlightDetails(int flightID) {
-        return BackendClient.send("getFlightDetails " + flightID);    
+    public static String[] getFlightDetails(int flightID) {
+        return BackendClient.send("getFlightDetails " + flightID).split(",");
     }
     
     public static boolean isPlaneActive(String planeID)
