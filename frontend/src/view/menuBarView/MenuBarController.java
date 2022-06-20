@@ -10,6 +10,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.MenuItem;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import model.AppModel;
 import model.BackendMethods;
 
 import java.io.File;
@@ -88,7 +89,10 @@ public class MenuBarController {
             flightList.getItems().clear();
         }
     }
-
+    @FXML
+    void selectFlight(ActionEvent event) {
+        sCsvFile.setValue(BackendMethods.getFlightDetails(Integer.parseInt(flightList.getValue()))[2] )  ;
+    }
     public MenuItem getJsonSettings() {
         return jsonSettings;
     }

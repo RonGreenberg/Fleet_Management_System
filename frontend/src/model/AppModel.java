@@ -236,7 +236,7 @@ public class AppModel {
         this.sp.setFlightSettings(flightSettings);
         loadIndexes();
         this.timestamp.bindBidirectional(sp.timeStampProperty());
-        this.timeSeriesTrain = new TimeSeries(flightSettings.getValidFlightPath());
+        //this.timeSeriesTrain = new TimeSeries(flightSettings.getValidFlightPath());
     }
 
 
