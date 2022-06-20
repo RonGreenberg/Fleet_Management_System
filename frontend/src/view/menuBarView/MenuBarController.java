@@ -73,18 +73,20 @@ public class MenuBarController {
             sAlgoFile.setValue(f.getPath());
         }
     }
+
     @FXML
     void selectPlane(ActionEvent event) {
-      if(!planeChoose.getValue().equals("Choose Plane")  )
-      {
-          String [] flightIDs=  BackendMethods.getFlightIDs(planeChoose.getValue());
-          flightList.setItems(FXCollections.observableArrayList(flightIDs));
-          flightList.setDisable(false);
-      }
-      else
-      {
-          flightList.setDisable(true);
-      }
+        if(!planeChoose.getValue().equals("Choose Plane")  )
+        {
+            flightList.setDisable(false);
+            String [] flightIDs=  BackendMethods.getFlightIDs(planeChoose.getValue());
+            flightList.setItems(FXCollections.observableArrayList(flightIDs));
+        }
+        else
+        {
+            flightList.setDisable(true);
+            flightList.getItems().clear();
+        }
     }
 
     public MenuItem getJsonSettings() {
