@@ -1,4 +1,4 @@
-package view.dashboardView;
+package TimeCapsule.dashboardView;
 
 import java.net.URL;
 import java.util.ResourceBundle;

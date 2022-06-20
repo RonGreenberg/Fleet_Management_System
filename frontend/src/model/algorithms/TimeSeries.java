@@ -13,13 +13,13 @@ public class TimeSeries {
 
     public ArrayList<String> namesOfFeatures = new ArrayList<String>();
     public ArrayList<float[]> data = new ArrayList<float[]>();
-    public float coral; //the threashold we choose
+    public float threshold; //the threshold we choose
     public int totalTime;
 
 
     public TimeSeries(String Path) {
 
-        this.coral = (float) 0.9;
+        this.threshold = (float) 0.9;
         String line = "";
         try {
 
@@ -151,11 +151,11 @@ public class TimeSeries {
     }
 
     public float getCoral() {
-        return coral;
+        return threshold;
     }
 
     public void setCoral(float coral) {
-        this.coral = coral;
+        this.threshold = coral;
     }
 
 
