@@ -15,7 +15,7 @@
 	           </Tab>
 	           <Tab closable="false" text="Monitoring">
                    <content>
-                       <fx:include source="Sample.fxml" />
+                       <fx:include source="Monitoring.fxml" />
                    </content>
                </Tab>
 			   <Tab closable="false" text="Time Capsule">
