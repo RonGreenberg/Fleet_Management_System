@@ -12,7 +12,7 @@
 
 <BorderPane prefHeight="651.0" prefWidth="1273.0" style="-fx-border-color: black; -fx-border-width: 3;"
             xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="Monitoring.viewMonitoring.GUIControllerMonitoring">
+            fx:controller="view.application.GUIController">
     <!-- TODO Add Nodes -->
     <right>
         <FlowPane prefHeight="506.0" prefWidth="399.0" BorderPane.alignment="CENTER">
@@ -33,10 +33,6 @@
     <left>
         <FeatureList fx:id="featureList"></FeatureList>
     </left>
-<!--
-    <bottom>
-        <TimeLine fx:id="timeLine"></TimeLine>
-    </bottom>
--->
+
 </BorderPane>
 

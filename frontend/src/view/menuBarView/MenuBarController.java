@@ -1,15 +1,19 @@
 package view.menuBarView;
 
-import java.io.File;
-import java.nio.file.Paths;
-
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.MenuItem;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import model.AppModel;
+import model.BackendMethods;
+
+import java.io.File;
 
 public class MenuBarController {
     @FXML
@@ -18,6 +22,10 @@ public class MenuBarController {
     private MenuItem csvFile;
     @FXML
     private MenuItem algoChoose;
+    @FXML
+    private ComboBox<String> planeChoose, flightList;
+
+
     private StringProperty sSettingFile;
     private StringProperty sCsvFile;
     private StringProperty sAlgoFile;
@@ -29,6 +37,8 @@ public class MenuBarController {
     @FXML
     private void initialize() {
         //
+        String [] planeId=  BackendMethods.getPlaneIDs("all");
+        planeChoose.setItems(FXCollections.observableArrayList(planeId));
         sSettingFile = new SimpleStringProperty("");
         sCsvFile = new SimpleStringProperty("");
         sAlgoFile = new SimpleStringProperty("");
@@ -65,6 +75,24 @@ public class MenuBarController {
         }
     }
 
+    @FXML
+    void selectPlane(ActionEvent event) {
+        if(!planeChoose.getValue().equals("Choose Plane")  )
+        {
+            flightList.setDisable(false);
+            String [] flightIDs=  BackendMethods.getFlightIDs(planeChoose.getValue());
+            flightList.setItems(FXCollections.observableArrayList(flightIDs));
+        }
+        else
+        {
+            flightList.setDisable(true);
+            flightList.getItems().clear();
+        }
+    }
+    @FXML
+    void selectFlight(ActionEvent event) {
+        sCsvFile.setValue(BackendMethods.getFlightDetails(Integer.parseInt(flightList.getValue()))[2] )  ;
+    }
     public MenuItem getJsonSettings() {
         return jsonSettings;
     }

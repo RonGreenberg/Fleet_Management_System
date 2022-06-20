@@ -2,9 +2,8 @@ package model;
 
 
 import model.algorithms.*;
-import model.statlib.Line;
-import model.statlib.Point;
-import viewModel.FlightSettings;
+import model.statlib.*;
+import viewModel.*;
 import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.FloatProperty;
@@ -237,7 +236,7 @@ public class AppModel {
         this.sp.setFlightSettings(flightSettings);
         loadIndexes();
         this.timestamp.bindBidirectional(sp.timeStampProperty());
-        this.timeSeriesTrain = new TimeSeries(flightSettings.getValidFlightPath());
+        //this.timeSeriesTrain = new TimeSeries(flightSettings.getValidFlightPath());
     }
 
 

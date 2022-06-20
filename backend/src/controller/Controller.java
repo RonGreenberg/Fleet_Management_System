@@ -63,6 +63,7 @@ public class Controller {
                     String status = details.split(",")[1];
                     if (status.equals("finished")) {
                         model.stopInterpreter(); // killing the interpreter in case it is still running
+                        activePlanes.remove(planeID); // immediately removing from active planes so that it would be reflected in the frontend (and it won't have to wait until the file transfer finishes)
                         
                         String[] planeDetails = model.getDetailsForMap(planeID);
                         Double lastHeading = Double.parseDouble(planeDetails[1]);
@@ -77,7 +78,6 @@ public class Controller {
                         System.out.println("Saved flight in database!");
                         
                         agentServer.disconnect(clientID);
-                        activePlanes.remove(planeID);
                         System.out.println("Disconnected plane: " + planeID);
                     }
                 }

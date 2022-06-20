@@ -4,8 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.beans.property.FloatProperty;
 import javafx.beans.property.SimpleFloatProperty;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.fxml.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 

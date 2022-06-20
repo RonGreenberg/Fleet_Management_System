@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1">
+	<children>
+	   <TabPane tabClosingPolicy="UNAVAILABLE" prefHeight="800.0" prefWidth="1400.0">
+	       <tabs>
+	           <Tab closable="false" text="Fleet Overview">
+	               <content>
+	                   <fx:include source="FleetOverview.fxml" />
+	               </content>
+	           </Tab>
+	           <Tab closable="false" text="Monitoring">
+                   <content>
+                       <fx:include source="Monitoring.fxml" />
+                   </content>
+               </Tab>
+			   <Tab closable="false" text="Time Capsule">
+				   <content>
+					   <fx:include source="TimeCapsule.fxml" />
+				   </content>
+			   </Tab>
+	       </tabs>
+	   </TabPane>
+	</children>
+</AnchorPane>
+

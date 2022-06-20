@@ -35,11 +35,17 @@ public class FrontendHandler {
                 case "get": // format: get [var_name] [callsign]
                     out.println(m.getVar(split[1], split[2]));
                     break;
+                case "getFlightParamsLine": // format: getFlightParamsLine [callsign]
+                    out.println(m.getFlightParamsLine(split[1]));
+                    break;
                 case "interpret": // format: interpret [script_filename] [callsign]
                     out.println(m.interpret(split[1], split[2]));
                     break;
                 case "getPlaneIDs": // either: getPlaneIDs active or getPlaneIDs all
                     out.println(m.getPlaneIDs(split[1]));
+                    break;
+                case "isPlaneActive": // format: isPlaneActive [callsign]
+                    out.println(m.isPlaneActive(split[1]));
                     break;
                 case "getPlaneData": // format: getPlaneData [callsign]
                     out.println(m.getPlaneData(split[1]));

@@ -45,6 +45,15 @@ public class Model {
         return res;
     }
     
+    public String getFlightParamsLine(String planeID) {
+        int clientID = c.getClientIDForPlane(planeID);
+        String res = AgentServer.send(clientID, "getFlightParamsLine");
+        if (res == null) {
+            return "Client disconnected during get line request";
+        }
+        return res;
+    }
+    
     // this function exits immediately
     public String interpret(String filename, String planeID) {
         if (interpreter.getStatus() == 1) {
@@ -73,6 +82,10 @@ public class Model {
         }
         
         return String.join(",", QueriesUtil.getAllPlaneIDs()); // returning all planes otherwise
+    }
+    
+    public String isPlaneActive(String planeID) {
+        return c.isPlaneActive(planeID) ? "true" : "false";
     }
     
     public String[] getDetailsForMap(String planeID) {
