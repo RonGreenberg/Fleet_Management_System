@@ -18,6 +18,11 @@
                        <fx:include source="Sample.fxml" />
                    </content>
                </Tab>
+			   <Tab closable="false" text="Time Capsule">
+				   <content>
+					   <fx:include source="TimeCapsule.fxml" />
+				   </content>
+			   </Tab>
 	       </tabs>
 	   </TabPane>
 	</children>

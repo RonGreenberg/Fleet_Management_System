@@ -33,8 +33,6 @@
     <left>
         <FeatureList fx:id="featureList"></FeatureList>
     </left>
-    <bottom>
-        <TimeLine fx:id="timeLine"></TimeLine>
-    </bottom>
+
 </BorderPane>
 
