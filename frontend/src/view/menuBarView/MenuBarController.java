@@ -5,6 +5,7 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.MenuItem;
 import javafx.stage.FileChooser;
@@ -21,7 +22,9 @@ public class MenuBarController {
     @FXML
     private MenuItem algoChoose;
     @FXML
-    private ComboBox<String> planeChoose;
+    private ComboBox<String> planeChoose, flightList;
+    @FXML
+    private Button planeChooseBtn;
 
     private StringProperty sSettingFile;
     private StringProperty sCsvFile;
@@ -70,6 +73,14 @@ public class MenuBarController {
         if (f != null) {
             sAlgoFile.setValue(f.getPath());
         }
+    }
+    @FXML
+    void selectPlane(ActionEvent event) {
+      if(!planeChoose.getValue().equals("Choose Plane")  )
+      {
+          String [] flightIDs=  BackendMethods.getFlightIDs(planeChoose.getValue());
+          flightList.setItems(FXCollections.observableArrayList(flightIDs));
+      }
     }
 
     public MenuItem getJsonSettings() {
