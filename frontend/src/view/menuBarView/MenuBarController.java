@@ -21,7 +21,7 @@ public class MenuBarController {
     @FXML
     private MenuItem algoChoose;
     @FXML
-    private ComboBox planeChoose;
+    private ComboBox<String> planeChoose;
 
     private StringProperty sSettingFile;
     private StringProperty sCsvFile;
@@ -34,6 +34,8 @@ public class MenuBarController {
     @FXML
     private void initialize() {
         //
+        String [] planeId=  BackendMethods.getPlaneIDs("all");
+        planeChoose.setItems(FXCollections.observableArrayList(planeId));
         sSettingFile = new SimpleStringProperty("");
         sCsvFile = new SimpleStringProperty("");
         sAlgoFile = new SimpleStringProperty("");
@@ -68,12 +70,6 @@ public class MenuBarController {
         if (f != null) {
             sAlgoFile.setValue(f.getPath());
         }
-    }
-    @FXML
-    void xmlGetAllPlane(ActionEvent event) {
-       String [] planeId=  BackendMethods.getPlaneIDs("all");
-        planeChoose.setItems(FXCollections.observableArrayList(planeId));
-
     }
 
     public MenuItem getJsonSettings() {
