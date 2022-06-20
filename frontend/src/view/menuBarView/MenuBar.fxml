@@ -25,6 +25,5 @@
         </menus>
       </MenuBar>
     <ComboBox fx:id="planeChoose" layoutX="391.0" prefWidth="150.0" promptText="Choose Plane" />
-   <Button  fx:id="planeChooseBtn" layoutX="576.0" mnemonicParsing="false" text="Select Plane" onAction="#selectPlane"  />
-   <ComboBox fx:id="flightList" disable="true" layoutX="683.0" prefWidth="150.0" promptText="Select Flight" />
+   <ComboBox fx:id="flightList" disable="true" layoutX="683.0" prefWidth="150.0" promptText="Select Flight" onAction="#selectPlane" />
 </AnchorPane>

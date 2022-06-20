@@ -23,8 +23,7 @@ public class MenuBarController {
     private MenuItem algoChoose;
     @FXML
     private ComboBox<String> planeChoose, flightList;
-    @FXML
-    private Button planeChooseBtn;
+
 
     private StringProperty sSettingFile;
     private StringProperty sCsvFile;
@@ -81,6 +80,10 @@ public class MenuBarController {
           String [] flightIDs=  BackendMethods.getFlightIDs(planeChoose.getValue());
           flightList.setItems(FXCollections.observableArrayList(flightIDs));
           flightList.setDisable(false);
+      }
+      else
+      {
+          flightList.setDisable(true);
       }
     }
 
