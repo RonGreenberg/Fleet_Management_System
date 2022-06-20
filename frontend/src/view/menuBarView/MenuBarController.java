@@ -80,6 +80,7 @@ public class MenuBarController {
       {
           String [] flightIDs=  BackendMethods.getFlightIDs(planeChoose.getValue());
           flightList.setItems(FXCollections.observableArrayList(flightIDs));
+          flightList.setDisable(false);
       }
     }
 
