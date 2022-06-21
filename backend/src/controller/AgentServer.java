@@ -90,7 +90,7 @@ public class AgentServer {
         connectedClients.remove(clientID);
     }
     
-    public void disconnect(int clientID) {
+    public synchronized void disconnect(int clientID) {
         Socket client = connectedClients.get(clientID);
         try {
             PrintWriter out = new PrintWriter(client.getOutputStream(), true);

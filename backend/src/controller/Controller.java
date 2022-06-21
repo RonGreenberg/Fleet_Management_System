@@ -1,9 +1,13 @@
 package controller;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import model.Model;
 import model.orm.Flight;
@@ -16,7 +20,8 @@ public class Controller {
     private Map<String, Integer> activePlanes;
     private AgentServer agentServer;
     private FrontendServer frontendServer;
-    private static Map<String, String> activeTasks;
+    private static Map<String, String> activeTasks; // for the View
+    private List<Integer> finishingClients; // list of clients who are in the process of finishing the connection (which takes time because of the flight file transfer)
     private Model model;
     private int agentServerPort = 1000;
     private int frontendServerPort = 2000;
@@ -27,6 +32,7 @@ public class Controller {
         agentServer = new AgentServer(agentServerPort);
         frontendServer = new FrontendServer(frontendServerPort, new FrontendHandler(model));
         activeTasks = new LinkedHashMap<>(); // so that we print threads in the order they were opened
+        finishingClients = Collections.synchronizedList(new ArrayList<>()); // because for example, we could have one thread adding a new client to the list and another one removing another client after disconnecting, simultaneously
     }
     
     public void start() {
@@ -45,6 +51,11 @@ public class Controller {
             while (true) {
                 Set<Integer> clients = agentServer.getConnectedClients();
                 for (int clientID : clients) {
+                    // not interfering with clients who are in the process of finishing
+                    if (finishingClients.contains(clientID)) {
+                        continue;
+                    }
+                    
                     String details = AgentServer.send(clientID, "getStatus");
                     // checking if agent closed the connection abruptly
                     if (details == null) {
@@ -62,23 +73,30 @@ public class Controller {
                     
                     String status = details.split(",")[1];
                     if (status.equals("finished")) {
-                        model.stopInterpreter(); // killing the interpreter in case it is still running
-                        activePlanes.remove(planeID); // immediately removing from active planes so that it would be reflected in the frontend (and it won't have to wait until the file transfer finishes)
-                        
-                        String[] planeDetails = model.getDetailsForMap(planeID);
-                        Double lastHeading = Double.parseDouble(planeDetails[1]);
-                        Double lastAltitude = Double.parseDouble(planeDetails[2]);
-                        QueriesUtil.updatePlaneDetails(planeID, planeDetails[0], lastHeading, lastAltitude); // airspeed is not stored in DB
-                        
-                        String fileName = model.getAndSaveFlightFile(planeID);
-                        Flight flight = new Flight();
-                        flight.setPlaneID(planeID);
-                        flight.setCsvFileName(fileName);
-                        QueriesUtil.saveFlight(flight);
-                        System.out.println("Saved flight in database!");
-                        
-                        agentServer.disconnect(clientID);
-                        System.out.println("Disconnected plane: " + planeID);
+                        finishingClients.add(clientID);
+                        new Thread(()->{
+                            addTask("Finishing connection with plane: " + planeID);
+                            
+                            model.stopInterpreter(); // killing the interpreter in case it is still running
+                            
+                            String[] planeDetails = model.getDetailsForMap(planeID);
+                            Double lastHeading = Double.parseDouble(planeDetails[1]);
+                            Double lastAltitude = Double.parseDouble(planeDetails[2]);
+                            QueriesUtil.updatePlaneDetails(planeID, planeDetails[0], lastHeading, lastAltitude); // airspeed is not stored in DB
+                            
+                            String fileName = model.getAndSaveFlightFile(planeID); // takes time...
+                            Flight flight = new Flight();
+                            flight.setPlaneID(planeID);
+                            flight.setCsvFileName(fileName);
+                            QueriesUtil.saveFlight(flight);
+                            System.out.println("Saved flight in database!");
+                            
+                            agentServer.disconnect(clientID);
+                            System.out.println("Disconnected plane: " + planeID);
+                            activePlanes.remove(planeID);
+                            finishingClients.remove(clientID);
+                            removeTask("Finishing connection with plane: " + planeID);
+                        }).start();
                     }
                 }
                 
@@ -99,11 +117,13 @@ public class Controller {
     }
     
     public Set<String> getActivePlaneIDs() {
-        return activePlanes.keySet();
+        // returning active planes, but filtering out those that are actually declared finished
+        return activePlanes.keySet().stream().filter(planeID->!finishingClients.contains(activePlanes.get(planeID))).collect(Collectors.toSet());
     }
     
     public boolean isPlaneActive(String planeID) {
-        return activePlanes.containsKey(planeID);
+        // checking if the plane is active and not in the process of finishing
+        return activePlanes.containsKey(planeID) && !finishingClients.contains(activePlanes.get(planeID));
     }
     
     public int getClientIDForPlane(String planeID) {
