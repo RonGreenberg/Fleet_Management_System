@@ -35,7 +35,7 @@
    <right>
         <AnchorPane prefHeight="528.0" prefWidth="1039.0" BorderPane.alignment="CENTER">
             <children>
-                <PieChart layoutX="622.0" layoutY="79.0" prefHeight="250.0" prefWidth="250.0" />
+                <PieChart fx:id="pieChart" layoutX="622.0" layoutY="79.0" prefHeight="250.0" prefWidth="250.0" />
                 <LineChart layoutX="260.0" layoutY="79.0" prefHeight="250.0" prefWidth="250.0">
                     <xAxis>
                         <CategoryAxis side="BOTTOM" />

@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Observable;
 
 import com.sothawo.mapjfx.Coordinate;
 import com.sothawo.mapjfx.MapLabel;
@@ -17,8 +18,11 @@ import com.sothawo.mapjfx.event.MarkerEvent;
 import com.sothawo.mapjfx.offline.OfflineCache;
 
 import javafx.animation.Timeline;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.animation.KeyFrame;
 import javafx.fxml.FXML;
+import javafx.scene.chart.PieChart;
 import javafx.util.Duration;
 import model.BackendMethods;
 import model.PlaneData;
@@ -27,6 +31,8 @@ public class FleetOverviewController {
     
 	@FXML
 	private MapView mapView;
+	@FXML
+	private PieChart pieChart;
 	
 	private Map<String, Marker> markers = new HashMap<>();
 	private Map<Marker, PlaneData> dataPlanes = new HashMap<>();
@@ -87,6 +93,8 @@ public class FleetOverviewController {
         
 		mapView.setCustomMapviewCssURL(getClass().getResource("/custom_mapview.css"));
 		mapView.initialize();
+		
+		pieChart.setTitle("Active/Inactive Planes");
 	}
 	
 	public void updateLabel(PlaneData data, Coordinate position) {
@@ -120,6 +128,12 @@ public class FleetOverviewController {
             }
 			mapView.addMarker(marker);
 		}
+		// PieChart Change
+		int countActivePlanes = BackendMethods.getPlaneIDs("active").length;
+		int countInactivePlanes = markers.size() - countActivePlanes;
+		ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
+				new PieChart.Data("Inactive", countActivePlanes), new PieChart.Data("Active", countInactivePlanes));
+		pieChart.setData(pieChartData);
 	}
 
 }
