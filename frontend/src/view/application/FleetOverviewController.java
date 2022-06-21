@@ -78,7 +78,6 @@ public class FleetOverviewController {
 		mapView.setAnimationDuration(250);
 		mapView.setMapType(MapType.OSM);
 		mapView.setZoom(6);
-        //mapView.setCenter(new Coordinate(31.41377634, 34.92747986));
         
         mapView.initializedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
@@ -89,7 +88,6 @@ public class FleetOverviewController {
             	Timeline timeLine = new Timeline(new KeyFrame(Duration.seconds(15), e -> updateMap()));
             	timeLine.setCycleCount(Timeline.INDEFINITE);
             	timeLine.play();
-            	System.out.println(mapView.centerProperty().get());
             }
         });
         
@@ -141,6 +139,7 @@ public class FleetOverviewController {
 		for(Map.Entry<String, Marker> entry : markers.entrySet()) {
 			PlaneData data = BackendMethods.getPlaneData(entry.getKey());
 			
+			Coordinate oldPos = entry.getValue().getPosition();
 			dataPlanes.remove(entry.getValue());
 			mapView.removeMarker(entry.getValue());
 			
@@ -154,8 +153,8 @@ public class FleetOverviewController {
 			markers.put(entry.getKey(), marker);
 			dataPlanes.put(marker, data);
 			marker.setPosition(new Coordinate(data.getLatitude(), data.getLongitude())).setRotation((int)data.getHeading());
-	         
-            if (popup.getVisible() && popup.getPosition().equals(entry.getValue().getPosition())) {
+	        
+            if (popup.getVisible() && popup.getPosition().equals(oldPos)) {
                 updateLabel(data, marker.getPosition());
             }
 			mapView.addMarker(marker);
