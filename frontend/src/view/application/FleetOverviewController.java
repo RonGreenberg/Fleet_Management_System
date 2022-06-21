@@ -3,7 +3,10 @@ package view.application;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 
@@ -22,6 +25,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.animation.KeyFrame;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.chart.PieChart;
 import javafx.util.Duration;
 import model.BackendMethods;
@@ -69,7 +73,7 @@ public class FleetOverviewController {
             	popup.setPosition(mapView.getCenter()).setVisible(false);
             	mapView.addLabel(popup);
                 updateMap();
-            	Timeline timeLine = new Timeline(new KeyFrame(Duration.seconds(60), e -> updateMap()));
+            	Timeline timeLine = new Timeline(new KeyFrame(Duration.seconds(15), e -> updateMap()));
             	timeLine.setCycleCount(Timeline.INDEFINITE);
             	timeLine.play();
             }
@@ -107,6 +111,8 @@ public class FleetOverviewController {
 	}
 	
 	public void updateMap() {
+	    int countActivePlanes = 0;
+	    
 		for(Map.Entry<String, Marker> entry : markers.entrySet()) {
 			PlaneData data = BackendMethods.getPlaneData(entry.getKey());
 			
@@ -115,6 +121,7 @@ public class FleetOverviewController {
 			
 			Marker marker;
 			if(BackendMethods.isPlaneActive(entry.getKey())){
+			    countActivePlanes++;
 				marker = new Marker(getClass().getResource("/ActivePlane.png")).setVisible(true);
 			}else{
 				marker = new Marker(getClass().getResource("/InactivePlane.png")).setVisible(true);
@@ -129,11 +136,29 @@ public class FleetOverviewController {
 			mapView.addMarker(marker);
 		}
 		// PieChart Change
-		int countActivePlanes = BackendMethods.getPlaneIDs("active").length;
 		int countInactivePlanes = markers.size() - countActivePlanes;
 		ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
-				new PieChart.Data("Inactive", countActivePlanes), new PieChart.Data("Active", countInactivePlanes));
+				new PieChart.Data("Inactive", countInactivePlanes), new PieChart.Data("Active", countActivePlanes));
 		pieChart.setData(pieChartData);
+		
+		pieChart.requestLayout();
+		pieChart.applyCss();
+		
+		List<String> colors = Arrays.asList("#404040", "#007F0E");
+		for (int i = 0; i < pieChartData.size(); i++) {
+		    PieChart.Data data = pieChartData.get(i);
+		    String colorClass = "";
+		    for (String cls : data.getNode().getStyleClass()) {
+		        // Nodes in a pie chart are assigned a style class from the eight classes default-color0 to default-color7. Each of these style classes by default has -fx-pie-color
+		        if (cls.startsWith("default-color")) {
+		            colorClass = cls;
+		            break;
+		        }
+		    }
+		    for (Node n : pieChart.lookupAll("." + colorClass)) {
+		        n.setStyle("-fx-pie-color:" + colors.get(i));
+		    }
+		}
 	}
 
 }
