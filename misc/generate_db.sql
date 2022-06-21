@@ -24,8 +24,9 @@ CREATE TABLE IF NOT EXISTS `fleet_management_system`.`airplanes` (
   `planeID` VARCHAR(7) NOT NULL,
   `model` VARCHAR(45) NOT NULL,
   `dateAdded` DATE NOT NULL,
-  `lastHeading` FLOAT NULL DEFAULT NULL,
-  `lastAltitude` FLOAT NULL DEFAULT NULL,
+  `lastPosition` VARCHAR(45) NULL DEFAULT NULL,
+  `lastHeading` DOUBLE NULL DEFAULT NULL,
+  `lastAltitude` DOUBLE NULL DEFAULT NULL,
   PRIMARY KEY (`planeID`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
@@ -38,13 +39,14 @@ COLLATE = utf8mb4_0900_ai_ci;
 CREATE TABLE IF NOT EXISTS `fleet_management_system`.`flights` (
   `flightID` INT NOT NULL AUTO_INCREMENT,
   `planeID` VARCHAR(7) NOT NULL,
-  `csvFileName` VARCHAR(20) NOT NULL,
+  `csvFileName` VARCHAR(80) NOT NULL,
   PRIMARY KEY (`flightID`),
   INDEX `planeID_idx` (`planeID` ASC) VISIBLE,
   CONSTRAINT `planeID`
     FOREIGN KEY (`planeID`)
     REFERENCES `fleet_management_system`.`airplanes` (`planeID`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 26
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
