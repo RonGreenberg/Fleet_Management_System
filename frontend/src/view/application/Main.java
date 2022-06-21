@@ -21,7 +21,7 @@ public class Main extends Application {
 //            GUIController view = fxml.getController();
 //            view.init(vm);
 
-            Scene scene = new Scene(root, 1400, 800);
+            Scene scene = new Scene(root, 1500, 800);
             scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
             primaryStage.setScene(scene);
             primaryStage.show();

@@ -6,7 +6,7 @@
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1">
 	<children>
-	   <TabPane tabClosingPolicy="UNAVAILABLE" prefHeight="800.0" prefWidth="1400.0">
+	   <TabPane tabClosingPolicy="UNAVAILABLE" prefHeight="800.0" prefWidth="1500.0">
 	       <tabs>
 	           <Tab closable="false" text="Fleet Overview">
 	               <content>

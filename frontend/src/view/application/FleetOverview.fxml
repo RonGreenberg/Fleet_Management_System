@@ -12,7 +12,7 @@
 
 <?import com.sothawo.mapjfx.MapView?>
 
-<BorderPane prefHeight="800.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.application.FleetOverviewController">
+<BorderPane prefHeight="800.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.application.FleetOverviewController">
     <top>
         <Label contentDisplay="CENTER" text="Fleet Overview" textAlignment="CENTER" BorderPane.alignment="CENTER">
             <font>
@@ -26,17 +26,17 @@
     <center>
         <MapView fx:id="mapView" BorderPane.alignment="CENTER"/>
         <padding>
-            <Insets left="200.0" right="200.0" />
+            <Insets left="250.0" right="250.0" top = "250.0" bottom ="250.0" />
         </padding>
         <BorderPane.margin>
-            <Insets bottom="300.0" left="50.0" right="10.0" top="50.0" />
+            <Insets bottom="300.0" left="100.0" right="0.0" top="50.0" />
         </BorderPane.margin>
     </center>
    <right>
         <AnchorPane prefHeight="528.0" prefWidth="1039.0" BorderPane.alignment="CENTER">
             <children>
-                <PieChart fx:id="pieChart" layoutX="622.0" layoutY="79.0" prefHeight="250.0" prefWidth="250.0" />
-                <LineChart layoutX="260.0" layoutY="79.0" prefHeight="250.0" prefWidth="250.0">
+                <PieChart fx:id="pieChart" layoutX="422.0" layoutY="79.0" prefHeight="350.0" prefWidth="350.0" />
+                <LineChart fx:id="lineChart" layoutX="60.0" layoutY="79.0" prefHeight="350.0" prefWidth="350.0">
                     <xAxis>
                         <CategoryAxis side="BOTTOM" />
                     </xAxis>
@@ -46,5 +46,8 @@
                 </LineChart>
             </children>
         </AnchorPane>
+        <BorderPane.margin>
+            <Insets left="0.0" />
+        </BorderPane.margin>
    </right>
 </BorderPane>
