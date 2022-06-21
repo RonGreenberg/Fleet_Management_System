@@ -14,11 +14,11 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         try {
         	BackendClient client = new BackendClient();
-            //FXMLLoader fxml = new FXMLLoader();
-            AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("Main.fxml"));
+            FXMLLoader fxml = new FXMLLoader(getClass().getResource("Main.fxml"));
+            AnchorPane root = (AnchorPane)fxml.load();
 //            AppModel m = new AppModel();
 //            AppViewModel vm = new AppViewModel(m);
-//            GUIController view = fxl.getController();
+//            GUIController view = fxml.getController();
 //            view.init(vm);
 
             Scene scene = new Scene(root, 1400, 800);

@@ -29,6 +29,7 @@ public class FleetOverviewController {
 	private MapView mapView;
 	
 	private Map<String, Marker> markers = new HashMap<>();
+	private Map<Marker, PlaneData> dataPlanes = new HashMap<>();
 	private MapLabel popup;
 	
 	public FleetOverviewController() {
@@ -74,12 +75,13 @@ public class FleetOverviewController {
         });
        
         mapView.addEventHandler(MarkerEvent.MARKER_CLICKED, event -> {
+            PlaneData data = dataPlanes.get(event.getMarker());
+            
             // if popup is visible and we clicked the same plane, then hide the popup
             if (popup.getVisible() && popup.getPosition().equals(event.getMarker().getPosition())) {
                 popup.setVisible(false);
             } else { // we need to set a new position anyway
-                popup.setPosition(event.getMarker().getPosition());
-                popup.setVisible(true); // won't have an effect if the popup is already visible
+                updateLabel(data, event.getMarker().getPosition());
             }
         });
         
@@ -87,19 +89,35 @@ public class FleetOverviewController {
 		mapView.initialize();
 	}
 	
+	public void updateLabel(PlaneData data, Coordinate position) {
+	    mapView.removeLabel(popup);
+	    popup = new MapLabel("Callsign: <b>" + data.getPlaneID() + "</b><br>Heading: " + data.getHeading() + "°<br>Altitude: " + data.getAltitude()/1000
+                + "kft<br>Airspeed: " + data.getAirspeed() + "kn", 40, 20).setCssClass("blue-label");
+	    popup.setPosition(position);
+	    popup.setVisible(true); // won't have an effect if the popup is already visible
+	    mapView.addLabel(popup);
+	}
+	
 	public void updateMap() {
 		for(Map.Entry<String, Marker> entry : markers.entrySet()) {
 			PlaneData data = BackendMethods.getPlaneData(entry.getKey());
 			
-			Marker marker;
+			dataPlanes.remove(entry.getValue());
 			mapView.removeMarker(entry.getValue());
+			
+			Marker marker;
 			if(BackendMethods.isPlaneActive(entry.getKey())){
 				marker = new Marker(getClass().getResource("/ActivePlane.png")).setVisible(true);
 			}else{
 				marker = new Marker(getClass().getResource("/InactivePlane.png")).setVisible(true);
 			}
 			markers.put(entry.getKey(), marker);
+			dataPlanes.put(marker, data);
 			marker.setPosition(new Coordinate(data.getLatitude(), data.getLongitude())).setRotation((int)data.getHeading());
+	         
+            if (popup.getVisible() && popup.getPosition().equals(entry.getValue().getPosition())) {
+                updateLabel(data, marker.getPosition());
+            }
 			mapView.addMarker(marker);
 		}
 	}
