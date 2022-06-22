@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import view.movableJoystickView.MovableJoystick?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Teleoperation.Teleoperation">
+<AnchorPane prefHeight="800.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.application.TeleoperationController">
       <MenuBar prefHeight="32.0" prefWidth="1500.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
