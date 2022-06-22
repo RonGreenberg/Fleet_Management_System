@@ -13,6 +13,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
+<?import view.movableJoystickView.MovableJoystick?>
 
 <AnchorPane prefHeight="800.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Teleoperation.Teleoperation">
       <MenuBar prefHeight="32.0" prefWidth="1500.0">
@@ -39,17 +40,14 @@
          </rowConstraints>
          <children>
       
-         <Canvas fx:id="joy" height="150.0" width="150.0" GridPane.columnIndex="2">
+         <MovableJoystick fx:id="joystick" GridPane.columnIndex="2">
             <GridPane.margin>
-               <Insets left="10.0" />
+               <Insets left="-100.0" />
             </GridPane.margin>
-         </Canvas>
-
-
+         </MovableJoystick>
          </children>
       </GridPane>
-   <Slider fx:id="rudder" blockIncrement="0.1" layoutX="1028.0" layoutY="335.0" max="1.0" maxWidth="-Infinity" min="-1.0" prefHeight="14.0" prefWidth="159.0" />
-   <Slider fx:id="throttle" blockIncrement="0.1" layoutX="1178.0" layoutY="173.0" max="1.0" maxHeight="-Infinity" min="-1.0" orientation="VERTICAL" prefHeight="150.0" prefWidth="0.0" />
+      
    <Button fx:id="btnRunScript" layoutX="357.0" layoutY="608.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="188.0" onAction="#btnRunScriptClick" text="Run Script">
       <font>
          <Font size="25.0" />

@@ -1,6 +1,7 @@
 package view.application;
 import model.AppModel;
 import model.BackendClient;
+import view.movableJoystickView.MovableJoystick;
 import viewModel.AppViewModel;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -21,6 +22,13 @@ public class Main extends Application {
 //            GUIController view = fxml.getController();
 //            view.init(vm);
 
+//            FXMLLoader fxl = new FXMLLoader(); // creating a separate object so we can use it for getController()
+//            BorderPane root = fxl.load(getClass().getResource("MovableJoystick.fxml").openStream());
+//            MovableJoystick wc = fxl.getController(); // View
+//            
+//            wc.init();
+//            wc.paint();
+            
             Scene scene = new Scene(root, 1500, 800);
             scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
             primaryStage.setScene(scene);

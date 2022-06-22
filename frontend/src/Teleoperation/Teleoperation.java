@@ -13,6 +13,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
 import model.BackendMethods;
+import view.movableJoystickView.MovableJoystick;
 
 public class Teleoperation {
     
@@ -22,6 +23,9 @@ public class Teleoperation {
     TextArea textArea;
     @FXML
     Button btnRunScript;
+    
+    @FXML
+    MovableJoystick joystick;
     
     public void openScriptFile() {
         FileChooser fc = new FileChooser();
