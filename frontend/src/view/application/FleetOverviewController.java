@@ -127,7 +127,7 @@ public class FleetOverviewController {
 	public void updateLabel(PlaneData data, Coordinate position) {
 	    mapView.removeLabel(popup);
 	    popup = new MapLabel("Callsign: <b>" + data.getPlaneID() + "</b><br>Heading: " + data.getHeading() + "°<br>Altitude: " + data.getAltitude()/1000
-                + "kft<br>Airspeed: " + data.getAirspeed() + "kn", 40, 20).setCssClass("blue-label");
+                + " kft<br>Airspeed: " + data.getAirspeed() + " kn", 40, 20).setCssClass("blue-label");
 	    popup.setPosition(position);
 	    popup.setVisible(true); // won't have an effect if the popup is already visible
 	    mapView.addLabel(popup);

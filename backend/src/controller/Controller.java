@@ -59,7 +59,7 @@ public class Controller {
                     String details = AgentServer.send(clientID, "getStatus");
                     // checking if agent closed the connection abruptly
                     if (details == null) {
-                        System.out.println("Client closed connection abruptly");
+                        System.out.println("Client with port: " + clientID + " closed connection abruptly");
                         agentServer.removeClient(clientID);
                         activePlanes.values().remove(clientID); // uses iteration under the hood
                         break; // breaking out of the loop, because if this was the last client, there could be all sorts of problems with the loop now...
@@ -68,14 +68,14 @@ public class Controller {
                     String planeID = details.split(",")[0];
                     if (!activePlanes.containsKey(planeID)) {
                         activePlanes.put(planeID, clientID);
-                        System.out.println("Added new planeID: " + planeID);
+                        System.out.println("Added new planeID: " + planeID + ", port: " + clientID);
                     }
                     
                     String status = details.split(",")[1];
                     if (status.equals("finished")) {
                         finishingClients.add(clientID);
                         new Thread(()->{
-                            addTask("Finishing connection with plane: " + planeID);
+                            addTask("Receiving flight data and finishing connection with plane: " + planeID);
                             
                             model.stopInterpreter(); // killing the interpreter in case it is still running
                             
@@ -94,8 +94,8 @@ public class Controller {
                             agentServer.disconnect(clientID);
                             System.out.println("Disconnected plane: " + planeID);
                             activePlanes.remove(planeID);
-                            finishingClients.remove(clientID);
-                            removeTask("Finishing connection with plane: " + planeID);
+                            finishingClients.remove(Integer.valueOf(clientID)); // we have to cast to Integer so that the remove by index method will not be used
+                            removeTask("Receiving flight data and finishing connection with plane: " + planeID);
                         }).start();
                     }
                 }
@@ -130,13 +130,13 @@ public class Controller {
         return activePlanes.get(planeID);
     }
     
-    public static void addTask(String description) {
+    public static synchronized void addTask(String description) {
         if (View.isActive) { // so that we don't maintain the active tasks if there's no view
             activeTasks.put(description, Thread.currentThread().getName());   
         }
     }
     
-    public static void removeTask(String description) {
+    public static synchronized void removeTask(String description) {
         if (View.isActive) { // so that we don't maintain the active tasks if there's no view
             activeTasks.remove(description);   
         }

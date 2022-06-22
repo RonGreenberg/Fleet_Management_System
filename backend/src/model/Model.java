@@ -132,7 +132,7 @@ public class Model {
         String fileName = "flight_files/" + planeID + "_" + datetime + ".csv";
         File f = new File(fileName);
         
-        System.out.println("Receiving flight data...");
+        System.out.println("Receiving flight data from " + planeID + "...");
         int clientID = c.getClientIDForPlane(planeID);
         AgentServer.send(clientID, "getFlightDataStart");
         try {
@@ -145,7 +145,7 @@ public class Model {
                 }
             } while (response != null);
             writer.close();
-            System.out.println("Finished receiving flight data!");
+            System.out.println("Finished receiving flight data from " + planeID + "!");
         } catch (IOException e) {
             e.printStackTrace();
         }
