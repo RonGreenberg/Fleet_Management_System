@@ -2,20 +2,31 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
-<?import javafx.scene.control.ScrollBar?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Teleoperation.Teleoperation">
+<AnchorPane prefHeight="800.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Teleoperation.Teleoperation">
+      <MenuBar prefHeight="32.0" prefWidth="1500.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#openScriptFile" text="Open Script File" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
 
-      <TextArea layoutX="30.0" layoutY="30.0" prefHeight="340.0" prefWidth="279.0" />
-      <ScrollBar layoutX="31.0" layoutY="370.0" prefHeight="15.0" prefWidth="279.0" />
-      <ScrollBar layoutX="22.0" layoutY="30.0" orientation="VERTICAL" prefHeight="340.0" prefWidth="15.0" />
-      <GridPane layoutX="330.0" layoutY="30.0" prefHeight="200.0" prefWidth="255.0">
+      <TextArea fx:id="textArea" layoutX="251.0" layoutY="138.0" prefHeight="450.0" prefWidth="400.0" />
+      <GridPane layoutX="857.0" layoutY="138.0" prefHeight="200.0" prefWidth="255.0">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="294.4000244140625" minWidth="0.0" prefWidth="175.79998779296875" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="402.39996337890625" minWidth="10.0" prefWidth="167.80001220703127" />
@@ -27,24 +38,21 @@
          <RowConstraints />
          </rowConstraints>
          <children>
-
+      
          <Canvas fx:id="joy" height="150.0" width="150.0" GridPane.columnIndex="2">
             <GridPane.margin>
                <Insets left="10.0" />
             </GridPane.margin>
          </Canvas>
-         <Slider fx:id="rudder" blockIncrement="0.1" max="1.0" maxWidth="-Infinity" min="-1.0" prefHeight="14.0" prefWidth="159.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
-            <GridPane.margin>
-               <Insets bottom="20.0" />
-            </GridPane.margin>
-         </Slider>
-         <Slider fx:id="throttle" blockIncrement="0.1" max="1.0" maxHeight="-Infinity" min="-1.0" orientation="VERTICAL" prefHeight="150.0" prefWidth="0.0" GridPane.columnIndex="2">
-            <GridPane.margin>
-               <Insets left="150.0" />
-            </GridPane.margin>
-         </Slider>
 
 
          </children>
       </GridPane>
+   <Slider fx:id="rudder" blockIncrement="0.1" layoutX="1028.0" layoutY="335.0" max="1.0" maxWidth="-Infinity" min="-1.0" prefHeight="14.0" prefWidth="159.0" />
+   <Slider fx:id="throttle" blockIncrement="0.1" layoutX="1178.0" layoutY="173.0" max="1.0" maxHeight="-Infinity" min="-1.0" orientation="VERTICAL" prefHeight="150.0" prefWidth="0.0" />
+   <Button fx:id="btnRunScript" layoutX="357.0" layoutY="608.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="188.0" onAction="#btnRunScriptClick" text="Run Script">
+      <font>
+         <Font size="25.0" />
+      </font>
+   </Button>
 </AnchorPane>
