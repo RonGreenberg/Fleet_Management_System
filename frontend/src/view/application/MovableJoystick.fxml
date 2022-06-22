@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane prefHeight="394.0" prefWidth="429.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.movableJoystickView.MovableJoystick">
+   <left>
+      <Slider fx:id="throttle" blockIncrement="0.1" max="1.0" orientation="VERTICAL" BorderPane.alignment="CENTER" />
+   </left>
+   <bottom>
+      <Slider fx:id="rudder" blockIncrement="0.1" max="1.0" min="-1.0" BorderPane.alignment="CENTER" />
+   </bottom>
+   <center>
+      <Canvas fx:id="joystick" height="200.0" onMouseDragged="#mouseMove" onMousePressed="#mouseDown" onMouseReleased="#mouseUp" width="200.0" BorderPane.alignment="CENTER" />
+   </center>
+</BorderPane>
