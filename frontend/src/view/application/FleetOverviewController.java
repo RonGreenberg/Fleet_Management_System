@@ -106,7 +106,6 @@ public class FleetOverviewController {
                 updateLabel(data, event.getMarker().getPosition());
             }
         });
-        
 		mapView.setCustomMapviewCssURL(getClass().getResource("/custom_mapview.css"));
 		mapView.initialize();
 		

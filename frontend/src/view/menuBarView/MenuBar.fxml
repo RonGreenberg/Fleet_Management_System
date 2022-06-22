@@ -7,16 +7,6 @@
 
   <MenuBar>
         <menus>
-          <Menu mnemonicParsing="false" text="Flight Settings">
-            <items>
-              <MenuItem fx:id="jsonSettings" mnemonicParsing="false" onAction="#xmlFileChooser" text="choose .json file" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Flight Csv">
-            <items>
-              <MenuItem fx:id="csvFile" mnemonicParsing="false" onAction="#csvFileChooser" text="choose .csv file" />
-            </items>
-          </Menu>
           <Menu mnemonicParsing="false" text="Flight Algorithm">
             <items>
               <MenuItem fx:id="algoChoose" mnemonicParsing="false" onAction="#algoFileChooser" text="choose .class file" />
