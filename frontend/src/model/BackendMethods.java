@@ -6,6 +6,18 @@ import java.util.Map;
 
 public class BackendMethods {
     
+    public static String setCmd(String varName, double val, String planeID) {
+        return BackendClient.send("set " + varName + " " + val + " " + planeID);
+    }
+    
+    public static String getCmd(String varName, String planeID) {
+        return BackendClient.send("get " + varName + " " + planeID);
+    }
+    
+    public static String getFlightParamsLine(String planeID) {
+        return BackendClient.send("getFlightParamsLine " + planeID);
+    }
+    
     public static String interpret(String filename, String planeID) {
         return BackendClient.send("interpret " + filename + " " + planeID);
     }

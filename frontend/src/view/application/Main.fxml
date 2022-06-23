@@ -6,24 +6,24 @@
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1">
 	<children>
-	   <TabPane tabClosingPolicy="UNAVAILABLE" prefHeight="800.0" prefWidth="1500.0">
+	   <TabPane id="tabs" tabClosingPolicy="UNAVAILABLE" prefHeight="800.0" prefWidth="1500.0">
 	       <tabs>
-			   <Tab closable="false" text="Fleet Overview">
+			   <Tab id="fleetOverview" closable="false" text="Fleet Overview">
 				   <content>
 					   <fx:include source="FleetOverview.fxml" />
 				   </content>
 			   </Tab>
-	           <Tab closable="false" text="Monitoring">
+	           <Tab id="monitoring" closable="false" text="Monitoring">
                    <content>
                        <fx:include source="Monitoring.fxml" />
                    </content>
                </Tab>
-			   <Tab closable="false" text="Time Capsule">
+			   <Tab id="timeCapsule" closable="false" text="Time Capsule">
 				   <content>
 					   <fx:include source="TimeCapsule.fxml" />
 				   </content>
 			   </Tab>
-			   <Tab closable="false" text="Teleoperataion">
+			   <Tab id="teleoperation" closable="false" text="Teleoperation">
 				   <content>
 					   <fx:include source="Teleoperation.fxml" />
 				   </content>

@@ -16,7 +16,7 @@ import javafx.scene.chart.XYChart;
 import java.util.HashMap;
 
 
-public class GUIController {
+public class TimeCapsuleController {
 
     private AppViewModel vm;
     @FXML
@@ -46,7 +46,7 @@ public class GUIController {
     private XYChart.Series seriesPointAnomaly;
     private XYChart.Series seriesTimeAnomaly;
 
-    public GUIController() {
+    public TimeCapsuleController() {
     }
 
     public void init(AppViewModel vm) {
@@ -55,7 +55,7 @@ public class GUIController {
         bindDashboardProperties();
         bindMenuBarProperties();
         bindFeatureListProperties();
-        //bindTimeLineProperties();
+        bindTimeLineProperties();
         bindGraphProperties();
         addLis();
     }
@@ -274,7 +274,7 @@ public class GUIController {
 
     }
 
-/*
+
     private void bindTimeLineProperties() {
         timeLine.getTimeLineController().getPlay().setOnMouseClicked(v -> vm.play());
         timeLine.getTimeLineController().getPause().setOnMouseClicked(v -> vm.pause());
@@ -300,7 +300,7 @@ public class GUIController {
         });
 
     }
-*/
+
     private void bindDashboardProperties() {
         dashboard.altitudeProperty().bind(vm.altitudeProperty());
         dashboard.yawProperty().bind(vm.yawProperty());

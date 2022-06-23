@@ -36,6 +36,7 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.TabPane;
 import javafx.util.Duration;
 import model.BackendMethods;
 import model.PlaneData;
@@ -133,6 +134,11 @@ public class FleetOverviewController {
 	}
 	
 	public void updateMap() {
+	    // doing something only if the Fleet Overview tab is currently in focus
+	    if (!((TabPane)pieChart.getScene().lookup("#tabs")).getSelectionModel().getSelectedItem().getId().equals("fleetOverview")) {
+	        return;
+	    }
+	    
 	    int countActivePlanes = 0;
 	    
 		for(Map.Entry<String, Marker> entry : markers.entrySet()) {

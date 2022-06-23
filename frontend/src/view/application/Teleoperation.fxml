@@ -14,6 +14,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 <?import view.movableJoystickView.MovableJoystick?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import view.dashboardView.Dashboard?>
 
 <AnchorPane prefHeight="800.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Teleoperation.Teleoperation">
       <MenuBar prefHeight="32.0" prefWidth="1500.0">
@@ -25,9 +28,14 @@
           </Menu>
         </menus>
       </MenuBar>
-
+      <Label text="Choose Active Plane:" layoutX="251.0" layoutY="90.0">
+            <font>
+                <Font size="18.0" />
+            </font>
+      </Label>
+      <ComboBox fx:id="activePlanes" layoutX="440.0" layoutY="90.0" prefHeight="32.0" prefWidth="170.0" onShowing="#cmbActivePlanesOnShowing" onAction="#cmbActivePlanesOnAction"></ComboBox>
       <TextArea fx:id="textArea" layoutX="251.0" layoutY="138.0" prefHeight="450.0" prefWidth="400.0" />
-      <GridPane layoutX="857.0" layoutY="138.0" prefHeight="200.0" prefWidth="255.0">
+      <GridPane layoutX="657.0" layoutY="100.0" prefHeight="200.0" prefWidth="255.0">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="294.4000244140625" minWidth="0.0" prefWidth="175.79998779296875" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="402.39996337890625" minWidth="10.0" prefWidth="167.80001220703127" />
@@ -47,6 +55,7 @@
          </MovableJoystick>
          </children>
       </GridPane>
+      <Dashboard fx:id="dashboard" layoutX="757.0" layoutY="350.0"></Dashboard>
       
    <Button fx:id="btnRunScript" layoutX="357.0" layoutY="608.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="188.0" onAction="#btnRunScriptClick" text="Run Script">
       <font>
