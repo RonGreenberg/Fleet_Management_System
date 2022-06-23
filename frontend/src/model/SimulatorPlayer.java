@@ -18,7 +18,7 @@ public class SimulatorPlayer {
     private DoubleProperty timeStamp;
     private FlightSettings flightSettings;
     private int maxlines;
-    private Socket socket;
+    //private Socket socket;
 
     public SimulatorPlayer() {
         this.speed = new SimpleDoubleProperty(1.0);
@@ -46,7 +46,7 @@ public class SimulatorPlayer {
 
     public void play() {
         try {
-            PrintWriter out = new PrintWriter(socket.getOutputStream());
+            //PrintWriter out = new PrintWriter(socket.getOutputStream());
 
             double floatedMaxTime = (this.maxlines / 10 + ((double) this.maxlines % 10 / 10) + 0.1);
 
@@ -54,12 +54,12 @@ public class SimulatorPlayer {
                 int linuNum = (int) (this.timeStamp.getValue() * 10);
                 float[] data = this.timeSeries.data.get(linuNum);
                 String line = String.join(",", castFloatArrayToString(data));
-                out.println(line);
-                out.flush();
+                //out.println(line);
+                //out.flush();
                 Thread.sleep((long) (100 / this.speed.getValue()));
                 this.timeStamp.setValue(this.timeStamp.getValue() + 0.1);
             }
-            out.close();
+            //out.close();
         } catch (Exception exception) {
             System.out.println(exception.getMessage());
         }
@@ -67,7 +67,7 @@ public class SimulatorPlayer {
 
 
     public void createSocket() throws IOException {
-        socket = new Socket(this.ip, (int) this.port);
+        //socket = new Socket(this.ip, (int) this.port);
     }
 
 

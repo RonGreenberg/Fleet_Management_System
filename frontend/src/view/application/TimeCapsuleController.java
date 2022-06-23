@@ -57,15 +57,14 @@ public class TimeCapsuleController {
         bindTimeLineProperties();
         bindGraphProperties();
         addLis();
-        StringProperty sp=new SimpleStringProperty("out/production/frontend/reg_flight.csv");
-        vm.setCsvFile(sp);
+
 
     }
 
     private void bindMenuBarProperties() {
         menuBar.getsAlgoFile().bindBidirectional(vm.getAlgoFile());
         menuBar.getsCsvFile().bindBidirectional(vm.getCsvFile());
-        menuBar.getsSettingFile().bindBidirectional(vm.getSettingFile());
+//        menuBar.getsSettingFile().bindBidirectional(vm.getSettingFile());
 
 
     }

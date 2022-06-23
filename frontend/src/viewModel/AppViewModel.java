@@ -154,8 +154,8 @@ public class AppViewModel {
     }
 
     public boolean isInflight() {
-        return (this.startThread != null && this.startThread.isAlive());
-
+        //return (this.startThread != null && this.startThread.isAlive());
+return true;
     }
 
     private void initDashBoardProperties() {
@@ -231,7 +231,6 @@ public class AppViewModel {
         // call pause
         String s = this.csvFile.getValue();
         String check = this.appModel.setTimeSeriesAnomaly(s);
-        ;
         if (check.equals("OK")) {
             int dataSize = this.appModel.getTimeSeriesAnomaly().data.size();
             this.listView.clear();
@@ -292,7 +291,7 @@ public class AppViewModel {
                     "please press 'Pause' Or 'Stop' flight and run again");
         } else {
             try {
-                this.appModel.getSp().createSocket();
+              //  this.appModel.getSp().createSocket();
                 this.startThread = new Thread(() -> {
                     this.appModel.play();
                 });

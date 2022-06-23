@@ -14,12 +14,15 @@ import model.AppModel;
 import model.BackendMethods;
 
 import java.io.File;
+import java.nio.file.Paths;
 
 public class MenuBarController {
-    @FXML
+   /* @FXML
     private MenuItem jsonSettings;
     @FXML
     private MenuItem csvFile;
+
+    */
     @FXML
     private MenuItem algoChoose;
     @FXML
@@ -57,7 +60,13 @@ public class MenuBarController {
 
     @FXML
     void csvFileChooser(ActionEvent event) {
+        File recordsDir = new File(System.getProperty("user.home"), ".out/production/frontend/model/algorithms");
+        if (! recordsDir.exists()) {
+            recordsDir.mkdirs();
+        }
+
         FileChooser fc = new FileChooser();
+        fc.setInitialDirectory(recordsDir);
         fc.getExtensionFilters().add(new ExtensionFilter(" csv files", "*.csv"));
         File f = fc.showOpenDialog(null);
         if (f != null) {
@@ -67,8 +76,10 @@ public class MenuBarController {
 
     @FXML
     void algoFileChooser(ActionEvent event) {
+        String currentPath = Paths.get(".").toAbsolutePath().normalize().toString()+"/out/production/frontend/model/algorithms";
         FileChooser fc = new FileChooser();
-        fc.getExtensionFilters().add(new ExtensionFilter("Anomaly detector files", "*.class"));
+        fc.setInitialDirectory(new File(currentPath));
+        fc.getExtensionFilters().add(new ExtensionFilter("Anomaly detector class", "*.class"));
         File f = fc.showOpenDialog(null);
         if (f != null) {
             sAlgoFile.setValue(f.getPath());
@@ -91,9 +102,10 @@ public class MenuBarController {
     }
     @FXML
     void selectFlight(ActionEvent event) {
-        sCsvFile.setValue(BackendMethods.getFlightDetails(Integer.parseInt(flightList.getValue()))[2] )  ;
+        String path="frontend/resources/flight_csv/"+BackendMethods.getFlightDetails(Integer.parseInt(flightList.getValue()))[2];
+        sCsvFile.setValue( path)  ;
     }
-    public MenuItem getJsonSettings() {
+   /* public MenuItem getJsonSettings() {
         return jsonSettings;
     }
 
@@ -108,7 +120,7 @@ public class MenuBarController {
     public void setCsvFile(MenuItem csvFile) {
         this.csvFile = csvFile;
     }
-
+*/
     public MenuItem getAlgoChoose() {
         return algoChoose;
     }

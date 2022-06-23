@@ -19,15 +19,15 @@ public class MenuBar extends AnchorPane {
             FXMLLoader fxl = new FXMLLoader();
             AnchorPane menuBar = fxl.load(getClass().getResource("MenuBar.fxml").openStream());
             MenuBarController menuBarController = fxl.getController();
-
             this.getChildren().add(menuBar);
-            sSettingFile = new SimpleStringProperty(menuBarController.getsSettingFile().getValue());
+
+            //sSettingFile = new SimpleStringProperty(menuBarController.getsSettingFile().getValue());
             sCsvFile = new SimpleStringProperty(menuBarController.getsCsvFile().getValue());
             sAlgoFile = new SimpleStringProperty(menuBarController.getsAlgoFile().getValue());
 
             menuBarController.getsAlgoFile().bindBidirectional(sAlgoFile);
             menuBarController.getsCsvFile().bindBidirectional(sCsvFile);
-            menuBarController.getsSettingFile().bindBidirectional(sSettingFile);
+           // menuBarController.getsSettingFile().bindBidirectional(sSettingFile);
 
         } catch (Exception e) {
             e.printStackTrace();
