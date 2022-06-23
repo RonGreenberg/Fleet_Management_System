@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -49,7 +51,7 @@ public class Interpreter {
     public static Map<String, ProgramVar> programSymTable; // symbol table that maps program variable names to values
     public static Map<String, ProgramVar> simVarsSymTable; // symbol table that maps simulator variable names to values
     private int currentIndex; // global index of the current line in the program
-    private static String simVarsFileName = "resources/flightgear_vars.txt"; // file from which to load simulator var names
+    private static String simVarsFileName = "backend/resources/flightgear_vars.txt"; // file from which to load simulator var names
     public static int clientID; // ID of the client (agent) the interpreter currently communicates with
     private int status = 0; // ready
     public static boolean stop = false;
@@ -80,6 +82,7 @@ public class Interpreter {
         // reading the simulator variables from a file
         simVarsSymTable = new HashMap<>();
         try {
+
             BufferedReader reader = new BufferedReader(new FileReader(simVarsFileName));
             String line;
             while ((line = reader.readLine()) != null) {

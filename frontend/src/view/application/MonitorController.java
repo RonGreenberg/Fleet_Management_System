@@ -16,7 +16,7 @@ import javafx.scene.chart.XYChart;
 import java.util.HashMap;
 
 
-public class GUIController {
+public class MonitorController {
 
     private AppViewModel vm;
     @FXML
@@ -29,8 +29,6 @@ public class GUIController {
     private Graph graph;
     @FXML
     private MenuBar menuBar;
-    @FXML
-    private TimeLine timeLine;
 
     private HashMap<String, XYChart.Series<Number, Number>> seriesHashMap;
     private HashMap<String, XYChart.Series<Number, Number>> seriesHashMapB;
@@ -46,7 +44,7 @@ public class GUIController {
     private XYChart.Series seriesPointAnomaly;
     private XYChart.Series seriesTimeAnomaly;
 
-    public GUIController() {
+    public MonitorController() {
     }
 
     public void init(AppViewModel vm) {
@@ -55,7 +53,6 @@ public class GUIController {
         bindDashboardProperties();
         bindMenuBarProperties();
         bindFeatureListProperties();
-        //bindTimeLineProperties();
         bindGraphProperties();
         addLis();
     }
@@ -104,42 +101,7 @@ public class GUIController {
 
 
     private void addLis() {
-        timeLine.timeStampProperty().addListener(
-                v -> {
-                    if (!vm.getNameofFeatureA().getValue().equals("")) {
-                        vm.getAppModel().addValueAtTime(vm.getNameofFeatureA().getValue(), seriesPointA);
 
-                        if ((vm.isInflight() &&
-                                this.vm.getAppModel().getAnomalDetect() != null &&
-                                this.vm.getAppModel().getAnomalDetect().getClass() == LinearRegression.class) ||
-                                (this.vm.getAppModel().getAnomalDetect() != null &&
-                                        this.vm.getAppModel().getAnomalDetect().getClass() == HybridAlgo.class
-                                        && ((HybridAlgo) this.vm.getAppModel().getAnomalDetect()).hashMapL.containsKey(vm.getNameofFeatureA().getValue())) ||
-                                (this.vm.getAppModel().getAnomalDetect() != null &&
-                                        this.vm.getAppModel().getAnomalDetect().getClass() == HybridAlgo.class
-                                        && ((HybridAlgo) this.vm.getAppModel().getAnomalDetect()).hashMapC.containsKey(vm.getNameofFeatureA().getValue()))
-
-                        ) {
-                            vm.getAppModel().addValueAtTime(vm.getNameofFeatureB().getValue(), seriesPointB);
-                            vm.getAppModel().addAnomalyValueAtTime(vm.getNameofFeatureA().getValue(), seriesTimeAnomaly);
-
-                        }
-                        if ((vm.isInflight() &&
-                                this.vm.getAppModel().getAnomalDetect() != null &&
-                                this.vm.getAppModel().getAnomalDetect().getClass() == ZScore.class) ||
-                                (this.vm.getAppModel().getAnomalDetect() != null &&
-                                        this.vm.getAppModel().getAnomalDetect().getClass() == HybridAlgo.class
-                                        && ((HybridAlgo) this.vm.getAppModel().getAnomalDetect()).hashMapZ.containsKey(vm.getNameofFeatureA().getValue()))) {
-                            vm.getAppModel().clearGraph(seriesPointB);
-                            vm.getAppModel().addAnomalyValueAtTime(vm.getNameofFeatureA().getValue(), seriesTimeAnomaly);
-
-
-                        }
-
-                    }
-
-
-                });
         vm.getNameofFeatureA().addListener(v -> {
             boolean lock = false;
             if (vm.isInflight()) {
@@ -274,33 +236,7 @@ public class GUIController {
 
     }
 
-/*
-    private void bindTimeLineProperties() {
-        timeLine.getTimeLineController().getPlay().setOnMouseClicked(v -> vm.play());
-        timeLine.getTimeLineController().getPause().setOnMouseClicked(v -> vm.pause());
-        timeLine.getTimeLineController().getNext().setOnMouseClicked(v -> vm.runNext(timeLine.getTimeLineController().getNextValue()));
-        timeLine.getTimeLineController().getBack().setOnMouseClicked(v -> vm.runBack(timeLine.getTimeLineController().getBackValue()));
-        timeLine.getTimeLineController().getStop().setOnMouseClicked(v -> {
-            vm.stop();
-            this.getVm().getAppModel().clearGraph(seriesPointA);
-            this.getVm().getAppModel().clearGraph(seriesPointB);
-            this.getVm().getAppModel().clearGraph(seriesTimeAnomaly);
-            this.getVm().getAppModel().clearGraph(seriesPointAnomaly);
-        });
-        timeLine.getTimeLineController().getTime().setMin(0);
-        timeLine.maxTimeLineProperty().bind(vm.maxTimeLineProperty());
 
-        timeLine.timeStampProperty().bindBidirectional(vm.timeStampProperty());
-        timeLine.speedProperty().bindBidirectional(vm.speedProperty());
-        timeLine.getTimeLineController().getTime().setOnMousePressed(v -> {
-            vm.setTimeStamp(timeLine.getTimeLineController().getTime().getValue());
-        });
-        timeLine.getTimeLineController().getTime().setOnMouseDragged(v -> {
-            vm.setTimeStamp(timeLine.getTimeLineController().getTime().getValue());
-        });
-
-    }
-*/
     private void bindDashboardProperties() {
         dashboard.altitudeProperty().bind(vm.altitudeProperty());
         dashboard.yawProperty().bind(vm.yawProperty());
@@ -388,13 +324,6 @@ public class GUIController {
         this.menuBar = menuBar;
     }
 
-    public TimeLine getTimeLine() {
-        return timeLine;
-    }
-
-    public void setTimeLine(TimeLine timeLine) {
-        this.timeLine = timeLine;
-    }
 
 
 }

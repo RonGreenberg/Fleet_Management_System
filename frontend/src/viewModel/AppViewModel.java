@@ -3,6 +3,7 @@ package viewModel;
 import model.AppModel;
 import model.algorithms.HybridAlgo;
 import model.algorithms.LinearRegression;
+import model.algorithms.TimeSeries;
 import model.algorithms.TimeSeriesAnomalyDetector;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
@@ -45,6 +46,7 @@ public class AppViewModel {
 
         //menu button
         algoFile = new SimpleStringProperty();
+
         csvFile = new SimpleStringProperty();
         settingFile = new SimpleStringProperty();
 
@@ -52,6 +54,7 @@ public class AppViewModel {
             createTimeSeries();
         });
         settingFile.addListener(v -> createSettings());
+
         algoFile.addListener(v -> loadAlgo());
 
         //list
@@ -65,6 +68,7 @@ public class AppViewModel {
         this.appModel.speedProperty().bind(this.speed);
         this.timeStamp.bindBidirectional(am.timestampProperty());
         this.timeStamp.addListener(v -> updateParams());
+        settingFile.setValue("frontend/resources/settings.json");
 
 
     }
@@ -128,6 +132,11 @@ public class AppViewModel {
         }
     }
 
+    public void changeList( FlightSettings fs){
+        TimeSeries temp= new TimeSeries(fs.getValidFlightPath());
+    this.listView.addAll(temp.namesOfFeatures);
+}
+
     private void initJoyStickProperties() {
         this.aileron = new SimpleFloatProperty();
         this.elevator = new SimpleFloatProperty();
@@ -172,6 +181,7 @@ public class AppViewModel {
                 name += s.charAt(ch);
                 ch++;
             }
+            System.out.println("algo");
             this.spAnomalyClass.setValue(name + " Algorithem.");
             URLClassLoader urlClassLoader = URLClassLoader.newInstance(urls);
             Class<?> c = urlClassLoader.loadClass("model.algorithms." + name);
@@ -194,7 +204,7 @@ public class AppViewModel {
     }
 
     private void createSettings() {
-        resetFlightProp();
+       resetFlightProp();
         FlightSettings fs = new FlightSettings(settingFile.getValue());
 
         try {
@@ -209,7 +219,8 @@ public class AppViewModel {
             this.maxRudder.setValue(fs.getFlightFeatureHashMap().get("rudder").getMax());
             this.minRudder.setValue(fs.getFlightFeatureHashMap().get("rudder").getMin());
             this.speed.setValue(fs.getSimulatorSpeed());
-            myGoodAlert("Settings.json");
+            changeList(fs);
+            //myGoodAlert("Settings.json");
         } catch (Exception exception) {
             myErrorAlert("Choose Flight Settings.json file ERROR", exception.toString());
         }

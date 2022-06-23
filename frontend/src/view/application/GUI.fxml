@@ -20,7 +20,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="651.0" prefWidth="1273.0" style="-fx-border-color: black; -fx-border-width: 3;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.application.GUIController">
+<BorderPane prefHeight="651.0" prefWidth="1273.0" style="-fx-border-color: black; -fx-border-width: 3;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.application.MonitorController">
    <center>
       <AnchorPane prefHeight="265.0" prefWidth="302.0" BorderPane.alignment="CENTER">
          <children>

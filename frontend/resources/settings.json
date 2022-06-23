@@ -3,8 +3,8 @@
   "port": 5400,
 
   "samplingRatePerSec": 10,
-  "chosenAlgorithmPath": "out/production/patam2/app/model/algorithms/ZScore.class",
-  "trainFlightCsvPath": "src/files/reg_flight.csv",
+  "chosenAlgorithmPath": "out/production/frontend/model/algorithms/ZScore.class",
+  "trainFlightCsvPath": "frontend/resources/reg_flight.csv",
 
 
   "featuresSettings": [
