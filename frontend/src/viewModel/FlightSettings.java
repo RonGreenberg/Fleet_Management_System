@@ -2,6 +2,8 @@ package viewModel;
 
 import java.io.File;
 import java.io.FileReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 import org.json.simple.JSONArray;
@@ -41,8 +43,16 @@ public class FlightSettings {
         this.simulatorPort = (long) jo.get("port");
         this.simulatorSpeed = (((Long) jo.get("samplingRatePerSec")).doubleValue()) / 10; // divide by 10 for x per sec
 
-        if (!(new File(this.validFlightPath).isFile()))
-            throw new Exception("trainFlightCsvPath: " + this.validFlightPath + " does not exists");
+        if (!Files.exists(Paths.get(chosenAlgorithmPath))) {
+            this.chosenAlgorithmPath = "bin/model/algorithms/ZScore.class"; // eclipse version (the settings file contains the IntelliJ version)
+        }
+        
+        if (!(new File(this.validFlightPath).isFile())) {
+            this.validFlightPath = "resources/reg_flight.csv"; // the path in the settings file might not need to contain the frontend parent folder
+            if (!(new File(this.validFlightPath).isFile())) {
+                throw new Exception("trainFlightCsvPath: " + this.validFlightPath + " does not exists");
+            }
+        }
 
         if (this.simulatorSpeed != 0.5 && this.simulatorSpeed != 1.0 && this.simulatorSpeed != 1.5 && this.simulatorSpeed != 2.0) {
             throw new Exception("samplingRatePerSec is Not Valid!\n Please set 5 / 10 / 15 / 20 as samplingRatePerSec");

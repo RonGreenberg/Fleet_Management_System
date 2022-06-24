@@ -14,6 +14,7 @@ import model.AppModel;
 import model.BackendMethods;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class MenuBarController {
@@ -76,7 +77,13 @@ public class MenuBarController {
 
     @FXML
     void algoFileChooser(ActionEvent event) {
+        // IntelliJ
         String currentPath = Paths.get(".").toAbsolutePath().normalize().toString()+"/out/production/frontend/model/algorithms";
+        if (!Files.exists(Paths.get(currentPath))) {
+            // Eclipse
+            currentPath = Paths.get(".").toAbsolutePath().normalize().toString() + "/bin/model/algorithms";
+        }
+        
         FileChooser fc = new FileChooser();
         fc.setInitialDirectory(new File(currentPath));
         fc.getExtensionFilters().add(new ExtensionFilter("Anomaly detector class", "*.class"));
@@ -102,7 +109,19 @@ public class MenuBarController {
     }
     @FXML
     void selectFlight(ActionEvent event) {
-        String path="frontend/resources/flight_csv/"+BackendMethods.getFlightDetails(Integer.parseInt(flightList.getValue()))[2];
+        /* The backend stores the absolute path of the flight files in the DB. Since the paths do not match between different computers,
+         * Guy chose to open a directory in the frontend, store the files there, change the path in his local DB instance to store only the
+         * filename, and assume that the files will be located in the directory he opened. But new flights will still be saved with the
+         * absolute path. I (Ron) prefer using the absolute path in my PC, so in order for it to work on both PCs, we will first construct
+         * a path consisting of only the filename itself from the DB, prefixed with Guy's directory. If the resulting path does not exist,
+         * we'll use the original path we took from the DB, assuming it is absolute (Ron's case).
+         */
+        String dbPath = BackendMethods.getFlightDetails(Integer.parseInt(flightList.getValue()))[2];
+        String filename = Paths.get(dbPath).getFileName().toString(); // retrieves only the filename, whether it is stored in absolute or relative format
+        String path="frontend/resources/flight_csv/"+filename;
+        if (!Files.exists(Paths.get(path).getFileName())) {
+            path = dbPath;
+        }
         sCsvFile.setValue( path)  ;
     }
    /* public MenuItem getJsonSettings() {

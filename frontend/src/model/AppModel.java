@@ -236,7 +236,7 @@ public class AppModel {
         this.sp.setFlightSettings(flightSettings);
         loadIndexes();
         this.timestamp.bindBidirectional(sp.timeStampProperty());
-        //this.timeSeriesTrain = new TimeSeries(flightSettings.getValidFlightPath());
+        this.timeSeriesTrain = new TimeSeries(flightSettings.getValidFlightPath());
     }
 
 
@@ -286,8 +286,11 @@ public class AppModel {
     public void setAnomalDetect(TimeSeriesAnomalyDetector anomalDetect) {
         this.anomalDetect = anomalDetect;
         this.anomalDetect.learnNormal(timeSeriesTrain);
-        this.mapAnomaly = this.anomalDetect.detect(timeSeriesAnomaly);
-
+        
+        // for the pre-selected algorithm, an anomaly time series does not yet exist. only when a flight is selected
+        if (timeSeriesAnomaly != null) {
+            this.mapAnomaly = this.anomalDetect.detect(timeSeriesAnomaly);
+        }
     }
 
     public void play() {

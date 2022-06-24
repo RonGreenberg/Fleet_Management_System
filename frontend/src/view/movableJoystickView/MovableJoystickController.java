@@ -53,6 +53,7 @@ public class MovableJoystickController implements Initializable {
             mx = joystick.getWidth() / 2;
             my = joystick.getHeight() / 2;
             gc.clearRect(0, 0, joystick.getWidth(), joystick.getHeight());
+            gc.strokeRect(0, 0, joystick.getWidth(), joystick.getHeight());
             gc.strokeOval(jx - 50, jy - 50, 100, 100);
             aileron.set((jx - mx) / mx); // normalized value between -1 and 1 (can actually be less than -1 if we go off the canvas and jx becomes negative)
             elevator.set((jy - my) / my); // normalized value between -1 and 1 (can actually be less than -1 if we go off the canvas and jy becomes negative)       

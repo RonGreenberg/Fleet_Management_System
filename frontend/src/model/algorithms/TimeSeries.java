@@ -25,6 +25,7 @@ public class TimeSeries {
 
             Path p = Paths.get(Path);
             BufferedReader br = new BufferedReader(new FileReader(p.toString()));
+            
             if ((line = br.readLine()) != null) {
                 //Reading the file for the first time
                 //Creates new Feature for each column

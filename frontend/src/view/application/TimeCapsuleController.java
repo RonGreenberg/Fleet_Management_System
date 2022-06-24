@@ -3,6 +3,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.chart.XYChart;
+import model.AppModel;
 import model.algorithms.HybridAlgo;
 import model.algorithms.LinearRegression;
 import model.algorithms.ZScore;
@@ -46,6 +47,14 @@ public class TimeCapsuleController {
     private XYChart.Series seriesTimeAnomaly;
 
     public TimeCapsuleController() {
+        
+    }
+    
+    @FXML
+    private void initialize() {
+        AppModel m = new AppModel();
+        vm = new AppViewModel(m);
+        init(vm);
     }
 
     public void init(AppViewModel vm) {

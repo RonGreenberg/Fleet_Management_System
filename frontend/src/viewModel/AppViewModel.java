@@ -15,6 +15,8 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 
 public class AppViewModel {
@@ -68,9 +70,13 @@ public class AppViewModel {
         this.appModel.speedProperty().bind(this.speed);
         this.timeStamp.bindBidirectional(am.timestampProperty());
         this.timeStamp.addListener(v -> updateParams());
-        settingFile.setValue("frontend/resources/settings.json");
-
-
+        
+        String path = "frontend/resources/settings.json";
+        if (!Files.exists(Paths.get(path))) {
+            path = "resources/settings.json"; // the path in the settings file might not need to contain the frontend parent folder
+        }
+        settingFile.setValue(path);
+        algoFile.setValue(am.getFlightSettings().getChosenAlgorithmPath()); // pre-selecting an algorithm
     }
 
 
@@ -182,7 +188,7 @@ return true;
                 ch++;
             }
             System.out.println("algo");
-            this.spAnomalyClass.setValue(name + " Algorithem.");
+            this.spAnomalyClass.setValue(name + " Algorithm.");
             URLClassLoader urlClassLoader = URLClassLoader.newInstance(urls);
             Class<?> c = urlClassLoader.loadClass("model.algorithms." + name);
             TimeSeriesAnomalyDetector ad = (TimeSeriesAnomalyDetector) c.newInstance();

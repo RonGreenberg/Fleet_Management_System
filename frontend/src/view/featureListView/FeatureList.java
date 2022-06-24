@@ -21,11 +21,11 @@ public class FeatureList extends AnchorPane {
 
             FXMLLoader fxl = new FXMLLoader();
             AnchorPane fList = fxl.load(getClass().getResource("FeatureList.fxml").openStream());
-            FeatureListController featureController = fxl.getController();
-            nameOfFeature=new SimpleStringProperty(featureController.getNameOfFeature().getValue());
+            featureListController = fxl.getController();
+            nameOfFeature=new SimpleStringProperty(featureListController.getNameOfFeature().getValue());
             listViewP = new SimpleListProperty<>();
-            featureController.getListViewP().bind(listViewP);
-            featureController.getNameOfFeature().bindBidirectional(nameOfFeature);
+            featureListController.getListViewP().bind(listViewP);
+            featureListController.getNameOfFeature().bindBidirectional(nameOfFeature);
 
             this.getChildren().add(fList);
         } catch (Exception e) {

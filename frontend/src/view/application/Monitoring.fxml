@@ -5,13 +5,19 @@
 <?import view.joystickView.Joystick?>
 <?import view.dashboardView.Dashboard?>
 <?import view.graphView.Graph?>
-<?import view.menuBarView.MenuBar?>
-<?import view.featureListView.FeatureList?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="651.0" prefWidth="1273.0" style="-fx-border-color: black; -fx-border-width: 3;"
+<BorderPane prefHeight="800.0" prefWidth="1500.0" style="-fx-border-color: black; -fx-border-width: 3;"
             xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="view.application.MonitorController" >
+            fx:controller="view.application.MonitoringController">
     <!-- TODO Add Nodes -->
     <right>
         <FlowPane prefHeight="506.0" prefWidth="399.0" BorderPane.alignment="CENTER">
@@ -27,11 +33,29 @@
         <Graph fx:id="graph"></Graph>
     </center>
     <top>
-        <MenuBar fx:id="menuBar"></MenuBar>
+        <AnchorPane>
+            <MenuBar prefWidth="1500">
+                <menus>
+                  <Menu mnemonicParsing="false" text="Flight Algorithm">
+                    <items>
+                      <MenuItem fx:id="algoChoose" mnemonicParsing="false" onAction="#algoFileChooser" text="choose .class file" />
+                    </items>
+                  </Menu>
+                </menus>
+            </MenuBar>
+            <Label text="Choose Active Plane:" layoutX="251.0" layoutY="5.0">
+                <font>
+                    <Font size="16.0" />
+                </font>
+            </Label>
+            <ComboBox fx:id="activePlanes" layoutX="420.0" prefWidth="150.0" onShowing="#cmbActivePlanesOnShowing" onAction="#cmbActivePlanesOnAction" />
+        </AnchorPane>
     </top>
     <left>
-        <FeatureList fx:id="featureList"></FeatureList>
+        <ListView fx:id="featureList" disable="true" prefHeight="500" prefWidth="200.0"></ListView>
+        <BorderPane.margin>
+            <Insets bottom="150.0" top="100.0" />
+        </BorderPane.margin>
     </left>
 
 </BorderPane>
-

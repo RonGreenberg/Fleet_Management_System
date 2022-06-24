@@ -18,16 +18,17 @@ public class Main extends Application {
         try {
         	BackendClient client = new BackendClient();
             FXMLLoader fxml = new FXMLLoader(getClass().getResource("Main.fxml"));
-            ///AnchorPane root = (AnchorPane)fxml.load();
-            FXMLLoader fxml1 = new FXMLLoader(getClass().getResource("TimeCapsule.fxml"));
-           BorderPane root = (BorderPane)fxml1.load();
-          //  fxml1.load();
-           AppModel m = new AppModel();
-           AppViewModel vm = new AppViewModel(m);
-           TimeCapsuleController view = fxml1.getController();
-           view.init(vm);
-           m.setTimeSeriesTrain("out/production/frontend/reg_flight.csv");
-         //  m.setTimeSeriesAnomaly("out/production/frontend/reg_flight.csv");
+            AnchorPane root = (AnchorPane)fxml.load();
+//            FXMLLoader fxml1 = new FXMLLoader(getClass().getResource("TimeCapsule.fxml"));
+//           BorderPane root = (BorderPane)fxml1.load();
+//          //  fxml1.load();
+//           AppModel m = new AppModel();
+//           AppViewModel vm = new AppViewModel(m);
+//           TimeCapsuleController view = fxml1.getController();
+//           view.init(vm);
+//           //m.setTimeSeriesTrain("out/production/frontend/reg_flight.csv");
+//           m.setTimeSeriesTrain("resources/reg_flight.csv");
+//         //  m.setTimeSeriesAnomaly("out/production/frontend/reg_flight.csv");
 
 
 

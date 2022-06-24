@@ -51,12 +51,12 @@ public class Teleoperation {
         }
         
         String activePlane = activePlanes.getValue();
-        if (activePlane == null) {
+        if (activePlane == null || activePlane.isEmpty()) {
             return;
         }
         
         String line = BackendMethods.getFlightParamsLine(activePlane);
-        if (line == null || line.isEmpty()) {
+        if (line == null || line.isEmpty() || line.equals("Client disconnected")) {
             return;
         }
         
