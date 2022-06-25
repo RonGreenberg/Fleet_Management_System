@@ -74,28 +74,23 @@ public class Model extends Observable {
 
         try {
         	outToFg.println(getCmd);
-        	System.out.println("getCmd is: " + getCmd);
 			str = responseFromFg.readLine().trim();
-			System.out.println("str is: " + str);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		setChanged();
-		notifyObservers();
-		System.out.println("Returning: " + str);
+		notifyObservers("Returning: " + str);
 		return str;
 	}
     //============================================//
     public String getFlightParamsLine() {
-		setChanged();
-		notifyObservers();
 		return currentLine.get();
 	}
     //============================================//
     public String getStatus() {
         // return format: [callsign],[status]
-		//setChanged(); not necessary
-		//notifyObservers(); not necessary
+		setChanged();
+		notifyObservers("Returning: " + callsign + "," + status);
 		return callsign + "," + status;
 	}
     //============================================//

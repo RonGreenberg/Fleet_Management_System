@@ -1,37 +1,11 @@
 package view;
 
-import java.nio.file.Paths;
-import java.util.Observable;
-import java.util.Scanner;
+public class View {
 
-import model.Model;
+	public static boolean isActive = false;
 
-public class View extends Observable{
-
-	public String cmd;
-
-	public void debug() {
-		Thread t = new Thread(()->{
-	        Scanner input = new Scanner(System.in);
-	        while(true)
-	        {
-	            System.out.println("Please enter desired command to debug");
-	            cmd = input.nextLine();
-				if(cmd.contains("get")){//expect result
-				}
-	            setChanged();
-	            notifyObservers();
-	        }
-		});
-		t.start();
+	public View() {
+	    isActive = true;
 	}
-    public String getUserCommand()
-    {
-    	return cmd;
-    }
 
-    public void displayData() {
-    	//showing data from flightGear - only for debugging purposes
-    	
-    }
 }

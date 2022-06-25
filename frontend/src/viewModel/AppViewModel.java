@@ -309,7 +309,7 @@ return true;
                     "please press 'Pause' Or 'Stop' flight and run again");
         } else {
             try {
-              //  this.appModel.getSp().createSocket();
+                this.appModel.getSp().createSocket();
                 this.startThread = new Thread(() -> {
                     this.appModel.play();
                 });

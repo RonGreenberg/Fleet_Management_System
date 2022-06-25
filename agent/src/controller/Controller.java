@@ -11,9 +11,7 @@ import java.util.Observer;
 import model.Model;
 import view.View;
 
-public class Controller implements Observer
-{
-	//View view;
+public class Controller implements Observer {
 	Model model;
 	
 	BufferedReader inFromBE;
@@ -24,13 +22,16 @@ public class Controller implements Observer
     
     public Controller() {
         model = new Model();
+        model.addObserver(this);
+        System.out.println("Preparing to connect to backend...");
         
         try {
+            Thread.sleep(10000);
             socket = new Socket(backendIP, backendPort);
             inFromBE = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             outToBE = new PrintWriter(socket.getOutputStream(), true);
             System.out.println("Connected to backend!");
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
@@ -39,12 +40,15 @@ public class Controller implements Observer
         String line;
         try {
             while (!(line = inFromBE.readLine()).equals("disconnect")) { // Backend disconnects the agent when the flight is finished
-                if (!line.equals("getFlightDataNextLine")) {
-                    System.out.println("Received: " + line);   
-                } else {
-                    System.out.print(".");
-                }
                 String cmd = line.split(" ")[0];
+                if (cmd.equals("getFlightDataNextLine")) {
+                    System.out.print(".");
+                } else if (View.isActive) {
+                    System.out.println("Received: " + line); // printing verbose output, including the command parameters
+                } else {
+                    System.out.println("Received: " + cmd); // printing only the command itself
+                }
+                
                 switch (cmd) {
                 case "set": // format: set [var_name] [value] (can be sent directly to FG)
                     outToBE.println(model.setVar(line));
@@ -70,7 +74,7 @@ public class Controller implements Observer
                 }
                 outToBE.println(Character.MIN_VALUE); // sending the \0 character to indicate end of response
             }			
-            Runtime.getRuntime().exec("taskkill /F /IM fgfs.exe");            
+            Runtime.getRuntime().exec("taskkill /F /IM fgfs.exe"); // killing FlightGear
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -84,12 +88,9 @@ public class Controller implements Observer
     
 	@Override
 	public void update(Observable o, Object arg) {
-//		if(o == view) {
-//			String input = view.getUserCommand();
-//		}
-//		if(o == model) {
-//			view.displayData();
-//		}
+		if (View.isActive && arg != null) {
+			System.out.println(arg);
+		}
 	}
     
 }

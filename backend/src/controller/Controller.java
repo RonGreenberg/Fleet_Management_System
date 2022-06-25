@@ -38,7 +38,7 @@ public class Controller {
     public void start() {
         // runs the agent server in a background thread
         agentServer.start();
-        System.out.println("Waiting for clients...");
+        System.out.println("Waiting for agents...");
         
         // runs the frontend server in a background thread
         frontendServer.start();

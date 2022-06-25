@@ -26,6 +26,7 @@ public class FrontendHandler {
             
             String line;
             while (!(line = in.readLine()).equals(String.valueOf(Character.MIN_VALUE))) {
+                System.out.println("Received: " + line);
                 String[] split = line.split(" ");
                 
                 switch (split[0]) {

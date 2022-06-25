@@ -13,6 +13,11 @@
 					   <fx:include source="FleetOverview.fxml" />
 				   </content>
 			   </Tab>
+               <Tab id="teleoperation" closable="false" text="Teleoperation">
+                   <content>
+                       <fx:include source="Teleoperation.fxml" />
+                   </content>
+               </Tab>
 	           <Tab id="monitoring" closable="false" text="Monitoring">
                    <content>
                        <fx:include source="Monitoring.fxml" />
@@ -21,11 +26,6 @@
 			   <Tab id="timeCapsule" closable="false" text="Time Capsule">
 				   <content>
 					   <fx:include source="TimeCapsule.fxml" />
-				   </content>
-			   </Tab>
-			   <Tab id="teleoperation" closable="false" text="Teleoperation">
-				   <content>
-					   <fx:include source="Teleoperation.fxml" />
 				   </content>
 			   </Tab>
 	       </tabs>
