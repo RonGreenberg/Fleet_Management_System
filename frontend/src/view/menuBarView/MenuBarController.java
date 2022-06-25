@@ -4,6 +4,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -99,7 +100,11 @@ public class MenuBarController {
         {
             flightList.setDisable(false);
             String [] flightIDs=  BackendMethods.getFlightIDs(planeChoose.getValue());
+            //EventHandler<ActionEvent> handler = flightList.getOnAction();
+            //flightList.removeEventHandler(ActionEvent.ANY, handler); // temporarily removing event handler
             flightList.setItems(FXCollections.observableArrayList(flightIDs));
+            flightList.valueProperty().set(null); // clearing selection
+            //flightList.setOnAction(handler); // re-adding the handler
         }
         else
         {
@@ -116,6 +121,9 @@ public class MenuBarController {
          * a path consisting of only the filename itself from the DB, prefixed with Guy's directory. If the resulting path does not exist,
          * we'll use the original path we took from the DB, assuming it is absolute (Ron's case).
          */
+        if (flightList.getValue() == null) {
+            return;
+        }
         String dbPath = BackendMethods.getFlightDetails(Integer.parseInt(flightList.getValue()))[2];
         String filename = Paths.get(dbPath).getFileName().toString(); // retrieves only the filename, whether it is stored in absolute or relative format
         String path="frontend/resources/flight_csv/"+filename;

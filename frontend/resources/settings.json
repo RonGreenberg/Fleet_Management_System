@@ -3,7 +3,7 @@
   "port": 5400,
 
   "samplingRatePerSec": 10,
-  "chosenAlgorithmPath": "out/production/frontend/model/algorithms/ZScore.class",
+  "chosenAlgorithmPath": "out/production/frontend/model/algorithms/LinearRegression.class",
   "trainFlightCsvPath": "frontend/resources/reg_flight.csv",
 
 

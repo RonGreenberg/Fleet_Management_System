@@ -35,7 +35,7 @@ public class GraphController {
 
 		graphNameOfFeatureA.addListener(v->{
 
-			labelFeatureA.setText(graphNameOfFeatureA.getValue());
+			labelFeatureA.setText(graphNameOfFeatureA.get());
 
 		});
 		graphNameOfFeatureB.addListener(v->{
@@ -116,6 +116,11 @@ public class GraphController {
 		this.spAnomalyClass.set(spAnomalyClass);
 	}
 
-
-
+	public Label getFeatureALabel() {
+	    return labelFeatureA;
+	}
+	
+	public Label getFeatureBLabel() {
+        return labelFeatureB;
+    }
 }

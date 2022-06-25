@@ -100,6 +100,11 @@ public class LinearRegression implements TimeSeriesAnomalyDetector {
         }
         return map;
     }
+    
+    public boolean detectPoint(float featureAValue, float featureBValue, String featureA) {
+        Point p = new Point(featureAValue, featureBValue);
+        return (StatLib.dev(p, hashMap.get(featureA).lin_reg) > hashMap.get(featureA).threshold);
+    }
 
     public HashMap<String, CorrelatedFeaturesLine> getHashMap() {
         return hashMap;

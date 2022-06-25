@@ -5,11 +5,13 @@ import model.algorithms.HybridAlgo;
 import model.algorithms.LinearRegression;
 import model.algorithms.TimeSeries;
 import model.algorithms.TimeSeriesAnomalyDetector;
+import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -54,6 +56,16 @@ public class AppViewModel {
 
         csvFile.addListener(v -> {
             createTimeSeries();
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setHeaderText("Performing Anomaly Detection...");
+            alert.setTitle("Please Wait");
+            alert.getDialogPane().lookupButton(ButtonType.OK).setDisable(true); // disabling OK button
+            //alert.setOnCloseRequest(e->e.consume()); // preventing closing the alert with X
+            alert.show();
+            Platform.runLater(()-> {
+                appModel.setMapAnomaly(appModel.getAnomalDetect().detect(appModel.getTimeSeriesAnomaly())); // performing anomaly detection on the csv file of the selected flight)
+                alert.close();
+            });
         });
         settingFile.addListener(v -> createSettings());
 
@@ -243,7 +255,7 @@ return true;
             this.listView.addAll(appModel.getTimeSeriesAnomaly().namesOfFeatures);
             this.maxTimeLine.setValue((dataSize / 10 + ((double) dataSize % 10 / 10) + 0.1));
             resetFlightProp();
-            myGoodAlert("csv flight");
+            //myGoodAlert("csv flight");
         } else {
             myErrorAlert("Choose Flight Csv file ERROR", check);
         }
@@ -262,7 +274,7 @@ return true;
     }
 
 
-    private void resetFlightProp() {
+    public void resetFlightProp() {
         //joystick
         this.timeStamp.set(0);
 

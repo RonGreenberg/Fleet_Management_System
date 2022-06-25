@@ -3,6 +3,7 @@ package viewModel;
 import java.io.File;
 import java.io.FileReader;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -43,8 +44,9 @@ public class FlightSettings {
         this.simulatorPort = (long) jo.get("port");
         this.simulatorSpeed = (((Long) jo.get("samplingRatePerSec")).doubleValue()) / 10; // divide by 10 for x per sec
 
-        if (!Files.exists(Paths.get(chosenAlgorithmPath))) {
-            this.chosenAlgorithmPath = "bin/model/algorithms/ZScore.class"; // eclipse version (the settings file contains the IntelliJ version)
+        Path path = Paths.get(chosenAlgorithmPath);
+        if (!Files.exists(path)) {
+            this.chosenAlgorithmPath = "bin/model/algorithms/" + path.getFileName(); // eclipse version (the settings file contains the IntelliJ version)
         }
         
         if (!(new File(this.validFlightPath).isFile())) {

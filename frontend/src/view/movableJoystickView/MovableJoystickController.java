@@ -69,8 +69,8 @@ public class MovableJoystickController implements Initializable {
             if (mousePushed) {
                 mousePushed = false;
                 // re-position joystick in the center of the canvas when releasing mouse
-                jx = mx;
-                jy = my;
+//                jx = mx;
+//                jy = my;
                 paint();
             }
         }

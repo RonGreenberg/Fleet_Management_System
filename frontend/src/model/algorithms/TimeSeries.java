@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class TimeSeries {
@@ -38,7 +39,6 @@ public class TimeSeries {
                 }
                 int counter = 0;
                 while ((line = br.readLine()) != null) {
-
                     data.add(new float[len]);//add new line
                     totalTime++;
                     s1 = line.split(",");
@@ -47,6 +47,7 @@ public class TimeSeries {
 
                     }
                     counter++;
+                    //System.out.println(counter);
                 }
                 this.totalTime = counter;
 
@@ -58,6 +59,11 @@ public class TimeSeries {
         }
 
     }
+    
+//    public TimeSeries(ArrayList<String> namesOfFeatures, int totalTime, List<String> lines) {
+//        this.namesOfFeatures = namesOfFeatures;
+//        
+//    }
 
     public void addNewFeatureAndData(String fName, float[] values) {
 

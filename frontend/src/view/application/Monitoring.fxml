@@ -34,15 +34,6 @@
     </center>
     <top>
         <AnchorPane>
-            <MenuBar prefWidth="1500">
-                <menus>
-                  <Menu mnemonicParsing="false" text="Flight Algorithm">
-                    <items>
-                      <MenuItem fx:id="algoChoose" mnemonicParsing="false" onAction="#algoFileChooser" text="choose .class file" />
-                    </items>
-                  </Menu>
-                </menus>
-            </MenuBar>
             <Label text="Choose Active Plane:" layoutX="251.0" layoutY="5.0">
                 <font>
                     <Font size="16.0" />

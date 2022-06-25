@@ -278,6 +278,9 @@ public class AppModel {
         return val;
     }
 
+    public void setMapAnomaly(HashMap<String, List<Integer>> mapAnomaly) {
+        this.mapAnomaly = mapAnomaly;
+    }
 
     public TimeSeriesAnomalyDetector getAnomalDetect() {
         return anomalDetect;
