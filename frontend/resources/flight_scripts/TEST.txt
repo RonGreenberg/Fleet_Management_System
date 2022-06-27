@@ -13,7 +13,7 @@ var alt = bind "/instrumentation/altimeter/indicated-altitude-ft"
 brakes = 0
 throttle = 1
 var h0 = heading
-while alt < 400 {
+while alt < 500 {
     rudder = (h0 - heading)/20
     aileron = - roll / 70
     elevator = pitch / 50

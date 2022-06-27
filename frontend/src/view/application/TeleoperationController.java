@@ -40,12 +40,14 @@ public class TeleoperationController {
     
     @FXML
     private void initialize() {
+        // updating dashboard every second
         Timeline timeLine = new Timeline(new KeyFrame(Duration.seconds(1), e -> updateDashboard()));
         timeLine.setCycleCount(Timeline.INDEFINITE);
         timeLine.play();
     }
     
     private void updateDashboard() {
+        // doing something only if the Teleoperation tab is currently in focus
         if (!((TabPane)textArea.getScene().lookup("#tabs")).getSelectionModel().getSelectedItem().getId().equals("teleoperation")) {
             return;
         }

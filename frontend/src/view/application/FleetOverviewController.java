@@ -50,13 +50,13 @@ public class FleetOverviewController {
 	@FXML
 	private LineChart<String, Number> lineChart;
 	
-	private Map<String, Marker> markers = new HashMap<>();
-	private Map<Marker, PlaneData> dataPlanes = new HashMap<>();
-	private MapLabel popup;
+	private Map<String, Marker> markers = new HashMap<>(); // maintains all planes located on the map
+	private Map<Marker, PlaneData> dataPlanes = new HashMap<>(); // maintains the data associated with each plane (callsign, altitude, airspeed...)
+	private MapLabel popup; // a label for the popup window when clicking a plane
 	
 	
 	public FleetOverviewController() {
-		String[] planeIDs = BackendMethods.getPlaneIDs("all");
+		String[] planeIDs = BackendMethods.getPlaneIDs("all"); // getting all planes from the DB
 		for(String planeID : planeIDs)
 		{
 			markers.put(planeID, Marker.createProvided(Provided.RED));
@@ -66,6 +66,7 @@ public class FleetOverviewController {
 	
 	@FXML
 	private void initialize() {
+        // using a cache provided by mapjfx to improve performance
 		final OfflineCache offlineCache = mapView.getOfflineCache();
 		final String cacheDir = System.getProperty("java.io.tmpdir") + "/mapjfx-cache";
 		try {
@@ -77,15 +78,16 @@ public class FleetOverviewController {
 		}
 		
 		mapView.setAnimationDuration(250);
-		mapView.setMapType(MapType.OSM);
+		mapView.setMapType(MapType.OSM); // OpenStreetMap
 		mapView.setZoom(6);
         
         mapView.initializedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
-            	mapView.setCenter(new Coordinate(31.41377634, 34.92747986));
+            	mapView.setCenter(new Coordinate(31.41377634, 34.92747986)); // centering the map in Israel
             	popup.setPosition(mapView.getCenter()).setVisible(false);
             	mapView.addLabel(popup);
                 updateMap();
+                // setting a timer to update the map every 15 seconds
             	Timeline timeLine = new Timeline(new KeyFrame(Duration.seconds(15), e -> updateMap()));
             	timeLine.setCycleCount(Timeline.INDEFINITE);
             	timeLine.play();
@@ -111,7 +113,6 @@ public class FleetOverviewController {
 		mapView.initialize();
 		
 		pieChart.setTitle("Active/Inactive Planes");
-		
 		
 		Axis<String> xAxis = lineChart.getXAxis();
 		xAxis.setLabel("Days");
@@ -142,7 +143,7 @@ public class FleetOverviewController {
 	    int countActivePlanes = 0;
 	    
 		for(Map.Entry<String, Marker> entry : markers.entrySet()) {
-			PlaneData data = BackendMethods.getPlaneData(entry.getKey());
+			PlaneData data = BackendMethods.getPlaneData(entry.getKey()); // getting data of the current plane (the backend can either return from the database or from a live agent)
 			
 			Coordinate oldPos = entry.getValue().getPosition();
 			dataPlanes.remove(entry.getValue());
@@ -151,14 +152,15 @@ public class FleetOverviewController {
 			Marker marker;
 			if(BackendMethods.isPlaneActive(entry.getKey())){
 			    countActivePlanes++;
-				marker = new Marker(getClass().getResource("/ActivePlane.png")).setVisible(true);
+				marker = new Marker(getClass().getResource("/ActivePlane.png")).setVisible(true); // green plane
 			}else{
 				marker = new Marker(getClass().getResource("/InactivePlane.png")).setVisible(true);
 			}
 			markers.put(entry.getKey(), marker);
 			dataPlanes.put(marker, data);
-			marker.setPosition(new Coordinate(data.getLatitude(), data.getLongitude())).setRotation((int)data.getHeading());
+			marker.setPosition(new Coordinate(data.getLatitude(), data.getLongitude())).setRotation((int)data.getHeading()); // setting position and rotation according to data
 	        
+            // if the popup was visible and was opened on the current plane, we need to move it to the new position
             if (popup.getVisible() && popup.getPosition().equals(oldPos)) {
                 updateLabel(data, marker.getPosition());
             }
@@ -172,15 +174,14 @@ public class FleetOverviewController {
 	
 	private void updatePieChart(int countActivePlanes, int countInactivePlanes)
 	{
-		// PieChart Change
-		
 		ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
 				new PieChart.Data("Inactive", countInactivePlanes), new PieChart.Data("Active", countActivePlanes));
-		pieChart.setData(pieChartData);
+		pieChart.setData(pieChartData); // setting the data according to the updated counts
 		
 		pieChart.requestLayout();
 		pieChart.applyCss();
 		
+        // taking care of colors
 		List<String> colors = Arrays.asList("#404040", "#007F0E");
 		for (int i = 0; i < pieChartData.size(); i++) {
 		    PieChart.Data data = pieChartData.get(i);
@@ -202,7 +203,7 @@ public class FleetOverviewController {
     {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
-        cal.add(Calendar.DATE, days); //minus number would decrement the days
+        cal.add(Calendar.DATE, days);
         return new Date(cal.getTime().getTime()); // convert from java.util.Date to java.sql.Date
     }
 	
@@ -212,6 +213,7 @@ public class FleetOverviewController {
 
 		List<Date> datesAdded =  dataPlanes.values().stream().map(d->d.getDateAdded()).sorted().collect(Collectors.toList());
 		
+        // drawing a point on each day from the earliest date added to the latest
 		int currentIndex = 0, sizeUpToNow = 0;
 		Date sequential = datesAdded.get(0), lastDate = datesAdded.get(datesAdded.size() - 1);
 		while (sequential.compareTo(lastDate) <= 0) {

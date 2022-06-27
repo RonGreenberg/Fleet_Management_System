@@ -65,7 +65,7 @@ public class AgentServer {
             
             BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
             String response = null, line;
-            while (!(line = in.readLine()).equals(String.valueOf(Character.MIN_VALUE))) {
+            while (!(line = in.readLine()).equals(String.valueOf(Character.MIN_VALUE))) { // the \0 character indicates end of response from agent
                 if (response == null) {
                     response = "";
                 }
@@ -76,8 +76,6 @@ public class AgentServer {
             }
             return response;
         } catch (Exception e) {
-            //e.printStackTrace();
-            //connectedClients.remove(clientID); // removing client from map if connection was lost
             return null;
         }
     }

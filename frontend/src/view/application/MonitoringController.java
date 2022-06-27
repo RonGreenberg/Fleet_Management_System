@@ -31,19 +31,6 @@ import model.statlib.Point;
 
 public class MonitoringController {
     
-    /* TODO:
-     * -Create a separate instance for anomaly detection.
-     * -Feed it with hybrid algorithm by default (remove select algorithm menu).
-     * -Define an anomaly detection cycle:
-     *  1) Initialization: reset line counter, open a csv file for writing with a constant name, write a properties list as its first line.
-     *  2) For each new line read from the backend and sent to the dashboard and joystick, increment counter by 1.
-     *  3) If line counter equals the size of the anomaly detection cycle, close the csv file and call detect() on that file.
-     *     Try to append the anomaly map and not create a new one each cycle.
-     *  4) Add data point of previous csv anomaly map to graphs.
-     *  5) Repeat.
-     *  NOTE: understand how to update the anomaly detection graphs (different than the time capsule because time is linear, always advances).
-     */
-    
     AppModel model;
     
     @FXML
@@ -79,7 +66,7 @@ public class MonitoringController {
         }
         
         model = new AppModel();
-        model.setTimeSeriesTrain(regCsvFileName);
+        model.setTimeSeriesTrain(regCsvFileName); // using a time series from an existing CSV file for training
         model.setAnomalDetect(new LinearRegression()); // using the linear regression algorithm by default for Monitoring window
         featureList.setItems(FXCollections.observableArrayList(model.getTimeSeriesTrain().namesOfFeatures)); // populating the feature list
         initLineChart(graph.getGraphController().getFeatureA(), seriesA);
@@ -93,14 +80,15 @@ public class MonitoringController {
         seriesNormalPoints.setName("Normal point");
         seriesAnomalyPoints.setName("Anomaly point");
         
+        // event that executes whenever the selection in the feature list changes
         featureList.getSelectionModel().selectedItemProperty().addListener((o,ov,nv)->{
             seriesA.getData().clear();
             seriesB.getData().clear();
             seriesNormalPoints.getData().clear();
-            seriesNormalPoints.getData().clear();
+            seriesAnomalyPoints.getData().clear();
             seriesRegLine.getData().clear();
             
-            model.addLine(nv, seriesRegLine);
+            model.addLine(nv, seriesRegLine); // adding regression line
             
             graph.getGraphController().getFeatureALabel().setText(nv); // setting label of selected feature graph
             
@@ -112,6 +100,7 @@ public class MonitoringController {
             graph.getGraphController().getFeatureBLabel().setText(featureB);
         });
         
+        // updating every 300 milliseconds
         Timeline timeLine = new Timeline(new KeyFrame(Duration.millis(300), e -> updateDashboardAndJoystick()));
         timeLine.setCycleCount(Timeline.INDEFINITE);
         timeLine.play();
@@ -137,6 +126,7 @@ public class MonitoringController {
     
     @SuppressWarnings("unchecked")
     private void updateDashboardAndJoystick() {
+        // doing something only if the Monitoring tab is currently in focus
         if (!((TabPane)activePlanes.getScene().lookup("#tabs")).getSelectionModel().getSelectedItem().getId().equals("monitoring")) {
             return;
         }
@@ -179,7 +169,6 @@ public class MonitoringController {
             }
             
             // anomaly detection
-            // check max_x, max_y, min_x, min_y before plotting and limit accordingly
             XYChart.Data<Number, Number> data = new XYChart.Data<>(featureAValue, featureBValue);
             if (((LinearRegression)model.getAnomalDetect()).detectPoint(featureAValue, featureBValue, featureList.getSelectionModel().getSelectedItem())) {
                 seriesAnomalyPoints.getData().add(data);
@@ -199,18 +188,10 @@ public class MonitoringController {
         NumberAxis xAxis = (NumberAxis) lineChart.getXAxis();
         xAxis.setLowerBound(xSeriesData - MAX_DATA_POINTS);
         xAxis.setUpperBound(xSeriesData - 1);
-//        NumberAxis yAxis = (NumberAxis) lineChart.getYAxis();
-//        yAxis.setAutoRanging(false);
-//        if (yValue < yAxis.getLowerBound()) {
-//            yAxis.setLowerBound(yValue);
-//        }
-//        if (yValue > yAxis.getUpperBound()) {
-//            yAxis.setUpperBound(yValue);
-//        }
     }
 
     public void cmbActivePlanesOnShowing() {
-        String[] res = BackendMethods.getPlaneIDs("active");
+        String[] res = BackendMethods.getPlaneIDs("active"); // requesting the active planes when opening the combobox
         activePlanes.setItems(FXCollections.observableArrayList(res));
     }
     
@@ -218,7 +199,7 @@ public class MonitoringController {
         if (activePlanes.getValue() == null || activePlanes.getValue().isEmpty()) {
             return;
         }
-        featureList.setDisable(false);
+        featureList.setDisable(false); // enabling the feature list when an active plane is selected
     }
 
 }

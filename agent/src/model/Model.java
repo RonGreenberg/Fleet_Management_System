@@ -17,11 +17,11 @@ public class Model extends Observable {
 	final static int fgport = 5402;
 	final static int myport = 5400;
 
-	String callsign;
+	String callsign; // received from FG
     public static String status = "flying"; // should be updated to "finished" in FGClientHandler when the flight is finished
-    BufferedReader fileReader = null; // add it to your model, for reading the csv file when the backend asks for it
+    BufferedReader fileReader = null; // for reading the csv file when the backend asks for it
     public static AtomicReference<String> currentLine = new AtomicReference<>(""); //Updates 10 times in a second
-    public static String fileName; // RECIVE FROM FG
+    public static String fileName;
     Socket fgSet; // SOCKET USED BY OUTTOFG
     PrintWriter outToFg;
     BufferedReader responseFromFg;
@@ -41,10 +41,9 @@ public class Model extends Observable {
                 fgSet = new Socket(ip, fgport);
                 System.out.println("Connected to FG!");
                 outToFg = new PrintWriter(fgSet.getOutputStream(), true);
-                // have to add "--prop:/sim/user/callsign=<Something>" in fg additional settings
-    			responseFromFg = new BufferedReader(new InputStreamReader(fgSet.getInputStream()));
-                outToFg.println("data");
-                callsign = getParam("get /sim/user/callsign");//gets Flight Name
+    			responseFromFg = new BufferedReader(new InputStreamReader(fgSet.getInputStream())); // wrap a new BufferedReader on the same FG socket for get requests
+                outToFg.println("data"); // switching FG to data mode to receive raw values
+                callsign = getParam("get /sim/user/callsign"); // gets plane name (have to add "--prop:/sim/user/callsign=<Something>" in fg additional settings)
                 System.out.println("Callsign: " + callsign);
                 return;
             } catch (IOException e) {
@@ -67,13 +66,10 @@ public class Model extends Observable {
     }
     //============================================//
     public String getParam(String getCmd) {
-        // send get cmd to FG
-        // wrap a new BufferedReader on the same FG socket and read the returned value
-        // return the value
 		String str = null;
 
         try {
-        	outToFg.println(getCmd);
+        	outToFg.println(getCmd); // send get cmd to FG
 			str = responseFromFg.readLine().trim();
 		} catch (IOException e) {
 			e.printStackTrace();

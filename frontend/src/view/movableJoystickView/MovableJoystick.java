@@ -39,6 +39,7 @@ public class MovableJoystick extends BorderPane {
         throttle = new SimpleDoubleProperty();
         rudder = new SimpleDoubleProperty();
         
+        // adding listeners to send commands whenever the joystick/sliders are moved
         aileron.addListener((o,ov,nv)->BackendMethods.setCmd("/controls/flight/aileron", nv.doubleValue(), planeID));
         elevator.addListener((o,ov,nv)->BackendMethods.setCmd("/controls/flight/elevator", nv.doubleValue(), planeID));
         throttle.addListener((o,ov,nv)->BackendMethods.setCmd("/controls/engines/current-engine/throttle", nv.doubleValue(), planeID));

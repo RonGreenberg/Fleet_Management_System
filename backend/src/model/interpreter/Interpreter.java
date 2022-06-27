@@ -134,11 +134,12 @@ public class Interpreter {
         return newArg;
     }
     
-    // This 
+    // This function extracts the arguments from the current line (everything starting from the second string - the first is the command itself).
     private String[] getArgsFromLine(String[] line) {
         return Arrays.asList(line).subList(1, line.length).toArray(new String[0]);
     }
     
+    // This recursive function handles condition commands and thus enables support for nested loops/conditions.
     private void handleConditions(List<String[]> lines, ConditionParser conditionCmd, String[] cmdArgs) throws Exception {
         String[] line = lines.get(currentIndex);
         // handling appropriate line skips to pass the opening curly bracket
@@ -224,12 +225,11 @@ public class Interpreter {
                 
                 status = 0;
                 Controller.removeTask("Interpreter");
-                // stop getFlightData thread
-                //System.out.println(Interpreter.simVarsSymTable.get("/controls/flight/speedbrake").getValue());
             }
         }).start();
     }
     
+    // This function returns a status indicating whether the interpreter is currently busy or ready for a run.
     public int getStatus() {
         return status;
     }
